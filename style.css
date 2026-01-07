@@ -89,6 +89,7 @@ header{
 
     transform: translateX(0);
     transition: opacity 0.3s ease, transform 0.3s ease;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
 }
 
 header.hidden {
@@ -333,9 +334,9 @@ header .logo {
     gap: 30px;
 }
 
-.sobre img {
+/* .sobre img {
     border-radius: 5px;
-}
+} */
 
 .sobre img,
 .sobre .box {

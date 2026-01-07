@@ -119,6 +119,8 @@ window.addEventListener('scroll', () => {
 // MENU
 let menuOpen = true
 const nav = document.querySelectorAll('.menu a[href^="#"]')
+const menuHaptic = document.getElementById('menuHaptic')
+const menuHapticLabel = document.getElementById('menuHapticLabel')
 
 function toggleMenu() {
     menuToggle.classList.toggle('active')
@@ -128,6 +130,7 @@ function toggleMenu() {
 }
 
 menuToggle.addEventListener('click', toggleMenu)
+
 
 overlay.addEventListener('click', () => {
     if (!page.classList.contains('active')) return
