@@ -166,6 +166,7 @@ header .logo {
     z-index: 10;
     opacity: 0;
     transition: 1s;
+    pointer-events: none; /* el bloque de texto deja pasar el click */
 }
 
 .text h1 {
@@ -204,6 +205,10 @@ header .logo {
 
     appearance: none;
     -webkit-appearance: none;
+}
+
+.text .btn-pill {
+  pointer-events: auto; /* pero el botón sí clickeable */
 }
 
 .btn-pill:hover {
