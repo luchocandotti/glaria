@@ -131,11 +131,18 @@ function toggleMenu() {
 
 menuToggle.addEventListener('click', toggleMenu)
 
-
 overlay.addEventListener('click', () => {
-    if (!page.classList.contains('active')) return
-        toggleMenu()
-    })
+    if (!page.classList.contains('active')) {
+        if (videoFondo.paused) {
+            videoFondo.play()
+        } else {
+            videoFondo.pause()
+        }
+        return
+    }
+    toggleMenu()
+})
+
     
 nav.forEach(a => {
     a.addEventListener('click', () => {
