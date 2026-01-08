@@ -92,6 +92,8 @@ header{
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
 }
 
+
+
 header.hidden {
   opacity: 0;
   pointer-events: none;
@@ -166,7 +168,10 @@ header .logo {
     z-index: 10;
     opacity: 0;
     transition: 1s;
-    pointer-events: none; /* el bloque de texto deja pasar el click */
+}
+
+.text {
+    pointer-events: none;
 }
 
 .text h1 {
@@ -205,10 +210,7 @@ header .logo {
 
     appearance: none;
     -webkit-appearance: none;
-}
-
-.text .btn-pill {
-  pointer-events: auto; /* pero el botón sí clickeable */
+    pointer-events: auto;
 }
 
 .btn-pill:hover {
@@ -222,7 +224,7 @@ header .logo {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgb(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.65);
 }
 
 .video-completo {

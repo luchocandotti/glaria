@@ -117,10 +117,7 @@ window.addEventListener('scroll', () => {
 })
 
 // MENU
-let menuOpen = true
 const nav = document.querySelectorAll('.menu a[href^="#"]')
-const menuHaptic = document.getElementById('menuHaptic')
-const menuHapticLabel = document.getElementById('menuHapticLabel')
 
 function toggleMenu() {
     menuToggle.classList.toggle('active')
@@ -134,8 +131,10 @@ menuToggle.addEventListener('click', toggleMenu)
 overlay.addEventListener('click', () => {
     if (!page.classList.contains('active')) {
         if (videoFondo.paused) {
+            text.style.opacity = 1
             videoFondo.play()
         } else {
+            text.style.opacity = 0
             videoFondo.pause()
         }
         return
@@ -149,6 +148,7 @@ nav.forEach(a => {
         toggleMenu();
     })
 })
+
 
 // REPRODUCTOR DE VIDEO
 let lastTime = 0
