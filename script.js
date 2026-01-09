@@ -64,12 +64,12 @@ function preloadVideo() {
 
 /// Ocultar tapa con fade
 function hideTapa(delay = 0) {
-  setTimeout(() => {
+    setTimeout(() => {
         tapa.classList.add('loaded')
         document.body.classList.remove('no-scroll')
     setTimeout(() => {
         tapa.style.display = 'none'
-        text.style.opacity = 1
+        text.classList.add('visible') // Inicia justo al ocultar la tapa
     }, 2000)
   }, delay)
 }
@@ -129,17 +129,22 @@ function toggleMenu() {
 menuToggle.addEventListener('click', toggleMenu)
 
 overlay.addEventListener('click', () => {
-    if (!page.classList.contains('active')) {
-        if (videoFondo.paused) {
-            text.style.opacity = 1
-            videoFondo.play()
-        } else {
-            text.style.opacity = 0
-            videoFondo.pause()
-        }
+    // Si el menú está abierto, cerrarlo
+    if (page.classList.contains('active')) {
+        toggleMenu()
         return
     }
-    toggleMenu()
+
+    // Si el menú está cerrado, controlar video y texto
+    if (videoFondo.paused) {
+        text.classList.add('visible')
+        console.log('muestra texto')
+        videoFondo.play()
+    } else {
+        text.classList.remove('visible')
+        console.log('oculta texto')
+        videoFondo.pause()
+    }
 })
 
     
