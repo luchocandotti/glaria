@@ -420,7 +420,7 @@ p {
     list-style-type: none;
 }
 
-li::before {
+.acordeon li::before {
   content: '—';
   margin-right: 10px;
 }
