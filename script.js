@@ -281,10 +281,10 @@ function updateActiveHeight() {
 items.forEach(item => {
     item.addEventListener('click', () => {
         const isActive = item.classList.contains('active')
-        const id = item.id
+        /*const id = item.id
         if (id) {
             window.location.hash = id
-        }
+        }*/
 
         items.forEach(el => {
             el.classList.remove('active')
@@ -306,7 +306,7 @@ items.forEach(item => {
         if (!isVisible) {
             item.scrollIntoView({ 
                 behavior: 'smooth', 
-                block: 'end'
+                block: 'top'
             })
         }
         }, 200)
