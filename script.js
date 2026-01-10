@@ -73,7 +73,7 @@ function hideTapa(delay = 0) {
   }, delay)
 }
 
-// Cargar todo antes de mostrar la web
+// LOADER
 window.addEventListener('load', async () => {
     try {
         // Esperar a que el video esté listo
@@ -87,7 +87,8 @@ window.addEventListener('load', async () => {
         ]),
         (document.fonts?.ready ?? Promise.resolve()) // por la Poppins de Google Fonts
         ])
-        videoFondo.play().catch(() => {})
+        videoFondo.play().catch(() => { })
+        
         /// Ocultar el preloader
         hideTapa()
         
@@ -199,3 +200,98 @@ reproductor.addEventListener('click', (e) => {
 })
 
 //reproductor.addEventListener('click', (e) => e.stopPropagation())
+
+
+//ACORDEON
+/*const items = document.querySelectorAll('.acordeon .item')
+
+items.forEach(item => {
+  item.addEventListener('click', () => {
+
+    const isActive = item.classList.contains('active')
+
+    // cerrar todos
+    items.forEach(el => {
+      el.classList.remove('active')
+    })
+
+    // si no estaba activo, abrirlo
+    if (!isActive) {
+      item.classList.add('active')
+    }
+  })
+})*/
+
+
+/*const items = document.querySelectorAll('.acordeon .item')
+
+items.forEach(item => {
+    const container = item.querySelector('.container')
+
+    item.addEventListener('click', () => {
+        const isActive = item.classList.contains('active')
+
+        items.forEach(el => {
+        el.classList.remove('active')
+        const c = el.querySelector('.container')
+            c.style.height = '0px'
+            c.style.marginBottom = '0px'
+        })
+
+        if (!isActive) {
+            item.classList.add('active')
+            container.style.marginBottom = '20px'
+
+        // dejar que el layout se actualice
+        setTimeout(() => {
+            const h = container.scrollHeight
+            container.style.height = h + 'px'
+        }, 0)
+        }
+    })
+})*/
+
+const items = document.querySelectorAll('.acordeon .item')
+
+function updateActiveHeight() {
+    const activeItem = document.querySelector('.acordeon .item.active')
+    if (!activeItem) return
+
+    const container = activeItem.querySelector('.container')
+
+    // cerrar todos los demás (por si quedaron alturas viejas)
+    items.forEach(el => {
+        if (el !== activeItem) {
+        const c = el.querySelector('.container')
+        c.style.height = '0px'
+        }
+    })
+
+    // recalcular el alto real del activo
+    requestAnimationFrame(() => {
+        const h = container.scrollHeight
+        container.style.width = '100%'
+        container.style.height = h + 'px'
+        container.style.marginBottom = '20px'
+    })
+}
+
+items.forEach(item => {
+    item.addEventListener('click', () => {
+        const isActive = item.classList.contains('active')
+
+        items.forEach(el => {
+            el.classList.remove('active')
+            const c = el.querySelector('.container')
+            c.style.height = '0px'
+            c.style.marginBottom = '0px'
+        })
+
+        if (isActive) return
+        
+        item.classList.add('active')
+        updateActiveHeight()
+    })
+})
+
+window.addEventListener('resize', updateActiveHeight)

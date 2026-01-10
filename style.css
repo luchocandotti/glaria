@@ -388,6 +388,61 @@ p {
     background-color: #444444;
 }
 
+/* ACORDEON */
+
+.acordeon .item {
+    overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.6);
+    transition: background-color 0.6 ease;
+}
+
+.acordeon .item:not(.active):hover {
+  background-color: #555;
+}
+
+.acordeon .item:last-of-type {
+    border-bottom: 1px solid rgba(255,255,255,0.6);
+}
+
+.acordeon h3 {
+    font-weight: 500;
+}
+/* el h3 define el alto visible */
+.acordeon .item > h3 {
+    margin: 0;
+    padding: 16px 0; /* lo que ya tengas */
+    cursor: pointer;
+    transition: padding-left 0.25s ease;
+}
+
+/* estado cerrado */
+.acordeon .item:not(.active) {
+    height: auto; /* importante para poder medir el h3 */
+}
+
+.acordeon .item:not(.active) > h3 {
+  padding-left: 20px;
+}
+
+/* estado cerrado */
+.acordeon .item .container {
+  height: 0px;
+  margin-bottom: 0px;
+  overflow: hidden;
+  transition: height 0.4s ease;
+}
+
+/* estado abierto 
+.acordeon .item.active .container {
+  height: 0px;
+}*/
+
+/* estado abierto */
+.acordeon .item.active .container {
+    height: auto;
+    overflow: visible;
+    margin-bottom: 20px;
+}
 
 @media(max-width: 880px) {
     .showcase,
@@ -405,6 +460,12 @@ p {
     #sobre-mi img {
         width: 100%;
         height: auto;
+    }
+    /* estado abierto */
+    .acordeon .item.active .container {
+        height: auto;
+        overflow: visible;
+        gap: 20px;
     }
 }
 
