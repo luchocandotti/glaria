@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=1.30">
+    <link rel="stylesheet" href="style.css?v=1.31">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="mask-icon" href="safari-pinned-tab.svg" color="#FFF">
@@ -34,12 +34,12 @@
             <!-- Acá falta el autoplay para que no me joda -->
             <video 
                 id="video-fondo" 
-                src="./video/introloop.mp4?v=1.2" 
                 autoplay
                 muted
                 loop
                 playsinline
                 preload="auto">
+                <source src="./video/introloop.mp4?v=1.2" type="video/mp4">
             </video>
 
             <div class="overlay"></div>
@@ -68,22 +68,49 @@
         </section>
 
         <!-- SOBRE MÍ -->
-        <section class="sobre" id="sobreMi">
-            <h2>Sobre Mí</h2>
-            <div class="container">
-                <img src="./img/glaria_perfil.jpg" alt="foto-perfil">
-                <div class="box"><p>Soy el <strong>Dr. Fernando Glaria,</strong> cirujano plástico con más de 10 años de experiencia. Mi práctica está enfocada en la cirugía estética mamaria y de contorno corporal, con un abordaje centrado en <strong>resultados naturales, duraderos y una recuperación más rápida.</strong><br><br>
+        <section class="seccion izquierda" id="sobre-mi">
+            <div class="wrapper">
+                <h2>Sobre Mí</h2>
+                <div class="container">
+                    <img src="./img/glaria_perfil.jpg" alt="foto-perfil">
+                    <div class="box">
+                        <p>Soy el <strong>Dr. Fernando Glaria,</strong> cirujano plástico con más de 10 años de experiencia. Mi práctica está enfocada en la cirugía estética mamaria y de contorno corporal, con un abordaje centrado en <strong>resultados naturales, duraderos y una recuperación más rápida.</strong><br><br>
 
-                Formo parte del <strong>Servicio de Cirugía Plástica del Sanatorio Güemes y soy fundador de mi centro privado en la Ciudad de Buenos Aires.</strong> Mi filosofía de trabajo se apoya en tres pilares: seguridad, empatía y excelencia quirúrgica.</p>
+                        Formo parte del <strong>Servicio de Cirugía Plástica del Sanatorio Güemes y soy fundador de mi centro privado en la Ciudad de Buenos Aires.</strong> Mi filosofía de trabajo se apoya en tres pilares: seguridad, empatía y excelencia quirúrgica.</p>
+                    </div>
+
+                    <div class="box">
+                        <p>Además de mi práctica clínica, participo como <strong>disertante en congresos internacionales,</strong> dicto cursos y formo a nuevos cirujanos a través del sistema de residencias y programas académicos propios.</p>
+
+                        <a href="CV-Dr-Fernando-Glaria-2026.pdf" class="btn-pill" target="_blank" rel="noopener noreferrer">
+                            Descargar CV
+                        </a>
+                    </div>
                 </div>
-
-                <div class="box"><p>Además de mi práctica clínica, participo como <strong>disertante en congresos internacionales,</strong> dicto cursos y formo a nuevos cirujanos a través del sistema de residencias y programas académicos propios.</p>
-                <a href="CV-Dr-Fernando-Glaria-2026.pdf" class="btn-pill" target="_blank" rel="noopener noreferrer">
-                    Descargar CV
-                </a>
-            </div>
             </div>
         </section>
+
+        <section class="seccion derecha" id="cirujia-mamas">
+            <div class="wrapper">
+                <h2>Cirujía Mamas</h2>
+                <div class="container">
+                    <div class="box">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad quos architecto porro, esse distinctio id excepturi praesentium laboriosam dolorum iure officia, vitae beatae modi odit voluptatem a sit perferendis quisquam, quam voluptatibus nostrum assumenda tenetur rem! Totam consectetur minus perferendis minima maiores labore, nostrum excepturi tenetur adipisci reprehenderit odio tempora!</p>
+                    </div>
+                    
+                    <div class="box">
+                        <p>Soy el <strong>Dr. Fernando Glaria,</strong> cirujano plástico con más de 10 años de experiencia. Mi práctica está enfocada en la cirugía estética mamaria y de contorno corporal, con un abordaje centrado en <strong>resultados naturales, duraderos y una recuperación más rápida.</strong><br><br>
+
+                        Formo parte del <strong>Servicio de Cirugía Plástica del Sanatorio Güemes y soy fundador de mi centro privado en la Ciudad de Buenos Aires.</strong> Mi filosofía de trabajo se apoya en tres pilares: seguridad, empatía y excelencia quirúrgica.</p>
+                    </div>
+
+                    <div class="box">
+                        <p>Además de mi práctica clínica, participo como <strong>disertante en congresos internacionales,</strong> dicto cursos y formo a nuevos cirujanos a través del sistema de residencias y programas académicos propios.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </section>
     <nav class="menu">
         <ul>
@@ -95,6 +122,6 @@
             <li><a href="#">Contacto</a></li>
         </ul>
     </nav>
-<script type="module" src="script.js?v=1.22"></script>
+<script type="module" src="script.js?v=1.23"></script>
 </body>
 </html>

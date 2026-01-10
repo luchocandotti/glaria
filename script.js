@@ -10,7 +10,6 @@ const videoFondo = document.getElementById('video-fondo')
 const overlay = document.querySelector('.overlay')
 const header = document.querySelector('header')
 
-
 // verVideo.addEventListener('click', () => {
 //     videoCompleto.classList.add('active')
 // })
@@ -49,7 +48,7 @@ function preloadVideo() {
         videoFondo.addEventListener('error', () => {
             reject(new Error('Error al cargar el video'))
         }, { once: true })
-        
+
         // Forzar la carga del video
         videoFondo.load()
     })
@@ -86,15 +85,16 @@ window.addEventListener('load', async () => {
             './img/close.svg',
             './img/close.png',
         ]),
-        (document.fonts?.ready ?? Promise.resolve()) // por la Poppins de Google Fonts  [oai_citation:3‡style.css](sediment://file_00000000eeb071f5ad678fadfc472183)
+        (document.fonts?.ready ?? Promise.resolve()) // por la Poppins de Google Fonts
         ])
-        
+        videoFondo.play().catch(() => {})
         /// Ocultar el preloader
         hideTapa()
         
     } catch (error) {
         console.error('Error en la carga:', error)
-        // Incluso si hay error, ocultamos el preloader después de 3 segundos
+        // Incluso si hay error, ocultamos el preloader
+        alert('Error al cargar las  imágenes')
         hideTapa()
     }
 })
@@ -138,11 +138,9 @@ overlay.addEventListener('click', () => {
     // Si el menú está cerrado, controlar video y texto
     if (videoFondo.paused) {
         text.classList.add('visible')
-        console.log('muestra texto')
         videoFondo.play()
     } else {
         text.classList.remove('visible')
-        console.log('oculta texto')
         videoFondo.pause()
     }
 })
