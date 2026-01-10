@@ -385,7 +385,7 @@ p {
 }
 
 #cirujia-mamas {
-    background-color: #333;
+    background-color: #222;
 }
 
 /* ACORDEON */
@@ -406,7 +406,7 @@ p {
 
 .acordeon h3 {
     font-weight: 400;
-    color: #888;
+    color: #666;
 }
 /* el h3 define el alto visible */
 .acordeon .item > h3 {
