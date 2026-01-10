@@ -385,27 +385,28 @@ p {
 }
 
 #cirujia-mamas {
-    background-color: #444444;
+    background-color: #333;
 }
 
 /* ACORDEON */
 
 .acordeon .item {
     overflow: hidden;
-    border-top: 1px solid rgba(255,255,255,0.6);
-    transition: background-color 0.6 ease;
+    border-top: 1px solid #888;
+    transition: background-color 0.6s ease;
 }
 
 .acordeon .item:not(.active):hover {
-  background-color: #555;
+  background-color: #444;
 }
 
 .acordeon .item:last-of-type {
-    border-bottom: 1px solid rgba(255,255,255,0.6);
+    border-bottom: 1px solid #888;
 }
 
 .acordeon h3 {
-    font-weight: 500;
+    font-weight: 400;
+    color: #888;
 }
 /* el h3 define el alto visible */
 .acordeon .item > h3 {
@@ -426,19 +427,16 @@ p {
 
 /* estado cerrado */
 .acordeon .item .container {
-  height: 0px;
-  margin-bottom: 0px;
-  overflow: hidden;
-  transition: height 0.4s ease;
+    height: 0px;
+    opacity: 0;
+    margin-bottom: 0px;
+    overflow: hidden;
+    transition: height 0.4s ease, opacity 1s ease;
 }
-
-/* estado abierto 
-.acordeon .item.active .container {
-  height: 0px;
-}*/
 
 /* estado abierto */
 .acordeon .item.active .container {
+    opacity: 1;
     height: auto;
     overflow: visible;
     margin-bottom: 20px;

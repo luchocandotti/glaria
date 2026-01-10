@@ -267,6 +267,8 @@ function updateActiveHeight() {
         }
     })
 
+    container.style.height = 'auto'
+    
     // recalcular el alto real del activo
     requestAnimationFrame(() => {
         const h = container.scrollHeight
@@ -279,6 +281,10 @@ function updateActiveHeight() {
 items.forEach(item => {
     item.addEventListener('click', () => {
         const isActive = item.classList.contains('active')
+        const id = item.id
+        if (id) {
+            window.location.hash = id
+        }
 
         items.forEach(el => {
             el.classList.remove('active')
@@ -291,6 +297,19 @@ items.forEach(item => {
         
         item.classList.add('active')
         updateActiveHeight()
+        
+        // Scroll suave al item
+        setTimeout(() => {
+        const rect = item.getBoundingClientRect()
+        const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight
+        
+        if (!isVisible) {
+            item.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'end' // Movimiento mínimo necesario
+            })
+        }
+        }, 300)
     })
 })
 
