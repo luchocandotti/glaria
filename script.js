@@ -306,7 +306,7 @@ items.forEach(item => {
         if (!isVisible) {
             item.scrollIntoView({ 
                 behavior: 'smooth', 
-                block: 'end'
+                block: 'start'
             })
         }
         }, 300)
