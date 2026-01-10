@@ -408,6 +408,23 @@ p {
     font-weight: 400;
     color: #666;
 }
+
+.acordeon h4 {
+    font-weight: 300;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.acordeon ul {
+    list-style-position: inside;
+    list-style-type: none;
+}
+
+li::before {
+  content: '—';
+  margin-right: 10px;
+}
+
 /* el h3 define el alto visible */
 .acordeon .item > h3 {
     margin: 0;
