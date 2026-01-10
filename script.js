@@ -104,7 +104,14 @@ window.addEventListener('load', async () => {
 let lastScrollY = window.scrollY
 const MIN_DELTA = 8
 
+const acordeon = document.querySelector('.acordeon')
+
 window.addEventListener('scroll', () => {
+    const rect = acordeon.getBoundingClientRect()
+
+    // si el acordeón está en viewport, no tocar el header
+    if (rect.top < window.innerHeight && rect.bottom > 0) return
+
     const currentScrollY = window.scrollY
     const delta = currentScrollY - lastScrollY
 
