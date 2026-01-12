@@ -392,7 +392,7 @@ p {
 
 .acordeon .item {
     overflow: hidden;
-    border-top: 1px solid #888;
+    border-top: 1px solid #333;
     transition: background-color 0.6s ease;
 }
 
@@ -401,13 +401,18 @@ p {
 }
 
 .acordeon .item:last-of-type {
-    border-bottom: 1px solid #888;
+    border-bottom: 1px solid #333;
 }
 
 .acordeon h3 {
     font-weight: 400;
     color: #666;
+    transition: color 0.6s ease;
 }
+
+.acordeon .item:not(.active) h3:hover {
+    color: #999;
+  }
 
 .acordeon h4 {
     font-weight: 300;

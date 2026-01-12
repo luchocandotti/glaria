@@ -308,7 +308,7 @@ items.forEach(item => {
         // Scroll suave al item
         setTimeout(() => {
         const rect = item.getBoundingClientRect()
-        const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight
+        const isVisible = rect.top >= 40 && rect.bottom <= (window.innerHeight +100)
         
         if (!isVisible) {
             item.scrollIntoView({ 
