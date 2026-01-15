@@ -195,9 +195,12 @@ p {
 .btn-pill {
     margin-top: 10px;
     transform: translateX(-3px);
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px; /* separación icono-texto */
+
     text-transform: uppercase;
     font-size: 0.8em;
     font-weight: 500;
@@ -230,6 +233,44 @@ p {
     color: #000;
 }
 
+/* WHATSAPP FLOTANTE */
+.btn-wp {
+    position: fixed;
+    right: 100px;
+    bottom: 40px;
+    z-index: 9999;
+
+    /* reseteos de tu btn-pill */
+    margin-top: 0;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    background-color: var(--color-change);
+
+    transition:
+        opacity 0.7s ease-in-out,
+        transform 0.7s ease-in-out;
+}
+
+/* Icono */
+.btn-pill .icon-wp{
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.btn-wp:hover {
+    background-color: var(--color-text);
+}
+
+.btn-wp.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+
+/* OVERLAY */
 .overlay {
     position: absolute;
     top: 0;
@@ -274,8 +315,10 @@ p {
 
 .video-completo video {
     position: relative;
-    width: 80%;
-    height: auto; 
+    max-width: 80%;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
     object-fit: contain;
     border-radius: 5px;
     cursor: default;
@@ -318,21 +361,15 @@ p {
 }
 
 /* efecto de dock macOS */
-
 .menu ul li:hover + li > a {
   transform: scale(1.1) translateY(6px);
 }
-/* .menu ul li:hover + li + li > a {
-  transform: scale(1.05) translateY(10px);
-} */
 .menu ul li:has(+ li:hover) > a {
   transform: scale(1.1) translateY(-6px);
 }
-/* .menu ul li:has(+ li + li:hover) > a {
-  transform: scale(1.05) translateY(-10px);
-} */
 
 
+/* SECCIONES */
 .seccion {
     padding: 60px 100px;
     background-color: #111;
@@ -492,6 +529,17 @@ p {
         height: auto;
         overflow: visible;
         gap: 20px;
+    }
+    .btn-wp{
+        right: auto;
+        left: 50%;
+        bottom: 40px;
+
+        transform: translateX(-50%) translateY(10%);
+    }
+
+    .btn-wp.is-visible{
+        transform: translateX(-50%) translateY(0);
     }
 }
 

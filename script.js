@@ -9,6 +9,7 @@ const video = document.getElementById('video-home')
 const videoFondo = document.getElementById('video-fondo')
 const overlay = document.querySelector('.overlay')
 const header = document.querySelector('header')
+const wpBtn = document.querySelector('.btn-wp')
 
 // verVideo.addEventListener('click', () => {
 //     videoCompleto.classList.add('active')
@@ -123,6 +124,27 @@ window.addEventListener('scroll', () => {
 
     lastScrollY = currentScrollY
 })
+
+
+//WHATSAPP FLOTANTE
+const SHOW_AT = 100
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > SHOW_AT) {
+        wpBtn.classList.add('is-visible')
+    } else {
+        wpBtn.classList.remove('is-visible')
+    }
+}, { passive: true })
+
+wpBtn.addEventListener('click', () => {
+  const phone = '5491134215624' // +54 9 11 3421-5624
+  const text = encodeURIComponent('Hola Fer, estuve viendo tu web y tengo una consulta')
+  const url = `https://wa.me/${phone}?text=${text}`
+
+  window.open(url, '_blank')
+})
+
 
 // MENU
 const nav = document.querySelectorAll('.menu a[href^="#"]')
