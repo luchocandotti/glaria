@@ -530,6 +530,9 @@ p {
         overflow: visible;
         gap: 20px;
     }
+    .seccion.izquierda .wrapper.acordeon {
+        margin-bottom: 40px;
+    }
     .btn-wp{
         right: auto;
         left: 50%;
@@ -537,7 +540,6 @@ p {
 
         transform: translateX(-50%) translateY(10%);
     }
-
     .btn-wp.is-visible{
         transform: translateX(-50%) translateY(0);
     }
