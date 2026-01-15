@@ -138,8 +138,8 @@ window.addEventListener('scroll', () => {
 }, { passive: true })
 
 wpBtn.addEventListener('click', () => {
-  const phone = '5491134215624' // +54 9 11 3421-5624
-  const text = encodeURIComponent('Hola Fer, estuve viendo tu web y tengo una consulta')
+  const phone = '5491127473093' // +54 9 11 2747-3093
+  const text = encodeURIComponent('Hola Nati, estuve viendo tu web y tengo una consulta:')
   const url = `https://wa.me/${phone}?text=${text}`
 
   window.open(url, '_blank')
