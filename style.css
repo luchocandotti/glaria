@@ -533,7 +533,7 @@ p {
     .btn-wp{
         right: auto;
         left: 50%;
-        bottom: 40px;
+        bottom: 20px;
 
         transform: translateX(-50%) translateY(10%);
     }
