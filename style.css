@@ -464,6 +464,12 @@ p {
     margin-bottom: 20px;
 }
 
+.btn-pill.js-open-video {
+    opacity: 1;
+    transform: none;
+    margin-top: 0;
+}
+
 @media(max-width: 880px) {
     .showcase,
     .showcase header,
