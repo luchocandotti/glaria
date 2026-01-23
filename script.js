@@ -334,40 +334,9 @@ function updateActiveHeight() {
         const h = container.scrollHeight
         container.style.width = '100%'
         container.style.height = h + 'px'
-        container.style.marginBottom = '20px'
     })
 }
 
-/* items.forEach(item => {
-    item.addEventListener('click', () => {
-        const isActive = item.classList.contains('active')
-
-        items.forEach(el => {
-            el.classList.remove('active')
-            const c = el.querySelector('.container')
-            c.style.height = '0px'
-            c.style.marginBottom = '0px'
-        })
-
-        if (isActive) return
-        
-        item.classList.add('active')
-        updateActiveHeight()
-        
-        // Scroll suave al item
-        setTimeout(() => {
-        const rect = item.getBoundingClientRect()
-        const isVisible = rect.top >= 40 && rect.bottom <= (window.innerHeight +100)
-        
-        if (!isVisible) {
-            item.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'top'
-            })
-        }
-        }, 200)
-    })
-})*/
 
 items.forEach(item => {
   item.addEventListener('click', (e) => {
