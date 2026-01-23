@@ -514,6 +514,10 @@ p {
   pointer-events: auto;
 }
 
+.acordeon .item.active .toggle-text {
+    margin-top: 20px;
+}
+
 .toggle-text .label::before {
   content: "+ Leer más";
   color: var(--color-change);
