@@ -501,19 +501,40 @@ p {
   margin-top: 20px;
 }
 
-.acordeon .item:not(.active) details > summary{
+/* CERRADO: que no ocupe ni se vea */
+.acordeon .item:not(.active) details{
+  max-height: 0;
   opacity: 0;
-  height: 0;
   overflow: hidden;
   pointer-events: none;
-}
-.acordeon .item.active details > summary{
-  opacity: 1;
-  height: auto;
-  overflow: visible;
-  pointer-events: auto;
+  margin: 0;
 }
 
+/* ABIERTO */
+.acordeon .item.active details{
+  max-height: 999px;
+  opacity: 1;
+  overflow: visible;
+  pointer-events: auto;
+  margin-top: 20px; /* ponelo acá, una sola vez */
+  transition: opacity .25s ease, max-height .4s ease;
+}
+
+
+/* summary: sin márgenes */
+.leer-mas summary{
+  margin: 0;
+  list-style: none;
+  cursor: pointer;
+}
+/* summary: abierto */
+.leer-mas[open] summary{
+  margin-bottom: 20px;
+}
+
+.leer-mas summary::-webkit-details-marker{ display:none; }
+
+/* cuando abro summary */
 .acordeon .item.active .toggle-text {
     margin-top: 20px;
 }
@@ -528,15 +549,6 @@ p {
   color: var(--color-href);
 }
 
-
-.leer-mas summary {
-    list-style: none;          /* Firefox */
-    cursor: pointer;
-}
-
-.leer-mas summary::-webkit-details-marker {
-  display: none;             /* Chrome / Safari */
-}
 
 
 /* estado abierto */
