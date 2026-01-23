@@ -139,7 +139,7 @@ window.addEventListener('scroll', () => {
 
 wpBtn.addEventListener('click', () => {
   const phone = '5491127473093' // +54 9 11 2747-3093
-  const text = encodeURIComponent('Hola Nati, estuve viendo tu web y tengo una consulta:')
+  const text = encodeURIComponent('Hola Nati, estuve viendo web del Dr. Glaria y tengo una consulta:')
   const url = `https://wa.me/${phone}?text=${text}`
 
   window.open(url, '_blank')
@@ -196,7 +196,7 @@ verVideo.forEach(btn => {
 
         // si hay un video actual, guardo su tiempo
         if (currentSrc) {
-            lastTimeBySrc.set(currentSrc, video.currentTime || 0)
+            guardarProgreso()
         }
 
         const src = btn.dataset.video
@@ -238,7 +238,7 @@ verVideo.forEach(btn => {
 
 function cerrarVideo() {
     if (currentSrc) {
-        lastTimeBySrc.set(currentSrc, video.currentTime || 0)
+        guardarProgreso()
     }
     video.pause()
     video.removeAttribute('src')
@@ -248,6 +248,10 @@ function cerrarVideo() {
     currentSrc = null
     videoFondo.play().catch(() => {})
     videoCompleto.classList.remove('active')
+}
+
+function guardarProgreso() {
+    lastTimeBySrc.set(currentSrc, video.currentTime || 0)
 }
 
 reproductor.addEventListener('click', (e) => {
@@ -306,6 +310,7 @@ items.forEach(item => {
     })
 })*/
 
+//ACORDEON
 const items = document.querySelectorAll('.acordeon .item')
 
 function updateActiveHeight() {
@@ -333,13 +338,9 @@ function updateActiveHeight() {
     })
 }
 
-items.forEach(item => {
+/* items.forEach(item => {
     item.addEventListener('click', () => {
         const isActive = item.classList.contains('active')
-        /*const id = item.id
-        if (id) {
-            window.location.hash = id
-        }*/
 
         items.forEach(el => {
             el.classList.remove('active')
@@ -366,6 +367,33 @@ items.forEach(item => {
         }
         }, 200)
     })
+})*/
+
+items.forEach(item => {
+  item.addEventListener('click', (e) => {
+    // si el click fue dentro de details, no togglear el item
+    if (e.target.closest('details')) return
+
+    const isActive = item.classList.contains('active')
+
+    items.forEach(el => {
+      el.classList.remove('active')
+      const c = el.querySelector('.container')
+      c.style.height = '0px'
+      c.style.marginBottom = '0px'
+    })
+
+    if (isActive) return
+
+    item.classList.add('active')
+    updateActiveHeight()
+
+    setTimeout(() => {
+      const rect = item.getBoundingClientRect()
+      const isVisible = rect.top >= 40 && rect.bottom <= (window.innerHeight + 100)
+      if (!isVisible) item.scrollIntoView({ behavior: 'smooth', block: 'top' })
+    }, 200)
+  })
 })
 
 window.addEventListener('resize', updateActiveHeight)

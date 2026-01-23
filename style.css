@@ -3,6 +3,7 @@
 :root {
     --color-change: #31C4CF;
     --color-text: #d2d2d2;
+    --color-href: #878787;
 }
 
 * {
@@ -492,6 +493,58 @@ p {
     overflow: hidden;
     transition: height 0.4s ease, opacity 1s ease;
 }
+
+.acordeon .item details {
+    height: 0px;
+    opacity: 0;
+    margin-bottom: 0px;
+    overflow: hidden;
+    transition: height 0.4s ease, opacity 1s ease;
+}
+
+.acordeon .item details p + p {
+  margin-top: 20px;
+}
+
+.acordeon .item.active details{
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+    margin-bottom: 20px;
+}
+
+.toggle-text .label::before {
+  content: "Leer más";
+  color: var(--color-change);
+}
+
+.toggle-text[open] .label::before {
+  content: "Leer menos";
+  color: var(--color-href);
+}
+
+.leer-mas summary {
+    list-style: none;          /* Firefox */
+    cursor: pointer;
+    margin: 20px 0;
+}
+
+.leer-mas summary::-webkit-details-marker {
+  display: none;             /* Chrome / Safari */
+}
+
+/* .leer-mas summary::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  background: url("img/icon-plus.svg") no-repeat center / contain;
+}
+
+.leer-mas[open] summary::before {
+  background-image: url("img/icon-minus.svg");
+} */
 
 /* estado abierto */
 .acordeon .item.active .container {
