@@ -220,7 +220,7 @@ p {
     opacity: 0;
 }
 
-.showcase .btn-pill {
+.page .showcase .text .btn-pill { 
     transform: translateX(-3px);
 }
 
