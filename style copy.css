@@ -195,6 +195,8 @@ p {
 
 .btn-pill {
     margin-top: 10px;
+    transform: translateX(-3px);
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -207,7 +209,7 @@ p {
     transition:  background-color 0.3s ease;
 
     color: #000;
-    padding: 12px 32px;
+    padding: 12px 24px;
     border-radius: 999px;
     white-space: nowrap;
     border: none;
@@ -216,12 +218,8 @@ p {
     appearance: none;
     -webkit-appearance: none;
     pointer-events: auto;
-    transition: opacity 0.7s ease-in-out 0.7s, background-color  0.7s ease;
+    transition: opacity 0.7s ease-in-out 0.7s;
     opacity: 0;
-}
-
-.showcase .btn-pill {
-    transform: translateX(-3px);
 }
 
 .text.visible h1,
@@ -252,8 +250,7 @@ p {
 
     transition:
         opacity 0.7s ease-in-out,
-        transform 0.7s ease-in-out,
-        background-color 0.7s ease;
+        transform 0.7s ease-in-out;
 }
 
 /* Icono */
@@ -407,10 +404,6 @@ p {
     color: var(--color-change);
 }
 
-.txt-base {
-    margin-bottom: 20px;
-}
-
 #sobre-mi img{
   width: 33%;
   height: auto;
@@ -421,11 +414,8 @@ p {
   height: auto;
 }
 
-.box  p + p {
-    margin-top: 20px;
-}
-
 #sobre-mi .box .btn-pill {
+  margin-top: 30px;
   padding: 12px 32px;
   text-decoration: none;
   opacity: 1;
@@ -435,221 +425,144 @@ p {
     background-color: #222;
 }
 
-#cirugia-mamas .acordeon {
-    margin-bottom: 80px;
-}
+/* ACORDEON */
 
-/* ============================================
-           ESTRUCTURA BASE DEL ACORDEÓN
-============================================ */
-
-/* Contenedor de cada item del acordeón */
 .acordeon .item {
     position: relative;
-    border-top: 1px solid #333;
-    /* Código original disperso en múltiples reglas */
-    /* MEJOR: Todas las propiedades del item en un solo lugar */
     overflow: hidden;
+    border-top: 1px solid #333;
     transition: background-color 0.6s ease;
+}
+
+.acordeon .item:not(.active):hover {
+  background-color: #444;
 }
 
 .acordeon .item:last-of-type {
     border-bottom: 1px solid #333;
 }
-.acordeon .item.active:last-of-type {
-    padding-bottom: 20px;
-}
-
-/* Espaciado cuando está abierto */
-.acordeon .item.active {
-    margin-bottom: 20px;
-}
-
-/* Hover solo cuando está cerrado */
-.acordeon .item:not(.active):hover {
-    /* Código original: background-color: #444 */
-    /* MEJOR: Usar :not(.active) evita que el hover interfiera con el estado abierto */
-    background-color: #444;
-}
-
-/* ============================================
-    TÍTULOS Y TIPOGRAFÍA
-============================================ */
 
 .acordeon h3 {
-    margin: 0;
-    padding: 16px 0;
     font-weight: 400;
     color: #666;
-    cursor: pointer;
-    /* Código original: transition en h3 y luego padding-left en otra regla */
-    /* MEJOR: Ambas transiciones juntas, más eficiente */
-    transition: color 0.6s ease, padding-left 0.25s ease;
+    transition: color 0.6s ease;
 }
 
-/* Padding left solo cuando está cerrado */
-.acordeon .item:not(.active) h3 {
-    /* Código original: padding-left: 20px */
-    /* MEJOR: Solo se aplica cuando está cerrado, más claro */
-    padding-left: 20px;
-}
-
-/* Hover del título solo cuando está cerrado */
 .acordeon .item:not(.active) h3:hover {
-    /* Código original: color: #999 */
-    /* MEJOR: Evita conflictos con el estado abierto */
     color: #999;
-}
+  }
 
 .acordeon h4 {
     font-weight: 300;
     color: #888;
     margin-bottom: 20px;
 }
-/* ============================================
-    CONTENEDOR DE CONTENIDO (CAJAS)
-============================================ */
-
-.acordeon .item .container {
-    /* Código original: height: 0px, opacity: 0, margin-bottom: 0px */
-    /* MEJOR: Eliminar 'px' en valor 0, es redundante */
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-    /* Código original: transition con timing inconsistente */
-    /* MEJOR: Transiciones sincronizadas para apertura suave */
-    transition: height 0.4s ease, opacity 0.4s ease;
-}
-
-.acordeon .item.active .container {
-    /* Código original: overflow: visible */
-    /* MEJOR: Auto es más seguro, permite scroll si es necesario */
-    height: auto;
-    opacity: 1;
-    overflow: auto;
-}
-
-.container .box:last-child {
-    margin-bottom: 0;
-}
-
-/* ============================================
-    DETAILS (LEER MÁS)
-============================================ */
-
-.acordeon .leer-mas {
-    /* Código original: margin: 0 en summary */
-    /* MEJOR: Resetear márgenes en el details, no en el summary */
-    margin: 0;
-    transition: opacity 0.25s ease, max-height 0.4s ease;
-}
-
-/* Estado cerrado del acordeón: ocultar details */
-.acordeon .item:not(.active) .leer-mas {
-    /* Código original: max-height: 0, opacity: 0, overflow: hidden, pointer-events: none */
-    /* MEJOR: Agrupado por estado, más fácil de entender */
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    pointer-events: none;
-}
-
-/* Estado abierto del acordeón: mostrar details */
-.acordeon .item.active .leer-mas {
-    /* Código original: max-height: 999px, margin-top: 20px duplicado */
-    /* MEJOR: Un solo lugar para definir el estado abierto */
-    max-height: auto;
-    opacity: 1;
-    overflow: visible;
-    pointer-events: auto;
-    margin-top: 20px;
-}
-
-/* Summary (el disparador del details) */
-.leer-mas summary {
-    /* Código original: margin: 0 */
-    /* MEJOR: Mantener, pero agrupar con estilos relacionados */
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    cursor: pointer;
-    color: var(--color-change);
-    transition: color 0.3s ease;
-}
-
-/* Ocultar marcador nativo del details */
-.leer-mas summary::-webkit-details-marker {
-    display: none;
-}
-
-/* Cuando el details está abierto */
-.leer-mas[open] summary {
-    /* Código original: margin-bottom: 20px */
-    /* MEJOR: Mantener separación solo cuando está expandido */
-    margin-bottom: 20px;
-}
-
-/* Textos del toggle */
-.toggle-text .label::before {
-    /* Código original: content: "+ Leer más" con color separado */
-    /* MEJOR: Contenido del pseudo-elemento junto */
-    content: "+ Leer más";
-    color: var(--color-change);
-}
-
-.toggle-text[open] .label::before {
-    /* Código original: content: "- Leer menos" con color separado */
-    /* MEJOR: Estado abierto claramente definido */
-    content: "- Leer menos";
-    color: var(--color-href);
-}
-
-/* Contenido dentro del details (después del summary) */
-.leer-mas > :not(summary) {
-    /* Código original: sin esta regla */
-    /* MEJOR: Espaciado automático para todo el contenido expandible */
-    margin-top: 20px;
-}
-
-/* Párrafos consecutivos dentro del details */
-.acordeon .item details p + p {
-    /* Código original: margin-top: 20px */
-    /* MEJOR: Mantener espaciado entre párrafos */
-    margin-top: 20px;
-}
-
-/* ============================================
-    LISTAS
-============================================ */
 
 .acordeon ul {
-    /* Código original: list-style-position: inside, list-style-type: none */
-    /* MEJOR: Simplificado, solo list-style: none es necesario */
-    list-style: none;
-    padding-left: 0;
+    list-style-position: inside;
+    list-style-type: none;
 }
 
 .acordeon li::before {
-    /* Código original: content: '—', margin-right: 10px */
-    /* MEJOR: Mantener, funciona bien */
-    content: '—';
-    margin-right: 10px;
+  content: '—';
+  margin-right: 10px;
 }
 
-/* ============================================
-    BOTÓN DE VIDEO (opcional)
-============================================ */
+/* el h3 define el alto visible */
+.acordeon .item > h3 {
+    margin: 0;
+    padding: 16px 0; /* lo que ya tengas */
+    cursor: pointer;
+    transition: padding-left 0.25s ease;
+}
 
-.acordeon .item.active .btn-pill {
-    height: auto;
+/* estado cerrado */
+.acordeon .item:not(.active) {
+    height: auto; /* importante para poder medir el h3 */
+}
+
+.acordeon .item:not(.active) > h3 {
+  padding-left: 20px;
+}
+
+/* estado cerrado */
+.acordeon .item .container {
+    height: 0px;
+    opacity: 0;
+    margin-bottom: 0px;
+    overflow: hidden;
+    transition: height 0.4s ease, opacity 1s ease;
+}
+.acordeon .item.active {
+    margin-bottom: 20px;
+}
+
+.acordeon .item details p + p {
+  margin-top: 20px;
+}
+
+/* CERRADO: que no ocupe ni se vea */
+.acordeon .item:not(.active) details{
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  margin: 0;
+}
+
+/* ABIERTO */
+.acordeon .item.active details{
+  max-height: 999px;
+  opacity: 1;
+  overflow: visible;
+  pointer-events: auto;
+  margin-top: 20px; /* ponelo acá, una sola vez */
+  transition: opacity .25s ease, max-height .4s ease;
+}
+
+
+/* summary: sin márgenes */
+.leer-mas summary{
+  margin: 0;
+  list-style: none;
+  cursor: pointer;
+}
+/* summary: abierto */
+.leer-mas[open] summary{
+  margin-bottom: 20px;
+}
+
+.leer-mas summary::-webkit-details-marker{ display:none; }
+
+/* cuando abro summary */
+.acordeon .item.active .toggle-text {
+    margin-top: 20px;
+}
+
+.toggle-text .label::before {
+  content: "+ Leer más";
+  color: var(--color-change);
+}
+
+.toggle-text[open] .label::before {
+  content: "- Leer menos";
+  color: var(--color-href);
+}
+
+
+
+/* estado abierto */
+.acordeon .item.active .container {
     opacity: 1;
-    overflow: auto;
+    height: auto;
+    overflow: visible;
 }
 
-
-/* ============================================
-    RESPONSIVE
-============================================ */
+.btn-pill.js-open-video {
+    opacity: 1;
+    transform: none;
+    margin-top: 0;
+}
 
 @media(max-width: 880px) {
     .showcase,

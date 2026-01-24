@@ -1,27 +1,183 @@
 <!-- Acordeón 01 -->
 <div class="item" id="mamas-01" style="z-index: 1">
-    <h3></h3>
+    <h3>Aumento mamario de rápida recuperación</h3>
     <div class="container">
         <div class="box">
+            <p>Es una técnica novedosa que permite autonomía inmediata a las pacientes y el retorno a las actividades cotidianas entre las 48 y 72 horas posteriores a la cirugía.</p>
         </div>
         <div class="box">
+            <p>El procedimiento tiene una duración aproximada de 60 a 70 minutos, minimiza el trauma de los tejidos y no requiere el uso de drenajes, vendajes compresivos ni inmovilización de los brazos.</p> 
         </div>
-        <div class="box">                            
+        <div class="box">
+            <p>Esta técnica avanzada permite una recuperación más rápida, una experiencia segura y confortable, enfocada en lograr resultados acordes a las expectativas de cada paciente.</p>                    
         </div>
     </div>
-
-    <button type="button" class="btn-pill js-open-video">
-    </button>
 
     <details class="leer-mas toggle-text">
         <summary>
             <span class="label"></span>
         </summary>
 
-        <h4></h4>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
+        <h4>Técnica personal Glaria: Escote de alta definición y realce del polo superior.</h4>
+        <p>
+            Aplico una técnica quirúrgica propia basada en una planificación individualizada de cada caso, teniendo en cuenta la anatomía, la calidad de los tejidos y los objetivos estéticos de la paciente.
+            Mi enfoque se centra en lograr un escote de alta definición y un realce controlado del polo superior, respetando la proporción corporal y la naturalidad del resultado. Para ello, utilizo implantes de alta gama, realizo un dual plane customizado adaptado a cada paciente y aplico un protocolo específico de cicatriz fina.
+            Todo el proceso quirúrgico está orientado a una rápida recuperación, con el objetivo de que la paciente recupere autonomía en forma temprana y pueda retomar progresivamente sus actividades habituales dentro de las primeras 48 a 72 horas.
+        </p>
+        <p>
+            Mi enfoque se centra en lograr un escote de alta definición y un realce controlado del polo superior, respetando la proporción corporal y la naturalidad del resultado. Para ello, utilizo implantes de alta gama, realizo un dual plane customizado adaptado a cada paciente y aplico un protocolo específico de cicatriz fina.
+        </p>
+        <p>Todo el proceso quirúrgico está orientado a una rápida recuperación, con el objetivo de que la paciente recupere autonomía en forma temprana y pueda retomar progresivamente sus actividades habituales dentro de las primeras 48 a 72 horas.
+        </p>
     </details>
+
+    <!-- <a  href="https://lcandotti.com/glaria/video_AM.mp4"
+        class="js-open-video"
+        data-video="https://lcandotti.com/glaria/video_AM.mp4"
+        data-poster="./video/video_AM_poster.jpg">
+        <img src="./img/icon-plus.svg" alt="" class="icon">
+        Ver video
+    </a> -->
+
 </div>
+
+<style>
+    /* ACORDEON */
+
+    .acordeon .item {
+        position: relative;
+        overflow: hidden;
+        border-top: 1px solid #333;
+        transition: background-color 0.6s ease;
+    }
+
+    .acordeon .item:not(.active):hover {
+    background-color: #444;
+    }
+
+    .acordeon .item:last-of-type {
+        border-bottom: 1px solid #333;
+    }
+
+    .acordeon h3 {
+        font-weight: 400;
+        color: #666;
+        transition: color 0.6s ease;
+    }
+
+    .acordeon .item:not(.active) h3:hover {
+        color: #999;
+    }
+
+    .acordeon h4 {
+        font-weight: 300;
+        color: #888;
+        margin-bottom: 20px;
+    }
+
+    .acordeon ul {
+        list-style-position: inside;
+        list-style-type: none;
+    }
+
+    .acordeon li::before {
+    content: '—';
+    margin-right: 10px;
+    }
+
+    /* el h3 define el alto visible */
+    .acordeon .item > h3 {
+        margin: 0;
+        padding: 16px 0; /* lo que ya tengas */
+        cursor: pointer;
+        transition: padding-left 0.25s ease;
+    }
+
+    /* estado cerrado */
+    .acordeon .item:not(.active) {
+        height: auto; /* importante para poder medir el h3 */
+    }
+
+    .acordeon .item:not(.active) > h3 {
+    padding-left: 20px;
+    }
+
+    /* estado cerrado */
+    .acordeon .item .container {
+        height: 0px;
+        opacity: 0;
+        margin-bottom: 0px;
+        overflow: hidden;
+        transition: height 0.4s ease, opacity 1s ease;
+    }
+    .acordeon .item.active {
+        margin-bottom: 20px;
+    }
+
+    .acordeon .item details p + p {
+    margin-top: 20px;
+    }
+
+    /* CERRADO: que no ocupe ni se vea */
+    .acordeon .item:not(.active) details{
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    margin: 0;
+    }
+
+    /* ABIERTO */
+    .acordeon .item.active details{
+    max-height: 999px;
+    opacity: 1;
+    overflow: visible;
+    pointer-events: auto;
+    margin-top: 20px; /* ponelo acá, una sola vez */
+    transition: opacity .25s ease, max-height .4s ease;
+    }
+
+
+    /* summary: sin márgenes */
+    .leer-mas summary{
+    margin: 0;
+    list-style: none;
+    cursor: pointer;
+    }
+    /* summary: abierto */
+    .leer-mas[open] summary{
+    margin-bottom: 20px;
+    }
+
+    .leer-mas summary::-webkit-details-marker{ display:none; }
+
+    /* cuando abro summary */
+    .acordeon .item.active .toggle-text {
+        margin-top: 20px;
+    }
+
+    .toggle-text .label::before {
+    content: "+ Leer más";
+    color: var(--color-change);
+    }
+
+    .toggle-text[open] .label::before {
+    content: "- Leer menos";
+    color: var(--color-href);
+    }
+
+
+
+    /* estado abierto */
+    .acordeon .item.active .container {
+        opacity: 1;
+        height: auto;
+        overflow: visible;
+    }
+
+    .btn-pill.js-open-video {
+        opacity: 1;
+        transform: none;
+        margin-top: 0;
+    }
+</style>
