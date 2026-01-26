@@ -1,4 +1,3 @@
-
 const menuToggle = document.querySelector('.toggle')
 const page = document.querySelector('.page')
 const text = document.querySelector('.text')
@@ -11,15 +10,7 @@ const overlay = document.querySelector('.overlay')
 const header = document.querySelector('header')
 const wpBtn = document.querySelector('.btn-wp')
 
-// verVideo.addEventListener('click', () => {
-//     videoCompleto.classList.add('active')
-// })
-
-// reproductor.addEventListener('click', () => {
-//     videoCompleto.classList.remove('active') //se rompe la animación porqué le da directo opacity: 0
-// })
-
-//LOADER
+//LOADER ===================================================//
 const tapa = document.querySelector('.tapa')
 function preloadImages(urls) {
   return Promise.all(
@@ -54,9 +45,10 @@ function preloadVideo() {
         videoFondo.load()
     })
 }
+//========================//
 
 
-/// Ocultar tapa con fade
+// TAPA DISPLAY NONE ===================================================//
 function hideTapa(delay = 0) {
     setTimeout(() => {
         tapa.classList.add('loaded')
@@ -67,8 +59,10 @@ function hideTapa(delay = 0) {
     }, 2000)
   }, delay)
 }
+//========================//
 
-// LOADER
+
+// LOADER ===================================================//
 window.addEventListener('load', async () => {
     try {
         // Esperar a que el video esté listo
@@ -94,8 +88,10 @@ window.addEventListener('load', async () => {
         hideTapa()
     }
 })
+//========================//
 
-//HEADER
+
+// HEADER ===================================================//
 let lastScrollY = window.scrollY
 const MIN_DELTA = 8
 
@@ -118,9 +114,10 @@ window.addEventListener('scroll', () => {
 
     lastScrollY = currentScrollY
 })
+//========================//
 
 
-//WHATSAPP FLOTANTE
+// WHATSAPP FLOTANTE ===================================================//
 const SHOW_AT = 100
 
 window.addEventListener('scroll', () => {
@@ -138,9 +135,10 @@ wpBtn.addEventListener('click', () => {
 
   window.open(url, '_blank')
 })
+//========================//
 
 
-// MENU
+// MENU ===================================================//
 const nav = document.querySelectorAll('.menu a[href^="#"]')
 
 function toggleMenu() {
@@ -175,9 +173,10 @@ nav.forEach(a => {
         toggleMenu();
     })
 })
+//========================//
 
 
-// REPRODUCTOR DE VIDEO
+// REPRODUCTOR DE VIDEO ===================================================//
 
 const lastTimeBySrc = new Map()
 let currentSrc = null
@@ -214,23 +213,19 @@ verVideo.forEach(btn => {
         currentSrc = src
 
         if (!cargado) {
-            if (poster) video.poster = poster
-            video.poster = poster || ""   // clave: siempre
+            video.poster = poster || ""
             video.src = src
             video.load()
 
             const lastTime = lastTimeBySrc.get(src) || 0
 
             video.addEventListener('loadedmetadata', () => {
-            cargado = true
-
-                if (lastTime >= 1) {
-                    video.currentTime = lastTime
-                    video.play().catch(() => {})
-                }
-                }, { once: true })
-            }
-        })
+                cargado = true
+                if (lastTime >= 1) video.currentTime = lastTime
+                video.play().catch(() => {})
+            }, { once: true })
+        }
+    })
 })
 
 function cerrarVideo() {
@@ -261,61 +256,13 @@ function guardarProgreso() {
 reproductor.addEventListener('click', (e) => {
   if (e.target === e.currentTarget) cerrarVideo()
 })
-
-//reproductor.addEventListener('click', (e) => e.stopPropagation())
-
-
-//ACORDEON
-/*const items = document.querySelectorAll('.acordeon .item')
-
-items.forEach(item => {
-  item.addEventListener('click', () => {
-
-    const isActive = item.classList.contains('active')
-
-    // cerrar todos
-    items.forEach(el => {
-      el.classList.remove('active')
-    })
-
-    // si no estaba activo, abrirlo
-    if (!isActive) {
-      item.classList.add('active')
-    }
-  })
-})*/
+//========================//
 
 
-/*const items = document.querySelectorAll('.acordeon .item')
+// ACORDEON ===================================================//
 
-items.forEach(item => {
-    const container = item.querySelector('.container')
-
-    item.addEventListener('click', () => {
-        const isActive = item.classList.contains('active')
-
-        items.forEach(el => {
-        el.classList.remove('active')
-        const c = el.querySelector('.container')
-            c.style.height = '0px'
-            c.style.marginBottom = '0px'
-        })
-
-        if (!isActive) {
-            item.classList.add('active')
-            container.style.marginBottom = '20px'
-
-        // dejar que el layout se actualice
-        setTimeout(() => {
-            const h = container.scrollHeight
-            container.style.height = h + 'px'
-        }, 0)
-        }
-    })
-})*/
-
-//ACORDEON
 const items = document.querySelectorAll('.acordeon .item')
+const details = document.querySelectorAll('.acordeon details')
 
 function updateActiveHeight() {
     const activeItem = document.querySelector('.acordeon .item.active')
@@ -345,7 +292,10 @@ function updateActiveHeight() {
 items.forEach(item => {
   item.addEventListener('click', (e) => {
     // si el click fue dentro de details, no togglear el item
+   // si clickeaste dentro del details, no cambies de item
     if (e.target.closest('details')) return
+
+    closeAllDetails() // CIERRA TODOS LOS DETAILS
 
     const isActive = item.classList.contains('active')
 
@@ -359,7 +309,14 @@ items.forEach(item => {
     if (isActive) return
 
     item.classList.add('active')
-    updateActiveHeight()
+      updateActiveHeight()
+      
+      // permitir solo un <details> abierto por vez, incluso dentro del mismo item (const details)
+      details.forEach(d => {
+        d.addEventListener('toggle', () => {
+          if (d.open) closeAllDetails(d)
+        })
+      })
 
     setTimeout(() => {
       const rect = item.getBoundingClientRect()
@@ -369,4 +326,11 @@ items.forEach(item => {
   })
 })
 
-window.addEventListener('resize', updateActiveHeight)
+function closeAllDetails(except = null) {
+  document.querySelectorAll('.acordeon details[open]').forEach(d => {
+    if (d !== except) d.removeAttribute('open')
+  })
+}
+
+window.addEventListener('resize', updateActiveHeight) 
+//========================//

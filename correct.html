@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+   <!-- Acordeón 01 -->
+    <div class="item" id="mamas-01" style="z-index: 1">
+        <h3>Aumento mamario de rápida recuperación</h3>
+        <div class="container">
+            <div class="box">
+                <p>Es una técnica novedosa que permite autonomía inmediata a las pacientes y el retorno a las actividades cotidianas entre las 48 y 72 horas posteriores a la cirugía.</p>
+                <p>El procedimiento tiene una duración aproximada de 60 a 70 minutos, minimiza el trauma de los tejidos y no requiere el uso de drenajes, vendajes compresivos ni inmovilización de los brazos.</p>
+                
+            </div>
+            <div class="box">
+                <p>Esta técnica avanzada permite una recuperación más rápida, una experiencia segura y confortable, enfocada en lograr resultados acordes a las expectativas de cada paciente.</p>
+            </div>
+            <div class="box">                         
+                <button type="button" class="btn-pill js-open-video"
+                    data-video="https://lcandotti.com/glaria/video_AM.mp4"
+                    data-poster="./video/video_AM_poster.jpg">
+                    Ver video
+                </button>    
+            </div>
+        </div>
+
+        <details class="leer-mas toggle-text">
+            <summary>
+                <span class="label"></span>
+            </summary>
+
+            <h4>Técnica personal Glaria: Escote de alta definición y realce del polo superior.</h4>
+            <p>
+                Aplico una técnica quirúrgica propia basada en una planificación individualizada de cada caso, teniendo en cuenta la anatomía, la calidad de los tejidos y los objetivos estéticos de la paciente.
+                Mi enfoque se centra en lograr un escote de alta definición y un realce controlado del polo superior, respetando la proporción corporal y la naturalidad del resultado. Para ello, utilizo implantes de alta gama, realizo un dual plane customizado adaptado a cada paciente y aplico un protocolo específico de cicatriz fina.
+                Todo el proceso quirúrgico está orientado a una rápida recuperación, con el objetivo de que la paciente recupere autonomía en forma temprana y pueda retomar progresivamente sus actividades habituales dentro de las primeras 48 a 72 horas.
+            </p>
+            <p>
+                Mi enfoque se centra en lograr un escote de alta definición y un realce controlado del polo superior, respetando la proporción corporal y la naturalidad del resultado. Para ello, utilizo implantes de alta gama, realizo un dual plane customizado adaptado a cada paciente y aplico un protocolo específico de cicatriz fina.
+            </p>
+            <p>Todo el proceso quirúrgico está orientado a una rápida recuperación, con el objetivo de que la paciente recupere autonomía en forma temprana y pueda retomar progresivamente sus actividades habituales dentro de las primeras 48 a 72 horas.
+            </p>
+        </details>
+
+    </div>
+</body>
+</html>
+
+
+<script>
+  //ACORDEON
+  const items = document.querySelectorAll('.acordeon .item')
+  
+  function updateActiveHeight() {
+      const activeItem = document.querySelector('.acordeon .item.active')
+      if (!activeItem) return
+  
+      const container = activeItem.querySelector('.container')
+  
+      // cerrar todos los demás (por si quedaron alturas viejas)
+      items.forEach(el => {
+          if (el !== activeItem) {
+          const c = el.querySelector('.container')
+          c.style.height = '0px'
+          }
+      })
+  
+      container.style.height = 'auto'
+  
+      // recalcular el alto real del activo
+      requestAnimationFrame(() => {
+          const h = container.scrollHeight
+          container.style.width = '100%'
+          container.style.height = h + 'px'
+      })
+  }
+  
+  
+  items.forEach(item => {
+    item.addEventListener('click', (e) => {
+      // si el click fue dentro de details, no togglear el item
+      if (e.target.closest('details')) return
+  
+      const isActive = item.classList.contains('active')
+  
+      items.forEach(el => {
+        el.classList.remove('active')
+        const c = el.querySelector('.container')
+        c.style.height = '0px'
+        c.style.marginBottom = '0px'
+      })
+  
+      if (isActive) return
+  
+      item.classList.add('active')
+      updateActiveHeight()
+  
+      setTimeout(() => {
+        const rect = item.getBoundingClientRect()
+        const isVisible = rect.top >= 40 && rect.bottom <= (window.innerHeight + 100)
+        if (!isVisible) item.scrollIntoView({ behavior: 'smooth', block: 'top' })
+      }, 200)
+    })
+  })
+  
+  window.addEventListener('resize', updateActiveHeight)
+</script>
