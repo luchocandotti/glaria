@@ -55,12 +55,6 @@ function preloadVideo() {
     })
 }
 
-// function preloadVideoSafe(timeout = 2000) {
-//     return Promise.race([
-//         preloadVideo(),
-//         new Promise(resolve => setTimeout(resolve, timeout))
-//     ])
-// }
 
 /// Ocultar tapa con fade
 function hideTapa(delay = 0) {
@@ -211,27 +205,30 @@ verVideo.forEach(btn => {
             cargado = false
             video.pause()
             video.removeAttribute('src')
+            video.src = ""              // clave
             video.removeAttribute('poster')
+            video.poster = ""           // clave
             video.load()
         }
 
         currentSrc = src
 
-        const lastTime = lastTimeBySrc.get(src) || 0
-
         if (!cargado) {
             if (poster) video.poster = poster
+            video.poster = poster || ""   // clave: siempre
             video.src = src
             video.load()
 
+            const lastTime = lastTimeBySrc.get(src) || 0
+
             video.addEventListener('loadedmetadata', () => {
             cargado = true
-            if (lastTime > 0) video.currentTime = lastTime
-            video.play().catch(() => {})
-            }, { once: true })
 
-            } else {
-                video.play().catch(() => {})
+                if (lastTime >= 1) {
+                    video.currentTime = lastTime
+                    video.play().catch(() => {})
+                }
+                }, { once: true })
             }
         })
 })
@@ -251,7 +248,14 @@ function cerrarVideo() {
 }
 
 function guardarProgreso() {
-    lastTimeBySrc.set(currentSrc, video.currentTime || 0)
+    const t = video.currentTime || 0
+
+    if (t < 1) {
+        lastTimeBySrc.delete(currentSrc)   // o setear 0 explícito
+        return
+    }
+
+    lastTimeBySrc.set(currentSrc, t)
 }
 
 reproductor.addEventListener('click', (e) => {
