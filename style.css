@@ -465,11 +465,11 @@ p {
     margin-bottom: 20px;
 }
 
-/* Hover solo cuando está cerrado */
-.acordeon .item:not(.active):hover {
-    /* Código original: background-color: #444 */
-    /* MEJOR: Usar :not(.active) evita que el hover interfiera con el estado abierto */
+/* Hover solo cuando está cerrado y sólo en desktop*/
+@media (hover: hover) and (pointer: fine) {
+  .acordeon .item:not(.active):hover {
     background-color: #444;
+  }
 }
 
 /* ============================================
