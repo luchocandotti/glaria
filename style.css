@@ -435,8 +435,8 @@ p {
     background-color: #222;
 }
 
-#cirugia-mamas .acordeon {
-    margin-bottom: 80px;
+#contorno-corporal .acordeon {
+    margin-bottom: 60px;
 }
 
 /* ============================================
@@ -627,6 +627,14 @@ p {
     /* MEJOR: Simplificado, solo list-style: none es necesario */
     list-style: none;
     padding-left: 0;
+}
+
+.acordeon details li {
+    margin-bottom: auto;
+}
+
+.acordeon li {
+    margin-bottom: 14px;
 }
 
 .acordeon li::before {
