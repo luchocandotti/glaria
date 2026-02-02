@@ -494,11 +494,11 @@ p {
     padding-left: 20px;
 }
 
-/* Hover del título solo cuando está cerrado */
-.acordeon .item:not(.active) h3:hover {
-    /* Código original: color: #999 */
-    /* MEJOR: Evita conflictos con el estado abierto */
+/* Hover del título solo cuando está cerrado y solo en desktop */
+@media (hover: hover) and (pointer: fine) {
+  .acordeon .item:not(.active) h3:hover {
     color: #999;
+  }
 }
 
 .acordeon h4 {
