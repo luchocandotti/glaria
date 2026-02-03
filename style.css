@@ -39,7 +39,7 @@ body.no-scroll {
     align-items: center;
     justify-content: center;
     opacity: 1;
-    transition: opacity 2s ease;
+    transition: opacity 2s ease-in-out;
 }
 
 .tapa.loaded {
@@ -60,22 +60,6 @@ body.no-scroll {
     transform: rotate(360deg);
   }
 }
-
-/* header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100dvw;
-    padding: 60px 100px 0 100px;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: 0.5s;
-}
-header.active {
-    left: -300px;
-} */
 
 header{
     position: fixed;
@@ -221,7 +205,7 @@ p {
 }
 
 .page .showcase .text .btn-pill { 
-    transform: translateX(-3px);
+    transform: translateX(-3px); /* ajuste óptico */
 }
 
 .text.visible h1,
@@ -231,9 +215,11 @@ p {
     opacity: 1;
 }
 
-.btn-pill:hover {
+@media (hover: hover) and (pointer: fine) {
+  .btn-pill:hover {
     background-color: var(--color-change);
     color: #000;
+  }
 }
 
 /* WHATSAPP FLOTANTE */
@@ -262,8 +248,10 @@ p {
   height: 16px;
 }
 
-.btn-wp:hover {
+@media (hover: hover) and (pointer: fine) {
+  .btn-wp:hover {
     background-color: var(--color-text);
+  }
 }
 
 .btn-wp.is-visible {
@@ -401,13 +389,17 @@ p {
 
 .seccion h2 {
     padding-bottom: 20px;
-    text-transform: uppercase;
     line-height: 1;
     --optical-y: -0.10em;
     transform: translateY(var(--optical-y));
     font-weight: 300;
     letter-spacing: 0.15em;
     color: var(--color-change);
+    text-transform: uppercase;
+}
+
+#faqs h2 {
+  text-transform: none;
 }
 
 .txt-base {
@@ -442,10 +434,6 @@ p {
 #cirugia-mamas, #faqs {
     background-color: #222;
 }
-
-/* #contorno-corporal .acordeon {
-    margin-bottom: 60px;
-} */
 
 /* ============================================
            ESTRUCTURA BASE DEL ACORDEÓN
@@ -490,8 +478,6 @@ p {
     font-weight: 400;
     color: #666;
     cursor: pointer;
-    /* Código original: transition en h3 y luego padding-left en otra regla */
-    /* MEJOR: Ambas transiciones juntas, más eficiente */
     transition: color 0.6s ease, padding-left 0.25s ease;
 }
 
@@ -519,19 +505,13 @@ p {
 ============================================ */
 
 .acordeon .item .container {
-    /* Código original: height: 0px, opacity: 0, margin-bottom: 0px */
-    /* MEJOR: Eliminar 'px' en valor 0, es redundante */
     height: 0;
     opacity: 0;
     overflow: hidden;
-    /* Código original: transition con timing inconsistente */
-    /* MEJOR: Transiciones sincronizadas para apertura suave */
     transition: height 0.4s ease, opacity 0.4s ease;
 }
 
 .acordeon .item.active .container {
-    /* Código original: overflow: visible */
-    /* MEJOR: Auto es más seguro, permite scroll si es necesario */
     height: auto;
     opacity: 1;
     overflow: auto;
@@ -546,16 +526,12 @@ p {
 ============================================ */
 
 .acordeon .leer-mas {
-    /* Código original: margin: 0 en summary */
-    /* MEJOR: Resetear márgenes en el details, no en el summary */
     margin: 0;
     transition: opacity 0.25s ease, max-height 0.4s ease;
 }
 
 /* Estado cerrado del acordeón: ocultar details */
 .acordeon .item:not(.active) .leer-mas {
-    /* Código original: max-height: 0, opacity: 0, overflow: hidden, pointer-events: none */
-    /* MEJOR: Agrupado por estado, más fácil de entender */
     max-height: 0;
     opacity: 0;
     overflow: hidden;
@@ -564,8 +540,6 @@ p {
 
 /* Estado abierto del acordeón: mostrar details */
 .acordeon .item.active .leer-mas {
-    /* Código original: max-height: 999px, margin-top: 20px duplicado */
-    /* MEJOR: Un solo lugar para definir el estado abierto */
     max-height: auto;
     opacity: 1;
     overflow: visible;
@@ -575,8 +549,6 @@ p {
 
 /* Summary (el disparador del details) */
 .leer-mas summary {
-    /* Código original: margin: 0 */
-    /* MEJOR: Mantener, pero agrupar con estilos relacionados */
     margin: 0;
     padding: 0;
     list-style: none;
@@ -592,30 +564,22 @@ p {
 
 /* Cuando el details está abierto */
 .leer-mas[open] summary {
-    /* Código original: margin-bottom: 20px */
-    /* MEJOR: Mantener separación solo cuando está expandido */
     margin-bottom: 20px;
 }
 
 /* Textos del toggle */
 .toggle-text .label::before {
-    /* Código original: content: "+ Leer más" con color separado */
-    /* MEJOR: Contenido del pseudo-elemento junto */
     content: "+ Leer más";
     color: var(--color-change);
 }
 
 .toggle-text[open] .label::before {
-    /* Código original: content: "- Leer menos" con color separado */
-    /* MEJOR: Estado abierto claramente definido */
     content: "- Leer menos";
     color: var(--color-href);
 }
 
 /* Contenido dentro del details (después del summary) */
 .leer-mas > :not(summary) {
-    /* Código original: sin esta regla */
-    /* MEJOR: Espaciado automático para todo el contenido expandible */
     margin-top: 20px;
 }
 
@@ -631,8 +595,6 @@ p {
 ============================================ */
 
 .acordeon ul {
-    /* Código original: list-style-position: inside, list-style-type: none */
-    /* MEJOR: Simplificado, solo list-style: none es necesario */
     list-style: none;
     padding-left: 0;
 }
@@ -646,8 +608,6 @@ p {
 }
 
 .acordeon li::before {
-    /* Código original: content: '—', margin-right: 10px */
-    /* MEJOR: Mantener, funciona bien */
     content: '—';
     margin-right: 10px;
 }
@@ -690,9 +650,6 @@ p {
         overflow: visible;
         gap: 20px;
     }
-    .seccion.izquierda .wrapper.acordeon {
-        margin-bottom: 40px;
-    }
     .btn-wp{
         right: auto;
         left: 50%;
@@ -704,7 +661,7 @@ p {
         transform: translateX(-50%) translateY(0);
     }
     #top > section:last-of-type {
-        padding-bottom: 60px;
+        padding-bottom: 80px;
     }
 }
 

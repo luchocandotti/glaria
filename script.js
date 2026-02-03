@@ -10,6 +10,8 @@ const overlay = document.querySelector('.overlay')
 const header = document.querySelector('header')
 const wpBtn = document.querySelector('.btn-wp')
 
+document.addEventListener("touchstart", () => {}, { passive: true });
+
 //LOADER ===================================================//
 const tapa = document.querySelector('.tapa')
 function preloadImages(urls) {
@@ -76,7 +78,8 @@ window.addEventListener('load', async () => {
         ]),
         (document.fonts?.ready ?? Promise.resolve()) // por la Poppins de Google Fonts
         ])
-        //videoFondo.play().catch(() => { })
+        //videoFondo.pause()
+        videoFondo.play().catch(() => { })
         
         /// Ocultar el preloader
         hideTapa()
