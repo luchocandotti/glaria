@@ -421,7 +421,7 @@ p {
   height: auto;
 }
 
-.box, .box2  p + p {
+.box p + p, .box2  p + p {
     margin-top: 20px;
 }
 
