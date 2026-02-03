@@ -76,7 +76,7 @@ window.addEventListener('load', async () => {
         ]),
         (document.fonts?.ready ?? Promise.resolve()) // por la Poppins de Google Fonts
         ])
-        videoFondo.play().catch(() => { })
+        //videoFondo.play().catch(() => { })
         
         /// Ocultar el preloader
         hideTapa()

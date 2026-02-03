@@ -402,6 +402,9 @@ p {
 .seccion h2 {
     padding-bottom: 20px;
     text-transform: uppercase;
+    line-height: 1;
+    --optical-y: -0.10em;
+    transform: translateY(var(--optical-y));
     font-weight: 300;
     letter-spacing: 0.15em;
     color: var(--color-change);
@@ -421,7 +424,12 @@ p {
   height: auto;
 }
 
-.box  p + p {
+.box2 {
+  width: 50%;
+  height: auto;
+}
+
+.box, .box2  p + p {
     margin-top: 20px;
 }
 
@@ -431,13 +439,13 @@ p {
   opacity: 1;
 }
 
-#cirugia-mamas {
+#cirugia-mamas, #faqs {
     background-color: #222;
 }
 
-#contorno-corporal .acordeon {
+/* #contorno-corporal .acordeon {
     margin-bottom: 60px;
-}
+} */
 
 /* ============================================
            ESTRUCTURA BASE DEL ACORDEÓN
@@ -668,7 +676,7 @@ p {
     .seccion .container {
         flex-direction: column;
     }
-    .box {
+    .box, .box2 {
         width: 100%;
         height: auto;
     }
@@ -694,6 +702,9 @@ p {
     }
     .btn-wp.is-visible{
         transform: translateX(-50%) translateY(0);
+    }
+    #top > section:last-of-type {
+        padding-bottom: 60px;
     }
 }
 
