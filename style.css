@@ -647,7 +647,7 @@ p {
 /* evita drag nativo de imágenes dentro del carousel */
 .carousel img{
   -webkit-user-drag: none;
-  pointer-events: none;
+  pointer-events: auto; /* o directamente borrá la línea pointer-events */
 }
 
 .carousel:active {
@@ -749,6 +749,21 @@ p {
     }
     #top > section:last-of-type {
         padding-bottom: 80px;
+    }
+    .grid{
+    grid-template-columns: 1fr; /* 1 por fila */
+    }
+
+    .grid .card{
+    width: 100%;
+    height: auto;
+    }
+
+    .grid .card img,
+    .grid .card video{
+    width: 100%;
+    height: auto;
+    display: block;
     }
 }
 

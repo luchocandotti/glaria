@@ -342,101 +342,128 @@ window.addEventListener('resize', updateActiveHeight)
 
 // CAROUSEL ===================================================//
 // CAROUSEL ===================================================//
-const carousel = document.querySelector('.carousel')
-const track = document.getElementById('track')
+const carousel = document.querySelector('.carousel');
+const track = document.getElementById('track');
 
 if (carousel && track) {
-    const pages = Array.from(track.querySelectorAll('.slide'))
-    const pageCount = pages.length
-
-    carousel.style.setProperty('--pages', pageCount)
 
     function setPage(index) {
-    const clamped = Math.max(0, Math.min(pageCount - 1, index))
-    carousel.style.setProperty('--index', clamped)
+    const pageCount = Number(getComputedStyle(carousel).getPropertyValue('--pages')) || 1;
+    const clamped = Math.max(0, Math.min(pageCount - 1, index));
+    carousel.style.setProperty('--index', clamped);
     }
 
     function getActive() {
-    return Number(getComputedStyle(carousel).getPropertyValue('--index')) || 0
+        return Number(getComputedStyle(carousel).getPropertyValue('--index')) || 0;
     }
+
+    function regroupSlides(cardsPerSlide) {
+    const items = Array.from(track.querySelectorAll('.grid > *'));
+    if (!items.length) return;
+
+    track.innerHTML = '';
+
+    for (let i = 0; i < items.length; i += cardsPerSlide) {
+        const slide = document.createElement('section');
+        slide.className = 'slide';
+
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+
+        items.slice(i, i + cardsPerSlide).forEach(el => grid.appendChild(el));
+        slide.appendChild(grid);
+        track.appendChild(slide);
+    }
+    }
+
+    function applyResponsiveGrouping() {
+    const isMobile = window.matchMedia('(max-width: 880px)').matches;
+    regroupSlides(isMobile ? 1 : 3);
+
+    const pageCount = track.querySelectorAll('.slide').length || 1;
+    carousel.style.setProperty('--pages', pageCount);
+
+    // si el index quedó fuera de rango tras reagrupar, lo clamp-eo
+    setPage(getActive());
+    }
+
+    applyResponsiveGrouping();
+    window.addEventListener('resize', applyResponsiveGrouping);
 
     // teclado
     window.addEventListener('keydown', (e) => {
     const active = getActive();
-    if (e.key === 'ArrowLeft') setPage(active - 1)
-    if (e.key === 'ArrowRight') setPage(active + 1)
-});
+    if (e.key === 'ArrowLeft') setPage(active - 1);
+    if (e.key === 'ArrowRight') setPage(active + 1);
+    });
 
-setPage(0)
+    // drag
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let dx = 0, dy = 0;
+    let active = 0;
 
-// drag
-let isDragging = false
-let startX = 0, startY = 0
-let dx = 0, dy = 0
-let active = 0
+    const THRESH_PX = 60;
+    const EDGE_RESIST = 0.35;
 
-const THRESH_PX = 60
-const EDGE_RESIST = 0.35
+    carousel.style.touchAction = 'pan-y';
 
-carousel.style.touchAction = 'pan-y'
-
-function onPointerDown(e) {
-    // si tocás un botón/elemento interactivo, NO iniciar drag del carrusel
+    function onPointerDown(e) {
+    // si tocás el botón, no draguees
     if (e.target.closest('.js-open-video')) return;
-        
-    isDragging = true
-    active = getActive()
-    startX = e.clientX
-    startY = e.clientY
-    dx = dy = 0
 
-    track.style.transition = 'none'
-    carousel.setPointerCapture?.(e.pointerId)
+    isDragging = true;
+    active = getActive();
+    startX = e.clientX;
+    startY = e.clientY;
+    dx = dy = 0;
 
-    // clave: evita selección/drag nativo (y en mobile evita “gestos raros”)
-    e.preventDefault?.()
-}
-
-function onPointerMove(e) {
-    if (!isDragging) return
-
-    dx = e.clientX - startX
-    dy = e.clientY - startY
-
-    // si es más vertical, soltamos para permitir scroll normal
-    if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 10) {
-        onPointerUp()
-        return
+    track.style.transition = 'none';
+    carousel.setPointerCapture?.(e.pointerId);
+    e.preventDefault?.();
     }
 
-    const w = carousel.clientWidth || 1
-    let dragPct = (dx / w) * 100
+    function onPointerMove(e) {
+    if (!isDragging) return;
+
+    dx = e.clientX - startX;
+    dy = e.clientY - startY;
+
+    if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 10) {
+        onPointerUp();
+        return;
+    }
+
+    const pageCount = Number(getComputedStyle(carousel).getPropertyValue('--pages')) || 1;
+    const w = carousel.clientWidth || 1;
+    let dragPct = (dx / w) * 100;
 
     if ((active === 0 && dx > 0) || (active === pageCount - 1 && dx < 0)) {
-        dragPct *= EDGE_RESIST
+        dragPct *= EDGE_RESIST;
     }
 
     const base = -active * (100 / pageCount);
-    track.style.transform = `translateX(${base + (dragPct / pageCount)}%)`
-}
-
-function onPointerUp() {
-    if (!isDragging) return
-    isDragging = false
-
-    track.style.transition = '' // vuelve al CSS
-    let next = active
-
-    if (Math.abs(dx) >= THRESH_PX) {
-        next = dx < 0 ? Math.min(pageCount - 1, active + 1) : Math.max(0, active - 1)
+    track.style.transform = `translateX(${base + (dragPct / pageCount)}%)`;
     }
 
-    setPage(next)
-    track.style.transform = '' // deja que mande el CSS con --index
-}
+    function onPointerUp() {
+    if (!isDragging) return;
+    isDragging = false;
 
-carousel.addEventListener('pointerdown', onPointerDown, { passive: false })
-carousel.addEventListener('pointermove', onPointerMove, { passive: true })
-carousel.addEventListener('pointerup', onPointerUp, { passive: true })
-carousel.addEventListener('pointercancel', onPointerUp, { passive: true })
+    track.style.transition = '';
+    const pageCount = Number(getComputedStyle(carousel).getPropertyValue('--pages')) || 1;
+
+    let next = active;
+    if (Math.abs(dx) >= THRESH_PX) {
+        next = dx < 0 ? Math.min(pageCount - 1, active + 1) : Math.max(0, active - 1);
+    }
+
+    setPage(next);
+    track.style.transform = '';
+    }
+
+    carousel.addEventListener('pointerdown', onPointerDown, { passive: false });
+    carousel.addEventListener('pointermove', onPointerMove, { passive: true });
+    carousel.addEventListener('pointerup', onPointerUp, { passive: true });
+    carousel.addEventListener('pointercancel', onPointerUp, { passive: true });
 }
