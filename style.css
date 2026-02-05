@@ -4,6 +4,7 @@
     --color-change: #31C4CF;
     --color-text: #d2d2d2;
     --color-href: #CF7132;
+    --radius:5px;
 }
 
 * {
@@ -208,6 +209,10 @@ p {
     transform: translateX(-3px); /* ajuste óptico */
 }
 
+.box:not(:has(p)) .btn-pill {
+  margin-top: 0;
+}
+
 .text.visible h1,
 .text.visible h2,
 .text.visible p,
@@ -243,7 +248,7 @@ p {
 }
 
 /* Icono */
-.icon{
+.icon {
   width: 16px;
   height: 16px;
 }
@@ -431,7 +436,7 @@ p {
   opacity: 1;
 }
 
-#cirugia-mamas, #faqs {
+#cirugia-mamas, #testimonios {
     background-color: #222;
 }
 
@@ -620,6 +625,88 @@ p {
     height: auto;
     opacity: 1;
     overflow: auto;
+}
+
+/* ============================================
+           ESTRUCTURA BASE DEL CAROUSEL
+============================================ */
+.carousel {
+    position: relative;
+    overflow: hidden;
+    --pages: 2;          /* lo setea JS */
+    --index: 0;          /* lo setea JS */
+
+    cursor: grab;
+
+    /* --- Touch Móvil ---*/
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* evita drag nativo de imágenes dentro del carousel */
+.carousel img{
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.carousel:active {
+    cursor: grabbing;
+}
+
+.track {
+    display: flex;
+    width: calc(var(--pages) * 100%);
+    transform: translateX(calc(var(--index) * (-100% / var(--pages))));
+    transition: transform 520ms var(--ease);
+    will-change: transform;
+    transition: transform 520ms ease;
+}
+
+.slide {
+    flex: 0 0 calc(100% / var(--pages));
+    padding: 0;
+}
+
+.grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 24px;
+}
+
+/* --- Card --- */
+
+.card {
+    position: relative;
+    aspect-ratio: 9 / 16;   /* o el ratio real de tus img */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.card .btn-pill {
+  opacity: 1;
+}
+
+/* botón flotante centrado */
+.card .js-open-video {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: auto;
+  line-height: 1.5;
 }
 
 

@@ -337,3 +337,106 @@ function closeAllDetails(except = null) {
 
 window.addEventListener('resize', updateActiveHeight) 
 //========================//
+
+
+
+// CAROUSEL ===================================================//
+// CAROUSEL ===================================================//
+const carousel = document.querySelector('.carousel')
+const track = document.getElementById('track')
+
+if (carousel && track) {
+    const pages = Array.from(track.querySelectorAll('.slide'))
+    const pageCount = pages.length
+
+    carousel.style.setProperty('--pages', pageCount)
+
+    function setPage(index) {
+    const clamped = Math.max(0, Math.min(pageCount - 1, index))
+    carousel.style.setProperty('--index', clamped)
+    }
+
+    function getActive() {
+    return Number(getComputedStyle(carousel).getPropertyValue('--index')) || 0
+    }
+
+    // teclado
+    window.addEventListener('keydown', (e) => {
+    const active = getActive();
+    if (e.key === 'ArrowLeft') setPage(active - 1)
+    if (e.key === 'ArrowRight') setPage(active + 1)
+});
+
+setPage(0)
+
+// drag
+let isDragging = false
+let startX = 0, startY = 0
+let dx = 0, dy = 0
+let active = 0
+
+const THRESH_PX = 60
+const EDGE_RESIST = 0.35
+
+carousel.style.touchAction = 'pan-y'
+
+function onPointerDown(e) {
+    // si tocás un botón/elemento interactivo, NO iniciar drag del carrusel
+    if (e.target.closest('.js-open-video')) return;
+        
+    isDragging = true
+    active = getActive()
+    startX = e.clientX
+    startY = e.clientY
+    dx = dy = 0
+
+    track.style.transition = 'none'
+    carousel.setPointerCapture?.(e.pointerId)
+
+    // clave: evita selección/drag nativo (y en mobile evita “gestos raros”)
+    e.preventDefault?.()
+}
+
+function onPointerMove(e) {
+    if (!isDragging) return
+
+    dx = e.clientX - startX
+    dy = e.clientY - startY
+
+    // si es más vertical, soltamos para permitir scroll normal
+    if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 10) {
+        onPointerUp()
+        return
+    }
+
+    const w = carousel.clientWidth || 1
+    let dragPct = (dx / w) * 100
+
+    if ((active === 0 && dx > 0) || (active === pageCount - 1 && dx < 0)) {
+        dragPct *= EDGE_RESIST
+    }
+
+    const base = -active * (100 / pageCount);
+    track.style.transform = `translateX(${base + (dragPct / pageCount)}%)`
+}
+
+function onPointerUp() {
+    if (!isDragging) return
+    isDragging = false
+
+    track.style.transition = '' // vuelve al CSS
+    let next = active
+
+    if (Math.abs(dx) >= THRESH_PX) {
+        next = dx < 0 ? Math.min(pageCount - 1, active + 1) : Math.max(0, active - 1)
+    }
+
+    setPage(next)
+    track.style.transform = '' // deja que mande el CSS con --index
+}
+
+carousel.addEventListener('pointerdown', onPointerDown, { passive: false })
+carousel.addEventListener('pointermove', onPointerMove, { passive: true })
+carousel.addEventListener('pointerup', onPointerUp, { passive: true })
+carousel.addEventListener('pointercancel', onPointerUp, { passive: true })
+}
