@@ -4,7 +4,7 @@
     --color-change: #31C4CF;
     --color-text: #d2d2d2;
     --color-orange: #CF7132;
-    --radius:5px;
+    --radius: 5px;
 }
 
 * {
@@ -411,9 +411,20 @@ p {
     margin-bottom: 20px;
 }
 
-#sobre-mi img{
-  width: 33%;
-  height: auto;
+#sobre-mi img {
+    width: 33%;
+    height: auto;
+}
+
+#sobre-mi a {
+    color: var(--color-change);
+    font-weight: 400;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #sobre-mi a:hover {
+        color: var(--color-orange);
+    }
 }
 
 .box {
@@ -786,6 +797,9 @@ p {
     width: 100%;
     height: auto;
     display: block;
+    }
+    #bajada-carousel {
+    text-align: center;
     }
 }
 
