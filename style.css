@@ -3,7 +3,7 @@
 :root {
     --color-change: #31C4CF;
     --color-text: #d2d2d2;
-    --color-href: #CF7132;
+    --color-orange: #CF7132;
     --radius:5px;
 }
 
@@ -580,7 +580,7 @@ p {
 
 .toggle-text[open] .label::before {
     content: "- Leer menos";
-    color: var(--color-href);
+    color: var(--color-orange);
 }
 
 /* Contenido dentro del details (después del summary) */
@@ -700,13 +700,35 @@ p {
 
 /* botón flotante centrado */
 .card .js-open-video {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  pointer-events: auto;
-  line-height: 1.5;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: auto;
+    line-height: 1.5;
+}
+
+.carousel .icon {
+    width: 16px;
+    height: 16px;
+}
+
+#bajada-carousel {
+    margin-top: 20px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-orange);
+}
+
+#bajada-carousel .icon {
+    margin-right: 5px;
+    transform: translateY(3px);
+}
+
+#bajada-carousel .icon path {
+    fill: var(--color-orange);
 }
 
 
