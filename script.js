@@ -339,134 +339,109 @@ window.addEventListener('resize', updateActiveHeight)
 //========================//
 
 
-// CAROUSEL ===================================================//
-const carousel = document.querySelector('.carousel')
-const track = document.getElementById('track')
+// ============================================
+// CAROUSEL LIMPIO
+// ============================================
+
+const carousel = document.querySelector('.carousel');
+const track = document.querySelector('.carousel .track');
 
 if (carousel && track) {
+    let isDragging = false;
+    let startX = 0;
+    let scrollLeft = 0;
 
-    function setPage(index) {
-    const pageCount = Number(getComputedStyle(carousel).getPropertyValue('--pages')) || 1
-    const clamped = Math.max(0, Math.min(pageCount - 1, index))
-    carousel.style.setProperty('--index', clamped)
-    }
+    // Constantes
+    const DRAG_THRESHOLD = 5; // Píxeles mínimos para considerar que es drag
 
-    function getActive() {
-        return Number(getComputedStyle(carousel).getPropertyValue('--index')) || 0
-    }
-
-    function regroupSlides(cardsPerSlide) {
-    const items = Array.from(track.querySelectorAll('.grid > *'))
-    if (!items.length) return
-
-    track.innerHTML = ''
-
-    for (let i = 0; i < items.length; i += cardsPerSlide) {
-        const slide = document.createElement('section')
-        slide.className = 'slide'
-
-        const grid = document.createElement('div')
-        grid.className = 'grid'
-
-        items.slice(i, i + cardsPerSlide).forEach(el => grid.appendChild(el))
-        slide.appendChild(grid)
-        track.appendChild(slide)
-    }
-    }
-
-    function applyResponsiveGrouping() {
-    const isMobile = window.matchMedia('(max-width: 880px)').matches;
-    regroupSlides(isMobile ? 1 : 3)
-
-    const pageCount = track.querySelectorAll('.slide').length || 1
-    carousel.style.setProperty('--pages', pageCount)
-
-    // si el index quedó fuera de rango tras reagrupar, lo clamp-eo
-    setPage(getActive())
-    }
-
-    applyResponsiveGrouping();
-    window.addEventListener('resize', applyResponsiveGrouping)
-
-    // teclado
-    window.addEventListener('keydown', (e) => {
-    const active = getActive();
-    if (e.key === 'ArrowLeft') setPage(active - 1)
-    if (e.key === 'ArrowRight') setPage(active + 1)
+    // ========== POINTER EVENTS (funciona en desktop y móvil) ==========
+    
+    carousel.addEventListener('pointerdown', (e) => {
+        // Si tocaste el botón, no inicies el drag
+        if (e.target.closest('.js-open-video')) return;
+        
+        isDragging = true;
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+        
+        // Desactiva la transición suave durante el drag
+        track.style.scrollBehavior = 'auto';
+        
+        // Captura el pointer para seguir el movimiento aunque salga del elemento
+        carousel.setPointerCapture(e.pointerId);
     });
 
-    // drag
-    let isDragging = false
-    let startX = 0, startY = 0
-    let dx = 0, dy = 0
-    let active = 0
-
-    const THRESH_PX = 60
-    const EDGE_RESIST = 0.35
-
-    carousel.style.touchAction = 'pan-y'
-
-    function onPointerDown(e) {
-    // si tocás el botón, no draguees
-    if (e.target.closest('.js-open-video')) return
+    carousel.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
         
-    const isMobile = window.matchMedia('(max-width: 880px)').matches
-    if (isMobile) document.body.classList.add('no-scroll')
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 1.5; // Multiplicador para hacer el drag más sensible
+        track.scrollLeft = scrollLeft - walk;
+    });
 
-    isDragging = true
-    active = getActive()
-    startX = e.clientX
-    startY = e.clientY
-    dx = dy = 0
-
-    track.style.transition = 'none';
-    carousel.setPointerCapture?.(e.pointerId);
-    e.preventDefault?.()
-    }
-
-    function onPointerMove(e) {
-    if (!isDragging) return
-
-    dx = e.clientX - startX
-    dy = e.clientY - startY
-
-    if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 10) {
-        onPointerUp()
-        return
-    }
-
-    const pageCount = Number(getComputedStyle(carousel).getPropertyValue('--pages')) || 1
-    const w = carousel.clientWidth || 1
-    let dragPct = (dx / w) * 100
-
-    if ((active === 0 && dx > 0) || (active === pageCount - 1 && dx < 0)) {
-        dragPct *= EDGE_RESIST
-    }
-
-    const base = -active * (100 / pageCount)
-    track.style.transform = `translateX(${base + (dragPct / pageCount)}%)`
-    }
-
-    function onPointerUp() {
-    document.body.classList.remove('no-scroll')
+    carousel.addEventListener('pointerup', () => {
+        if (!isDragging) return;
         
-    if (!isDragging) return
-    isDragging = false
+        isDragging = false;
+        
+        // Reactiva la transición suave
+        track.style.scrollBehavior = 'smooth';
+        
+        // Snap a la card más cercana
+        snapToNearestCard();
+    });
 
-    track.style.transition = ''
-    const pageCount = Number(getComputedStyle(carousel).getPropertyValue('--pages')) || 1
+    carousel.addEventListener('pointercancel', () => {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        track.style.scrollBehavior = 'smooth';
+    });
 
-    let next = active
-    if (Math.abs(dx) >= THRESH_PX) {
-        next = dx < 0 ? Math.min(pageCount - 1, active + 1) : Math.max(0, active - 1)
+    // ========== SNAP A LA CARD MÁS CERCANA ==========
+    
+    function snapToNearestCard() {
+        const cards = Array.from(track.children);
+        if (!cards.length) return;
+
+        const first = cards[0];
+
+        // gap real desde CSS (funciona con gap 24 desktop / 20 mobile)
+        const styles = getComputedStyle(track);
+        const gap = parseFloat(styles.columnGap || styles.gap || "0") || 0;
+
+        const cardW = first.getBoundingClientRect().width;
+        const unit = cardW + gap;
+
+        const isMobile = window.matchMedia("(max-width: 880px)").matches;
+        const step = isMobile ? 1 : 3;
+
+        // índice aproximado donde estás
+        const rawIndex = track.scrollLeft / unit;
+
+        // redondeo al “grupo” más cercano (0,3,6... en desktop / 0,1,2... en mobile)
+        const groupIndex = Math.round(rawIndex / step) * step;
+
+        const clamped = Math.max(0, Math.min(cards.length - 1, groupIndex));
+        track.scrollTo({ left: clamped * unit, behavior: "smooth" });
     }
 
-    setPage(next);
-    track.style.transform = ''
-    }
-
-    carousel.addEventListener('pointerdown', onPointerDown, { passive: false })
-    carousel.addEventListener('pointermove', onPointerMove, { passive: true })
-    carousel.addEventListener('pointerup', onPointerUp, { passive: true })
-    carousel.addEventListener('pointercancel', onPointerUp, { passive: true })
+    // ========== NAVEGACIÓN CON TECLADO (OPCIONAL) ==========
+    
+    window.addEventListener('keydown', (e) => {
+        // Solo si el carousel está en viewport
+        const rect = carousel.getBoundingClientRect();
+        if (rect.top > window.innerHeight || rect.bottom < 0) return;
+        
+        const cards = Array.from(track.children);
+        const cardWidth = cards[0]?.offsetWidth || 0;
+        const gap = 24; // Same as CSS
+        
+        if (e.key === 'ArrowLeft') {
+            track.scrollLeft -= cardWidth + gap;
+        } else if (e.key === 'ArrowRight') {
+            track.scrollLeft += cardWidth + gap;
+        }
+    });
 }

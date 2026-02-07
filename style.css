@@ -639,77 +639,87 @@ p {
 }
 
 /* ============================================
-           ESTRUCTURA BASE DEL CAROUSEL
-============================================ */
+   CAROUSEL LIMPIO - GRID + SCROLL-SNAP
+   ============================================ */
+
 .carousel {
     position: relative;
+    width: 100%;
     overflow: hidden;
-    --pages: 2;          /* lo setea JS */
-    --index: 0;          /* lo setea JS */
-
     cursor: grab;
-
-    /* --- Touch Móvil ---*/
     touch-action: pan-y;
     user-select: none;
     -webkit-user-select: none;
-}
-
-/* evita drag nativo de imágenes dentro del carousel */
-.carousel img{
-  -webkit-user-drag: none;
-  pointer-events: auto; /* o directamente borrá la línea pointer-events */
 }
 
 .carousel:active {
     cursor: grabbing;
 }
 
+/* TRACK - Grid responsivo */
 .track {
-    display: flex;
-    width: calc(var(--pages) * 100%);
-    transform: translateX(calc(var(--index) * (-100% / var(--pages))));
-    transition: transform 520ms var(--ease);
-    will-change: transform;
-    transition: transform 520ms ease;
-}
-
-.slide {
-    flex: 0 0 calc(100% / var(--pages));
-    padding: 0;
-}
-
-.grid {
-    width: 100%;
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-auto-flow: column;
+    grid-auto-columns: calc(33.333% - 16px);
     gap: 24px;
+    
+    /* Permite scroll horizontal */
+    overflow-x: auto;
+    overflow-y: hidden;
+    
+    /* Comportamiento suave */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* Smooth scroll en iOS */
+    
+    /* Oculta scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    
+    scroll-snap-type: x proximity;
+    
+    /* Padding para que las cards no toquen los bordes */
+    padding: 0 2px;
+
+    /* Fuerza el ancho correcto */
+    width: 100%;
 }
 
-/* --- Card --- */
+.track::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
 
+/* CARDS */
 .card {
     position: relative;
-    aspect-ratio: 9 / 16;   /* o el ratio real de tus img */
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 9 / 16;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0; /* Importante: evita que se compriman */
+    
+    /* Snap point en el inicio de cada card */
+    scroll-snap-align: start;
 }
 
-.card img {
+/* Evita drag de imágenes */
+.carousel img:not(.icon) {
+    -webkit-user-drag: none;
+    user-drag: none;
+    pointer-events: none;
+}
+
+.card img:not(.icon) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* llena, recorta si hace falta */
     display: block;
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    pointer-events: none;
+    -webkit-user-drag: none;
 }
 
-.card .btn-pill {
-  opacity: 1;
-}
-
-/* botón flotante centrado */
+/* Botón flotante centrado */
 .card .js-open-video {
     position: absolute;
     left: 50%;
@@ -720,11 +730,16 @@ p {
     line-height: 1.5;
 }
 
+.card .btn-pill {
+    opacity: 1;
+}
+
 .carousel .icon {
     width: 16px;
     height: 16px;
 }
 
+/* Bajada del carousel */
 #bajada-carousel {
     margin-top: 20px;
     font-weight: 400;
@@ -741,6 +756,7 @@ p {
 #bajada-carousel .icon path {
     fill: var(--color-orange);
 }
+
 
 
 /* ============================================
@@ -783,23 +799,24 @@ p {
     #top > section:last-of-type {
         padding-bottom: 80px;
     }
-    .grid{
-    grid-template-columns: 1fr; /* 1 por fila */
+    /* CAROUSEL */
+    .track {
+        /* Móvil: 1 card por vez que ocupa todo el ancho */
+        scroll-snap-type: x mandatory;
+        grid-auto-columns: 100%;
+        gap: 20px;
+        
+        scroll-padding: 0; /* Importante para móvil */
     }
-
-    .grid .card{
-    width: 100%;
-    height: auto;
+    
+    .card {
+        /* En móvil, snap al centro de la card */
+        width: 100%;
+        scroll-snap-align: center;
     }
-
-    .grid .card img,
-    .grid .card video{
-    width: 100%;
-    height: auto;
-    display: block;
-    }
+    
     #bajada-carousel {
-    text-align: center;
+        text-align: center;
     }
 }
 
