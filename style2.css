@@ -649,6 +649,8 @@ p {
     touch-action: pan-y;
     user-select: none;
     -webkit-user-select: none;
+    /* Debug */
+    border: 3px solid red !important;
 }
 
 .carousel:active {
@@ -659,7 +661,8 @@ p {
 .track {
     display: grid;
     /* Desktop: 3 columnas visibles + espacio entre cards */
-    grid-template-columns: repeat(auto-fill, calc(33.333% - 16px));
+    grid-auto-flow: column;
+    grid-auto-columns: calc(33.333% - 16px);
     gap: 24px;
     
     /* Permite scroll horizontal */
@@ -676,6 +679,10 @@ p {
     
     /* Padding para que las cards no toquen los bordes */
     padding: 0 2px;
+
+    /* Debug */
+    border: 3px solid blue !important;
+    background: rgba(0,255,0,0.1) !important;
 }
 
 .track::-webkit-scrollbar {
@@ -694,6 +701,10 @@ p {
     /* Snap point en el inicio de cada card */
     scroll-snap-align: start;
     scroll-snap-stop: always;
+    
+    /* Debug */
+    border: 3px solid yellow !important;
+    min-width: 300px !important;
 }
 
 .card img:not(.icon) {
@@ -736,7 +747,7 @@ p {
     color: var(--color-orange);
 }
 
-#bajada-carousel .icon {
+#bajada-carousel .icon { 
     margin-right: 5px;
     transform: translateY(3px);
 }
