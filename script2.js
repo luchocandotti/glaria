@@ -1,0 +1,447 @@
+const menuToggle = document.querySelector('.toggle')
+const page = document.querySelector('.page')
+const text = document.querySelector('.text')
+const verVideo = document.querySelectorAll('.js-open-video')
+const videoCompleto = document.querySelector('.video-completo')
+const reproductor = document.querySelector('.reproductor')
+const video = document.getElementById('video-home')
+const videoFondo = document.getElementById('video-fondo')
+const overlay = document.querySelector('.overlay')
+const header = document.querySelector('header')
+const wpBtn = document.querySelector('.btn-wp')
+
+document.addEventListener("touchstart", () => {}, { passive: true });
+
+//LOADER ===================================================//
+const tapa = document.querySelector('.tapa')
+function preloadImages(urls) {
+  return Promise.all(
+    urls.map((url) => new Promise((resolve, reject) => {
+      const img = new Image()
+      img.onload = resolve
+      img.onerror = reject
+      img.src = url
+    }))
+  )
+}
+
+function preloadVideo() {
+    return new Promise((resolve, reject) => {
+        // Si el video ya está cargado
+        if (videoFondo.readyState >= 3) {
+            resolve();
+            return;
+        }
+        
+        // Cuando el video puede reproducirse
+        videoFondo.addEventListener('canplaythrough', () => {
+            resolve();
+        }, { once: true })
+        
+        // Si hay error
+        videoFondo.addEventListener('error', () => {
+            reject(new Error('Error al cargar el video'))
+        }, { once: true })
+
+        // Forzar la carga del video
+        videoFondo.load()
+    })
+}
+//========================//
+
+
+// TAPA DISPLAY NONE ===================================================//
+function hideTapa(delay = 0) {
+    setTimeout(() => {
+        tapa.classList.add('loaded')
+        document.body.classList.remove('no-scroll')
+    setTimeout(() => {
+        tapa.style.display = 'none'
+        text.classList.add('visible') // Inicia justo al ocultar la tapa
+    }, 2000)
+  }, delay)
+}
+//========================//
+
+
+// LOADER ===================================================//
+window.addEventListener('load', async () => {
+    try {
+        // Esperar a que el video esté listo
+        await Promise.all([
+        // preloadVideoSafe(),
+        preloadImages([
+            './img/logo.svg',
+            './img/menu.svg',
+            './img/close.svg',
+            './img/close.png',
+        ]),
+        (document.fonts?.ready ?? Promise.resolve()) // por la Poppins de Google Fonts
+        ])
+        //videoFondo.pause()
+        videoFondo.play().catch(() => { })
+        
+        /// Ocultar el preloader
+        hideTapa()
+        
+    } catch (error) {
+        console.error('Error en la carga:', error)
+        // Incluso si hay error, ocultamos el preloader
+        alert('Error al cargar las  imágenes')
+        hideTapa()
+    }
+})
+//========================//
+
+
+// HEADER ===================================================//
+let lastScrollY = window.scrollY
+const MIN_DELTA = 8
+
+const acordeon = document.querySelector('.acordeon')
+
+window.addEventListener('scroll', () => {
+    const rect = acordeon.getBoundingClientRect()
+
+    // si el acordeón está en viewport, no tocar el header
+    if (rect.top < window.innerHeight && rect.bottom > 0) return
+
+    const currentScrollY = window.scrollY
+    const delta = currentScrollY - lastScrollY
+
+    if (delta > MIN_DELTA && currentScrollY > 100) {
+        header.classList.add('hidden')
+    } else if (delta < -MIN_DELTA) {
+        header.classList.remove('hidden')
+    }
+
+    lastScrollY = currentScrollY
+})
+//========================//
+
+
+// WHATSAPP FLOTANTE ===================================================//
+const SHOW_AT = 100
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > SHOW_AT) {
+        wpBtn.classList.add('is-visible')
+    } else {
+        wpBtn.classList.remove('is-visible')
+    }
+}, { passive: true })
+
+wpBtn.addEventListener('click', () => {
+  const phone = '5491127473093' // +54 9 11 2747-3093
+  const text = encodeURIComponent('Hola Nati, estuve viendo web del Dr. Glaria y tengo una consulta:')
+  const url = `https://wa.me/${phone}?text=${text}`
+
+  window.open(url, '_blank')
+})
+//========================//
+
+
+// MENU ===================================================//
+const nav = document.querySelectorAll('.menu a[href^="#"]')
+
+function toggleMenu() {
+    menuToggle.classList.toggle('active')
+    page.classList.toggle('active')
+    header.classList.toggle('active')
+    document.body.classList.toggle('no-scroll')
+}
+
+menuToggle.addEventListener('click', toggleMenu)
+
+overlay.addEventListener('click', () => {
+    // Si el menú está abierto, cerrarlo
+    if (page.classList.contains('active')) {
+        toggleMenu()
+        return
+    }
+
+    // Si el menú está cerrado, controlar video y texto
+    if (videoFondo.paused) {
+        text.classList.add('visible')
+        videoFondo.play()
+    } else {
+        text.classList.remove('visible')
+        videoFondo.pause()
+    }
+})
+
+    
+nav.forEach(a => {
+    a.addEventListener('click', () => {
+        toggleMenu();
+    })
+})
+//========================//
+
+
+// REPRODUCTOR DE VIDEO ===================================================//
+
+const lastTimeBySrc = new Map()
+let currentSrc = null
+let cargado = false
+
+verVideo.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+
+        // si hay un video actual, guardo su tiempo
+        if (currentSrc) {
+            guardarProgreso()
+        }
+
+        const src = btn.dataset.video
+        if (!src) return
+        const poster = btn.dataset.poster
+        
+        videoCompleto.classList.add('active')
+        videoFondo.pause()
+
+        // si cambia el video, limpiar el <video>
+        if (currentSrc && currentSrc !== src) {
+            cargado = false
+            video.pause()
+            video.removeAttribute('src')
+            video.src = ""              // clave
+            video.removeAttribute('poster')
+            video.poster = ""           // clave
+            video.load()
+        }
+
+        currentSrc = src
+
+        if (!cargado) {
+            video.poster = poster || ""
+            video.src = src
+            video.load()
+
+            const lastTime = lastTimeBySrc.get(src) || 0
+
+            video.addEventListener('loadedmetadata', () => {
+                cargado = true
+                if (lastTime >= 1) video.currentTime = lastTime
+                video.play().catch(() => {})
+            }, { once: true })
+        }
+    })
+})
+
+function cerrarVideo() {
+    if (currentSrc) {
+        guardarProgreso()
+    }
+    video.pause()
+    video.removeAttribute('src')
+    video.removeAttribute('poster')
+    video.load()
+    cargado = false
+    currentSrc = null
+    videoFondo.play().catch(() => {})
+    videoCompleto.classList.remove('active')
+}
+
+function guardarProgreso() {
+    const t = video.currentTime || 0
+
+    if (t < 1) {
+        lastTimeBySrc.delete(currentSrc)   // o setear 0 explícito
+        return
+    }
+
+    lastTimeBySrc.set(currentSrc, t)
+}
+
+reproductor.addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) cerrarVideo()
+})
+//========================//
+
+
+// ACORDEON ===================================================//
+
+const items = document.querySelectorAll('.acordeon .item')
+const details = document.querySelectorAll('.acordeon details')
+
+function updateActiveHeight() {
+    const activeItem = document.querySelector('.acordeon .item.active')
+    if (!activeItem) return
+
+    const container = activeItem.querySelector('.container')
+
+    // cerrar todos los demás (por si quedaron alturas viejas)
+    items.forEach(el => {
+        if (el !== activeItem) {
+        const c = el.querySelector('.container')
+        c.style.height = '0px'
+        }
+    })
+
+    container.style.height = 'auto'
+    
+    // recalcular el alto real del activo
+    requestAnimationFrame(() => {
+        const h = container.scrollHeight
+        container.style.width = '100%'
+        container.style.height = h + 'px'
+    })
+}
+
+
+items.forEach(item => {
+  item.addEventListener('click', (e) => {
+    // si el click fue dentro de details, no togglear el item
+   // si clickeaste dentro del details, no cambies de item
+    if (e.target.closest('details')) return
+
+    closeAllDetails() // CIERRA TODOS LOS DETAILS
+
+    const isActive = item.classList.contains('active')
+
+    items.forEach(el => {
+      el.classList.remove('active')
+      const c = el.querySelector('.container')
+      c.style.height = '0px'
+      c.style.marginBottom = '0px'
+    })
+
+    if (isActive) return
+
+    item.classList.add('active')
+      updateActiveHeight()
+      
+      // permitir solo un <details> abierto por vez, incluso dentro del mismo item (const details)
+      details.forEach(d => {
+        d.addEventListener('toggle', () => {
+          if (d.open) closeAllDetails(d)
+        })
+      })
+
+    setTimeout(() => {
+      const rect = item.getBoundingClientRect()
+      const isVisible = rect.top >= 40 && rect.bottom <= (window.innerHeight + 100)
+      if (!isVisible) item.scrollIntoView({ behavior: 'smooth', block: 'top' })
+    }, 200)
+  })
+})
+
+function closeAllDetails(except = null) {
+  document.querySelectorAll('.acordeon details[open]').forEach(d => {
+    if (d !== except) d.removeAttribute('open')
+  })
+}
+
+window.addEventListener('resize', updateActiveHeight) 
+//========================//
+
+
+// ============================================
+// CAROUSEL LIMPIO
+// ============================================
+
+const carousel = document.querySelector('.carousel');
+const track = document.querySelector('.carousel .track');
+
+if (carousel && track) {
+    let isDragging = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    // Constantes
+    const DRAG_THRESHOLD = 5; // Píxeles mínimos para considerar que es drag
+
+    // ========== POINTER EVENTS (funciona en desktop y móvil) ==========
+    
+    carousel.addEventListener('pointerdown', (e) => {
+        // Si tocaste el botón, no inicies el drag
+        if (e.target.closest('.js-open-video')) return;
+        
+        isDragging = true;
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+        
+        // Desactiva la transición suave durante el drag
+        track.style.scrollBehavior = 'auto';
+        
+        // Captura el pointer para seguir el movimiento aunque salga del elemento
+        carousel.setPointerCapture(e.pointerId);
+    });
+
+    carousel.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 1.5; // Multiplicador para hacer el drag más sensible
+        track.scrollLeft = scrollLeft - walk;
+    });
+
+    carousel.addEventListener('pointerup', () => {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        
+        // Reactiva la transición suave
+        track.style.scrollBehavior = 'smooth';
+        
+        // Snap a la card más cercana
+        snapToNearestCard();
+    });
+
+    carousel.addEventListener('pointercancel', () => {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        track.style.scrollBehavior = 'smooth';
+    });
+
+    // ========== SNAP A LA CARD MÁS CERCANA ==========
+    
+    function snapToNearestCard() {
+        const cards = Array.from(track.children);
+        const trackRect = track.getBoundingClientRect();
+        
+        // Encuentra la card más visible
+        let nearestCard = cards[0];
+        let minDistance = Infinity;
+        
+        cards.forEach(card => {
+            const cardRect = card.getBoundingClientRect();
+            const distance = Math.abs(cardRect.left - trackRect.left);
+            
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestCard = card;
+            }
+        });
+        
+        // Scroll suave a la card más cercana
+        nearestCard.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest', 
+            inline: 'start' 
+        });
+    }
+
+    // ========== NAVEGACIÓN CON TECLADO (OPCIONAL) ==========
+    
+    window.addEventListener('keydown', (e) => {
+        // Solo si el carousel está en viewport
+        const rect = carousel.getBoundingClientRect();
+        if (rect.top > window.innerHeight || rect.bottom < 0) return;
+        
+        const cards = Array.from(track.children);
+        const cardWidth = cards[0]?.offsetWidth || 0;
+        const gap = 24; // Same as CSS
+        
+        if (e.key === 'ArrowLeft') {
+            track.scrollLeft -= cardWidth + gap;
+        } else if (e.key === 'ArrowRight') {
+            track.scrollLeft += cardWidth + gap;
+        }
+    });
+}
