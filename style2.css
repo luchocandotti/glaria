@@ -644,6 +644,7 @@ p {
 
 .carousel {
     position: relative;
+    width: 100%;
     overflow: hidden;
     cursor: grab;
     touch-action: pan-y;
@@ -658,43 +659,57 @@ p {
 /* TRACK - Grid responsivo */
 .track {
     display: grid;
-    /* Desktop: 3 columnas visibles + espacio entre cards */
     grid-auto-flow: column;
-    grid-auto-columns: calc(33.333% - 16px);
+    grid-auto-columns: calc(33.333% - 16px); /* Desktop: 3 cards visibles */
     gap: 24px;
     
-    /* Permite scroll horizontal */
+    /* Scroll horizontal */
     overflow-x: auto;
     overflow-y: hidden;
+    
+    /* Comportamiento suave */
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* Smooth scroll en iOS */
+    
+    /* Snap MÁS SUAVE - proximity en lugar de mandatory */
+    scroll-snap-type: x proximity;
     
     /* Oculta scrollbar */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     
-    /* Snap para alineación perfecta */
-    scroll-snap-type: x mandatory;
-    
-    /* Padding para que las cards no toquen los bordes */
+    /* Padding lateral */
     padding: 0 2px;
+    
+    /* Fuerza el ancho correcto */
+    width: 100%;
 }
 
 .track::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none;
 }
 
 /* CARDS */
-.card {
+card {
     position: relative;
+    width: 100%;
     aspect-ratio: 9 / 16;
+    
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0; /* Importante: evita que se compriman */
+    flex-shrink: 0;
     
-    /* Snap point en el inicio de cada card */
+    /* Snap más relajado */
     scroll-snap-align: start;
-    scroll-snap-stop: always;
+    /* REMOVIDO: scroll-snap-stop: always (esto causaba los saltos) */
+}
+
+/* Evita drag de imágenes */
+.carousel img:not(.icon) {
+    -webkit-user-drag: none;
+    user-drag: none;
+    pointer-events: none;
 }
 
 .card img:not(.icon) {
@@ -704,8 +719,6 @@ p {
     width: auto;
     height: auto;
     object-fit: contain;
-    -webkit-user-drag: none;
-    pointer-events: none;
 }
 
 /* Botón flotante centrado */
@@ -787,10 +800,20 @@ p {
     #top > section:last-of-type {
         padding-bottom: 80px;
     }
+    /* CAROUSEL */
     .track {
-        /* Móvil: 1 columna que ocupa todo el ancho */
-        grid-template-columns: 100%;
+        /* Móvil: 1 card por vez que ocupa todo el ancho */
+        grid-auto-columns: 100%;
         gap: 20px;
+        
+        /* En móvil, snap MUCHO más suave */
+        scroll-snap-type: x proximity;
+        scroll-padding: 0; /* Importante para móvil */
+    }
+    
+    .card {
+        /* En móvil, snap al centro de la card */
+        scroll-snap-align: center;
     }
     
     #bajada-carousel {

@@ -340,7 +340,7 @@ window.addEventListener('resize', updateActiveHeight)
 
 
 // ============================================
-// CAROUSEL LIMPIO
+// CAROUSEL LIMPIO - VERSION MOBILE-FRIENDLY
 // ============================================
 
 const carousel = document.querySelector('.carousel');
@@ -350,11 +350,12 @@ if (carousel && track) {
     let isDragging = false;
     let startX = 0;
     let scrollLeft = 0;
+    let scrollTimeout = null;
 
-    // Constantes
-    const DRAG_THRESHOLD = 5; // Píxeles mínimos para considerar que es drag
+    // Detecta si es móvil
+    const isMobile = () => window.innerWidth <= 880;
 
-    // ========== POINTER EVENTS (funciona en desktop y móvil) ==========
+    // ========== POINTER EVENTS ==========
     
     carousel.addEventListener('pointerdown', (e) => {
         // Si tocaste el botón, no inicies el drag
@@ -364,10 +365,12 @@ if (carousel && track) {
         startX = e.pageX - track.offsetLeft;
         scrollLeft = track.scrollLeft;
         
-        // Desactiva la transición suave durante el drag
-        track.style.scrollBehavior = 'auto';
+        // En desktop, desactiva scroll-behavior durante el drag
+        if (!isMobile()) {
+            track.style.scrollBehavior = 'auto';
+        }
         
-        // Captura el pointer para seguir el movimiento aunque salga del elemento
+        // Captura el pointer
         carousel.setPointerCapture(e.pointerId);
     });
 
@@ -376,7 +379,7 @@ if (carousel && track) {
         
         e.preventDefault();
         const x = e.pageX - track.offsetLeft;
-        const walk = (x - startX) * 1.5; // Multiplicador para hacer el drag más sensible
+        const walk = (x - startX) * 1.5;
         track.scrollLeft = scrollLeft - walk;
     });
 
@@ -385,16 +388,18 @@ if (carousel && track) {
         
         isDragging = false;
         
-        // Reactiva la transición suave
+        // Reactiva scroll-behavior
         track.style.scrollBehavior = 'smooth';
         
-        // Snap a la card más cercana
-        snapToNearestCard();
+        // Snap suave después de un delay
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            snapToNearestCard();
+        }, 100);
     });
 
     carousel.addEventListener('pointercancel', () => {
         if (!isDragging) return;
-        
         isDragging = false;
         track.style.scrollBehavior = 'smooth';
     });
@@ -403,15 +408,25 @@ if (carousel && track) {
     
     function snapToNearestCard() {
         const cards = Array.from(track.children);
-        const trackRect = track.getBoundingClientRect();
+        if (!cards.length) return;
         
-        // Encuentra la card más visible
+        const trackRect = track.getBoundingClientRect();
+        const trackCenter = trackRect.left + (trackRect.width / 2);
+        
+        // En móvil, snap al centro
+        // En desktop, snap al inicio
+        const snapPoint = isMobile() ? trackCenter : trackRect.left;
+        
         let nearestCard = cards[0];
         let minDistance = Infinity;
         
         cards.forEach(card => {
             const cardRect = card.getBoundingClientRect();
-            const distance = Math.abs(cardRect.left - trackRect.left);
+            const cardPoint = isMobile() 
+                ? cardRect.left + (cardRect.width / 2)  // Centro de la card
+                : cardRect.left;                         // Inicio de la card
+            
+            const distance = Math.abs(cardPoint - snapPoint);
             
             if (distance < minDistance) {
                 minDistance = distance;
@@ -423,24 +438,45 @@ if (carousel && track) {
         nearestCard.scrollIntoView({ 
             behavior: 'smooth', 
             block: 'nearest', 
-            inline: 'start' 
+            inline: isMobile() ? 'center' : 'start'
         });
     }
 
-    // ========== NAVEGACIÓN CON TECLADO (OPCIONAL) ==========
+    // ========== SNAP DESPUÉS DE SCROLL NATIVO (MÓVIL) ==========
+    
+    let isScrolling = null;
+    
+    track.addEventListener('scroll', () => {
+        // Limpia el timeout anterior
+        clearTimeout(isScrolling);
+        
+        // Después de 150ms sin scroll, hace snap
+        isScrolling = setTimeout(() => {
+            if (!isDragging) {
+                snapToNearestCard();
+            }
+        }, 150);
+    }, { passive: true });
+
+    // ========== NAVEGACIÓN CON TECLADO (DESKTOP) ==========
     
     window.addEventListener('keydown', (e) => {
+        // Solo en desktop
+        if (isMobile()) return;
+        
         // Solo si el carousel está en viewport
         const rect = carousel.getBoundingClientRect();
         if (rect.top > window.innerHeight || rect.bottom < 0) return;
         
         const cards = Array.from(track.children);
         const cardWidth = cards[0]?.offsetWidth || 0;
-        const gap = 24; // Same as CSS
+        const gap = 24;
         
         if (e.key === 'ArrowLeft') {
+            e.preventDefault();
             track.scrollLeft -= cardWidth + gap;
         } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
             track.scrollLeft += cardWidth + gap;
         }
     });
