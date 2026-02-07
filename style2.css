@@ -649,8 +649,6 @@ p {
     touch-action: pan-y;
     user-select: none;
     -webkit-user-select: none;
-    /* Debug */
-    border: 3px solid red !important;
 }
 
 .carousel:active {
@@ -679,10 +677,6 @@ p {
     
     /* Padding para que las cards no toquen los bordes */
     padding: 0 2px;
-
-    /* Debug */
-    border: 3px solid blue !important;
-    background: rgba(0,255,0,0.1) !important;
 }
 
 .track::-webkit-scrollbar {
@@ -701,10 +695,6 @@ p {
     /* Snap point en el inicio de cada card */
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    
-    /* Debug */
-    border: 3px solid yellow !important;
-    min-width: 300px !important;
 }
 
 .card img:not(.icon) {
