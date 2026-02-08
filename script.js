@@ -352,7 +352,7 @@ if (carousel && track) {
     let scrollLeft = 0;
 
     // Constantes
-    const DRAG_THRESHOLD = 5; // Píxeles mínimos para considerar que es drag
+    const DRAG_THRESHOLD = 100; // Píxeles mínimos para considerar que es drag
 
     // ========== POINTER EVENTS (funciona en desktop y móvil) ==========
     
@@ -365,7 +365,7 @@ if (carousel && track) {
         scrollLeft = track.scrollLeft;
         
         // Desactiva la transición suave durante el drag
-        track.style.scrollBehavior = 'auto';
+        track.style.scrollBehavior = 'smooth';
         
         // Captura el pointer para seguir el movimiento aunque salga del elemento
         carousel.setPointerCapture(e.pointerId);
@@ -376,7 +376,7 @@ if (carousel && track) {
         
         e.preventDefault();
         const x = e.pageX - track.offsetLeft;
-        const walk = (x - startX) * 1.5; // Multiplicador para hacer el drag más sensible
+        const walk = (x - startX) * 5; // Multiplicador para hacer el drag más sensible
         track.scrollLeft = scrollLeft - walk;
     });
 

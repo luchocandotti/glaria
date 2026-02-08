@@ -706,7 +706,6 @@ p {
 /* Evita drag de imágenes */
 .carousel img:not(.icon) {
     -webkit-user-drag: none;
-    user-drag: none;
     pointer-events: none;
 }
 
