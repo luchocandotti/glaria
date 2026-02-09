@@ -342,106 +342,89 @@ window.addEventListener('resize', updateActiveHeight)
 // ============================================
 // CAROUSEL LIMPIO
 // ============================================
+const carousel = document.querySelector('.carousel')
+const track = document.querySelector('.track')
+const navLeft = document.getElementById('nav-left');
+const navRight = document.getElementById('nav-right');
 
-const carousel = document.querySelector('.carousel');
-const track = document.querySelector('.carousel .track');
+let isDragging = false
+let startX
+let scrollLeft
 
-if (carousel && track) {
-    let isDragging = false;
-    let startX = 0;
-    let scrollLeft = 0;
-
-    // Constantes
-    const DRAG_THRESHOLD = 100; // Píxeles mínimos para considerar que es drag
-
-    // ========== POINTER EVENTS (funciona en desktop y móvil) ==========
-    
-    carousel.addEventListener('pointerdown', (e) => {
-        // Si tocaste el botón, no inicies el drag
-        if (e.target.closest('.js-open-video')) return;
-        
-        isDragging = true;
-        startX = e.pageX - track.offsetLeft;
-        scrollLeft = track.scrollLeft;
-        
-        // Desactiva la transición suave durante el drag
-        track.style.scrollBehavior = 'smooth';
-        
-        // Captura el pointer para seguir el movimiento aunque salga del elemento
-        carousel.setPointerCapture(e.pointerId);
-    });
-
-    carousel.addEventListener('pointermove', (e) => {
-        if (!isDragging) return;
-        
-        e.preventDefault();
-        const x = e.pageX - track.offsetLeft;
-        const walk = (x - startX) * 5; // Multiplicador para hacer el drag más sensible
-        track.scrollLeft = scrollLeft - walk;
-    });
-
-    carousel.addEventListener('pointerup', () => {
-        if (!isDragging) return;
-        
-        isDragging = false;
-        
-        // Reactiva la transición suave
-        track.style.scrollBehavior = 'smooth';
-        
-        // Snap a la card más cercana
-        snapToNearestCard();
-    });
-
-    carousel.addEventListener('pointercancel', () => {
-        if (!isDragging) return;
-        
-        isDragging = false;
-        track.style.scrollBehavior = 'smooth';
-    });
-
-    // ========== SNAP A LA CARD MÁS CERCANA ==========
-    
-    function snapToNearestCard() {
-        const cards = Array.from(track.children);
-        if (!cards.length) return;
-
-        const first = cards[0];
-
-        // gap real desde CSS (funciona con gap 24 desktop / 20 mobile)
-        const styles = getComputedStyle(track);
-        const gap = parseFloat(styles.columnGap || styles.gap || "0") || 0;
-
-        const cardW = first.getBoundingClientRect().width;
-        const unit = cardW + gap;
-
-        const isMobile = window.matchMedia("(max-width: 880px)").matches;
-        const step = isMobile ? 1 : 3;
-
-        // índice aproximado donde estás
-        const rawIndex = track.scrollLeft / unit;
-
-        // redondeo al “grupo” más cercano (0,3,6... en desktop / 0,1,2... en mobile)
-        const groupIndex = Math.round(rawIndex / step) * step;
-
-        const clamped = Math.max(0, Math.min(cards.length - 1, groupIndex));
-        track.scrollTo({ left: clamped * unit, behavior: "smooth" });
-    }
-
-    // ========== NAVEGACIÓN CON TECLADO (OPCIONAL) ==========
-    
-    window.addEventListener('keydown', (e) => {
-        // Solo si el carousel está en viewport
-        const rect = carousel.getBoundingClientRect();
-        if (rect.top > window.innerHeight || rect.bottom < 0) return;
-        
-        const cards = Array.from(track.children);
-        const cardWidth = cards[0]?.offsetWidth || 0;
-        const gap = 24; // Same as CSS
-        
-        if (e.key === 'ArrowLeft') {
-            track.scrollLeft -= cardWidth + gap;
-        } else if (e.key === 'ArrowRight') {
-            track.scrollLeft += cardWidth + gap;
-        }
-    });
+// Función helper para calcular ancho de card + gap
+function getCardWidth() {
+    const card = document.querySelector('.card')
+    const cardWidth = card.offsetWidth
+    const gap = 24
+    return cardWidth + gap
 }
+
+// Función que snapea a la card más cercana
+function snapToNearestCard() {
+    const cardPlusGap = getCardWidth()
+    const scrollPosition = track.scrollLeft
+    const cardIndex = Math.round(scrollPosition / cardPlusGap)
+    
+    track.scrollTo({
+        left: cardIndex * cardPlusGap,
+        behavior: 'smooth'
+    })
+}
+
+// ============================================
+// DRAG (solo mobile via CSS)
+// ============================================
+
+
+// Cuando presiona
+track.addEventListener('mousedown', (e) => {
+    // Solo permite drag si NO clickeaste un botón
+    if (e.target.closest('.btn-pill, .js-open-video')) return
+
+    isDragging = true
+    startX = e.pageX
+    scrollLeft = track.scrollLeft
+})
+
+// Cuando mueve
+track.addEventListener('mousemove', (e) => {
+    if (!isDragging) return
+    
+    const x = e.pageX                    // 👈 Posición actual del mouse en X
+    const walk = startX - x              // 👈 AQUÍ: cuánto se movió desde el inicio
+    track.scrollLeft = scrollLeft + walk // 👈 Aplica ese movimiento al scroll
+})
+
+// Cuando suelta
+track.addEventListener('mouseup', () => {
+    if (isDragging) {
+        snapToNearestCard()
+    }
+    isDragging = false
+})
+
+// Si el mouse sale del área
+track.addEventListener('mouseleave', () => {
+    if (isDragging) {
+        snapToNearestCard()
+    }
+    isDragging = false
+})
+
+// ============================================
+// NAVEGACIÓN CON FLECHAS
+// ============================================
+
+navLeft.addEventListener('click', () => {
+    track.scrollBy({
+        left: -getCardWidth(), // 👈 Usa la misma función
+        behavior: 'smooth'
+    })
+})
+
+navRight.addEventListener('click', () => {
+    track.scrollBy({
+        left: getCardWidth(), // 👈 Usa la misma función
+        behavior: 'smooth'
+    })
+})

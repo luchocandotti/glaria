@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=2.5">
+    <link rel="stylesheet" href="style.css?v=2.6">
     <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon-16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png">
@@ -659,8 +659,25 @@
 
                     </div>
                 </div>
+
+                <!-- Botonera Carousel -->
+                <nav id="nav-carousel">
+                    <button type="button" id="nav-left" aria-label="Anterior">
+                        <svg class="icon-carousel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+                        </svg>
+                    </button>
+
+                    <button type="button" id="nav-right" aria-label="Siguiente">
+                        <svg class="icon-carousel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                        </svg>
+                    </button>
+                </nav>
+
+                <!-- Texto explicativo en móvil -->
                 <p id="bajada-carousel">
-                <svg class="icon" viewBox="0 0 67 67" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <svg class="icon-carousel" viewBox="0 0 67 67" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <path d="M4.167,47.917c-0,1.143 0.94,2.083 2.083,2.083l49.138,0l-13.113,13.108c-0.391,0.391 -0.611,0.922 -0.611,1.475c0,1.145 0.942,2.086 2.086,2.086c0.553,0 1.084,-0.22 1.475,-0.611l16.667,-16.666c0.391,-0.391 0.612,-0.922 0.612,-1.475c-0,-0.554 -0.221,-1.085 -0.612,-1.475l-16.667,-16.667c-0.391,-0.391 -0.922,-0.611 -1.475,-0.611c-1.144,0 -2.086,0.942 -2.086,2.086c0,0.553 0.22,1.084 0.611,1.475l13.113,13.108l-49.138,0c-1.143,0 -2.083,0.941 -2.083,2.084m58.333,-29.167c0,1.143 -0.94,2.083 -2.083,2.083l-49.138,0l13.113,13.109c0.391,0.391 0.611,0.922 0.611,1.475c-0,1.144 -0.942,2.086 -2.086,2.086c-0.553,-0 -1.084,-0.22 -1.475,-0.611l-16.667,-16.667c-0.392,-0.391 -0.612,-0.922 -0.612,-1.475c-0,-0.553 0.22,-1.084 0.612,-1.475l16.667,-16.667c0.391,-0.391 0.922,-0.611 1.475,-0.611c1.144,0 2.086,0.942 2.086,2.086c-0,0.553 -0.22,1.084 -0.611,1.475l-13.113,13.109l49.138,-0c1.143,-0 2.083,0.94 2.083,2.083"/>
                 </svg>
                 Deslizá para ver más testimonios
@@ -836,6 +853,6 @@
             <li><a href="#">Contacto</a></li>
         </ul>
     </nav>
-<script type="module" src="script.js?v=2.6"></script>
+<script type="module" src="script.js?v=2.7"></script>
 </body>
 </html>

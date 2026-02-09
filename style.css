@@ -640,20 +640,12 @@ p {
 
 /* ============================================
    CAROUSEL LIMPIO - GRID + SCROLL-SNAP
-   ============================================ */
+============================================ */
 
 .carousel {
     position: relative;
     width: 100%;
     overflow: hidden;
-    cursor: grab;
-    touch-action: pan-y;
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-.carousel:active {
-    cursor: grabbing;
 }
 
 /* TRACK - Grid responsivo */
@@ -669,7 +661,7 @@ p {
     
     /* Comportamiento suave */
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch; /* Smooth scroll en iOS */
+    -webkit-overflow-scrolling: touch;
     
     /* Oculta scrollbar */
     scrollbar-width: none;
@@ -697,9 +689,8 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0; /* Importante: evita que se compriman */
+    flex-shrink: 0;
     
-    /* Snap point en el inicio de cada card */
     scroll-snap-align: start;
 }
 
@@ -733,9 +724,43 @@ p {
     opacity: 1;
 }
 
-.carousel .icon {
-    width: 16px;
-    height: 16px;
+
+/* Nav Carousel */
+#nav-carousel {
+    display: flex;
+    justify-content: space-between;
+}
+
+#nav-carousel button {
+    border: none;
+    cursor: pointer;
+    background-color: transparent; /* 👈 Cambié "none" por "transparent" */
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+
+    /* Centrado del SVG */
+    display: flex; /* 👈 Activa flexbox */
+    align-items: center; /* 👈 Centra verticalmente */
+    justify-content: center; /* 👈 Centra horizontalmente */
+    
+    /* Opcional: área clickeable más grande */
+    padding: 20px 20px 10px 20px;
+}
+
+.icon-carousel {
+    width: 24px;
+    height: 24px;
+    display: block; /* 👈 Evita espacios extra */
+}
+
+.icon-carousel path {
+    fill: var(--color-orange);
+    transition: fill 200ms ease;
+}
+
+.icon-carousel:hover path {
+    fill: var(--color-text);
 }
 
 /* Bajada del carousel */
@@ -745,15 +770,15 @@ p {
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-orange);
+    text-align: center;
+    display: none;
 }
 
-#bajada-carousel .icon {
+#bajada-carousel .icon-carousel {
+    width: 16px;
+    height: 16px;
     margin-right: 5px;
-    transform: translateY(3px);
-}
-
-#bajada-carousel .icon path {
-    fill: var(--color-orange);
+    transform: translateY(3px); /* alineamiento óptico */
 }
 
 
@@ -779,7 +804,8 @@ p {
         width: 100%;
         height: auto;
     }
-    /* estado abierto */
+
+    /* ACORDEON ============================================ */
     .acordeon .item.active .container {
         height: auto;
         overflow: visible;
@@ -798,13 +824,23 @@ p {
     #top > section:last-of-type {
         padding-bottom: 80px;
     }
-    /* CAROUSEL */
+
+    /* CAROUSEL ============================================ */
+    .carousel {
+        cursor: grab;
+        touch-action: pan-y;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    .carousel:active {
+        cursor: grabbing;
+    }
+
     .track {
         /* Móvil: 1 card por vez que ocupa todo el ancho */
         scroll-snap-type: x mandatory;
         grid-auto-columns: 100%;
         gap: 20px;
-        
         scroll-padding: 0; /* Importante para móvil */
     }
     
@@ -813,9 +849,13 @@ p {
         width: 100%;
         scroll-snap-align: center;
     }
+
+    #nav-carousel {
+        display: none;
+    }
     
     #bajada-carousel {
-        text-align: center;
+        display: block;
     }
 }
 
