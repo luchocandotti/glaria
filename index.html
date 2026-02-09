@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=2.7">
+    <link rel="stylesheet" href="style.css?v=2.8">
     <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon-16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png">
@@ -44,7 +44,8 @@
                 loop
                 pause
                 playsinline
-                preload="auto">
+                preload="auto"
+                poster="./video/introloop_poster.webp">
                 <source src="./video/introloop.mp4?v=1.2" type="video/mp4">
             </video>
 
@@ -92,17 +93,7 @@
                         <p>
                             Trabajo con un enfoque centrado en la seguridad, la confianza y la escucha de cada deseo. Estoy convencido de que una cirugía estética puede <strong>transformar no solo el cuerpo, sino también la confianza</strong> de quien la elige.
                         </p>
-                        <p>
-                            He compartido mi visión sobre cirugía plástica en diversos medios, incluyendo entrevistas con 
-                            <a href="#" class="js-open-video"
-                                data-video="https://lcandotti.com/glaria/video_CARMEN.mp4"
-                                data-poster="./video/video_CARMEN_poster.webp">Carmen Barbieri</a>
-                                 y 
-                            <a href="#" class="js-open-video"
-                                data-video="https://lcandotti.com/glaria/video_YUYITO.mp4"
-                                data-poster="./video/video_YUYITO_poster.webp">Yuyito González</a>
-                                 donde hablo sobre los mitos y verdades de los procedimientos estéticos.
-                        </p>
+                        
                     </div>
 
                     <div class="box">
@@ -662,13 +653,13 @@
 
                 <!-- Botonera Carousel -->
                 <nav id="nav-carousel">
-                    <button type="button" id="nav-left" aria-label="Anterior">
+                    <button type="button" class="nav-left inactive" aria-label="Anterior">
                         <svg class="icon-carousel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
                         </svg>
                     </button>
 
-                    <button type="button" id="nav-right" aria-label="Siguiente">
+                    <button type="button" class="nav-right" aria-label="Siguiente">
                         <svg class="icon-carousel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
                         </svg>
@@ -853,6 +844,6 @@
             <li><a href="#">Contacto</a></li>
         </ul>
     </nav>
-<script type="module" src="script.js?v=2.7"></script>
+<script type="module" src="script.js?v=2.8"></script>
 </body>
 </html>

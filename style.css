@@ -4,6 +4,7 @@
     --color-change: #31C4CF;
     --color-text: #d2d2d2;
     --color-orange: #CF7132;
+    --color-inactive: #555;
     --radius: 5px;
 }
 
@@ -451,6 +452,10 @@ p {
     background-color: #222;
 }
 
+#testimonios {
+    padding-bottom: 36px; /* ajuste óptico por botones nav carousel */
+}
+
 /* ============================================
            ESTRUCTURA BASE DEL ACORDEÓN
 ============================================ */
@@ -646,6 +651,11 @@ p {
     position: relative;
     width: 100%;
     overflow: hidden;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 /* TRACK - Grid responsivo */
@@ -674,6 +684,9 @@ p {
 
     /* Fuerza el ancho correcto */
     width: 100%;
+
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .track::-webkit-scrollbar {
@@ -692,6 +705,9 @@ p {
     flex-shrink: 0;
     
     scroll-snap-align: start;
+
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* Evita drag de imágenes */
@@ -707,6 +723,9 @@ p {
     display: block;
     pointer-events: none;
     -webkit-user-drag: none;
+
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* Botón flotante centrado */
@@ -718,10 +737,19 @@ p {
     z-index: 2;
     pointer-events: auto;
     line-height: 1.5;
+
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .card .btn-pill {
     opacity: 1;
+}
+
+.card .js-open-video .icon {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-select: none;
 }
 
 
@@ -735,7 +763,6 @@ p {
     border: none;
     cursor: pointer;
     background-color: transparent; /* 👈 Cambié "none" por "transparent" */
-    padding: 0;
     appearance: none;
     -webkit-appearance: none;
 
@@ -746,22 +773,41 @@ p {
     
     /* Opcional: área clickeable más grande */
     padding: 20px 20px 10px 20px;
+
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 #nav-carousel .icon-carousel {
     width: 24px;
     height: 24px;
     display: block; /* 👈 Evita espacios extra */
+
+    pointer-events: none;
 }
+
 
 .icon-carousel path {
     fill: var(--color-orange);
     transition: fill 200ms ease;
 }
 
-#nav-carousel .icon-carousel:hover path {
+.nav-left:hover .icon-carousel path {
     fill: var(--color-text);
 }
+
+.nav-right:hover .icon-carousel path {
+    fill: var(--color-text);
+}
+
+.inactive {
+    pointer-events: none;
+}
+
+.inactive .icon-carousel path {
+    fill: var(--color-inactive);
+}
+
 
 /* Bajada del carousel */
 #bajada-carousel {

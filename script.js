@@ -344,8 +344,6 @@ window.addEventListener('resize', updateActiveHeight)
 // ============================================
 const carousel = document.querySelector('.carousel')
 const track = document.querySelector('.track')
-const navLeft = document.getElementById('nav-left');
-const navRight = document.getElementById('nav-right');
 
 let isDragging = false
 let startX
@@ -414,17 +412,42 @@ track.addEventListener('mouseleave', () => {
 // ============================================
 // NAVEGACIÓN CON FLECHAS
 // ============================================
+const navLeft = document.querySelector('.nav-left')
+const navRight = document.querySelector('.nav-right')
+const totalCards = document.querySelectorAll('.card').length - 2
+
+let cardPoint = 1
 
 navLeft.addEventListener('click', () => {
     track.scrollBy({
-        left: -getCardWidth(), // 👈 Usa la misma función
+        left: -getCardWidth(),
         behavior: 'smooth'
     })
+    if (cardPoint > 1) {
+        cardPoint--
+    } 
+    resetNav()
 })
 
 navRight.addEventListener('click', () => {
     track.scrollBy({
-        left: getCardWidth(), // 👈 Usa la misma función
+        left: getCardWidth(),
         behavior: 'smooth'
     })
+    if (cardPoint < totalCards) {
+        cardPoint++
+    }
+    resetNav()
 })
+
+function resetNav() {
+    if (cardPoint > 1 && cardPoint < totalCards) {
+        navLeft.classList.remove('inactive')
+        navRight.classList.remove('inactive')
+    } else if (cardPoint == 1) {
+        navLeft.classList.add('inactive')
+    } else if (cardPoint == totalCards) {
+        navRight.classList.add('inactive')
+    }
+    console.log(cardPoint)
+}
