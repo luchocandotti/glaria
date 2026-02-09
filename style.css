@@ -748,7 +748,7 @@ p {
     padding: 20px 20px 10px 20px;
 }
 
-.icon-carousel {
+#nav-carousel .icon-carousel {
     width: 24px;
     height: 24px;
     display: block; /* 👈 Evita espacios extra */
@@ -759,7 +759,7 @@ p {
     transition: fill 200ms ease;
 }
 
-.icon-carousel:hover path {
+#nav-carousel .icon-carousel:hover path {
     fill: var(--color-text);
 }
 
