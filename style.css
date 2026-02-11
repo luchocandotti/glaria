@@ -5,6 +5,7 @@
     --color-text: #d2d2d2;
     --color-orange: #CF7132;
     --color-inactive: #555;
+    --color-line: #333;
     --radius: 5px;
 }
 
@@ -417,17 +418,6 @@ p {
     height: auto;
 }
 
-#sobre-mi a {
-    color: var(--color-change);
-    font-weight: 400;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    #sobre-mi a:hover {
-        color: var(--color-orange);
-    }
-}
-
 .box {
   width: 33%;
   height: auto;
@@ -442,15 +432,35 @@ p {
     margin-top: 20px;
 }
 
-#sobre-mi .box .btn-pill {
-  padding: 12px 32px;
-  text-decoration: none;
+#sobre-mi .btn-pill,
+#medios .btn-pill {
   opacity: 1;
 }
 
-#cirugia-mamas, #testimonios {
+#medios, #contorno-corporal, #faqs {
     background-color: #222;
 }
+
+#medios .box2{
+  border: 1px solid var(--color-line);
+  padding: 30px;
+}
+
+#medios h3 {
+    margin: 0;
+    text-transform: uppercase;
+    padding-bottom: 16px;
+    font-weight: 400;
+    color: #777;
+    transition: color 0.6s ease, padding-left 0.25s ease;
+}
+
+.btn-cian{
+  border: 1px solid var(--color-line);
+  background-color: transparent;
+  color: var(--color-inactive);
+}
+
 
 #testimonios {
     padding-bottom: 36px; /* ajuste óptico por botones nav carousel */
