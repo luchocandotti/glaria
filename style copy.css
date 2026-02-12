@@ -453,10 +453,6 @@ p {
     padding-bottom: 36px; /* ajuste óptico por botones nav carousel */
 }
 
-#testimonios h2{
-    color: var(--color-orange)
-}
-
 /* ============================================
            ESTRUCTURA BASE DEL ACORDEÓN
 ============================================ */
@@ -638,9 +634,12 @@ p {
     position: relative;
     width: 100%;
     overflow: hidden;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
-.carousel, .carousel * { user-select: none; -webkit-user-select: none; }
-.carousel img:not(.icon), .carousel .icon { -webkit-user-drag: none; }
 
 /* TRACK - Grid responsivo */
 .track {
@@ -662,9 +661,15 @@ p {
     -ms-overflow-style: none;
     
     scroll-snap-type: x proximity;
+    
+    /* Padding para que las cards no toquen los bordes */
+    padding: 0 2px;
 
     /* Fuerza el ancho correcto */
     width: 100%;
+
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .track::-webkit-scrollbar {
@@ -681,9 +686,11 @@ p {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    
     scroll-snap-align: start;
-    border: 1px solid var(--color-line);
-    transition: border-color 0.7s ease;
+
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* Evita drag de imágenes */
@@ -699,6 +706,9 @@ p {
     display: block;
     pointer-events: none;
     -webkit-user-drag: none;
+
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* Botón flotante centrado */
@@ -710,19 +720,19 @@ p {
     z-index: 2;
     pointer-events: auto;
     line-height: 1.5;
+
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .card .btn-pill {
     opacity: 1;
 }
 
-.icon-card {
-    width: 16px;
-    height: 16px;
-}
-
-.icon-card path {
-    fill: #000;
+.card .js-open-video .icon {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-select: none;
 }
 
 
@@ -746,6 +756,9 @@ p {
     
     /* Opcional: área clickeable más grande */
     padding: 20px 20px 10px 20px;
+
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 #nav-carousel .icon-carousel {
@@ -790,7 +803,7 @@ p {
 }
 
 /* ============================================
-    HOVERS solo en DESK
+    HOVERS
 ============================================ */
 
 @media (hover: hover) and (pointer: fine) {
@@ -817,16 +830,6 @@ p {
     }
     .acordeon .item:not(.active) h3:hover {
         color: #999;
-    }
-    .card:hover {
-        border-color: var(--color-orange);
-    }
-    .card .btn-pill:hover{
-        background-color: var(--color-orange);
-        color: var(--color-text);
-    }
-    .card .btn-pill:hover .icon-card path{
-        fill: var(--color-text);
     }
     .nav-left:hover .icon-carousel path {
         fill: var(--color-text);
@@ -890,6 +893,8 @@ p {
     .carousel {
         cursor: grab;
         touch-action: pan-y;
+        user-select: none;
+        -webkit-user-select: none;
     }
     .carousel:active {
         cursor: grabbing;
@@ -899,7 +904,7 @@ p {
         /* Móvil: 1 card por vez que ocupa todo el ancho */
         scroll-snap-type: x mandatory;
         grid-auto-columns: 100%;
-        gap: 0;
+        gap: 20px;
         scroll-padding: 0; /* Importante para móvil */
     }
     
