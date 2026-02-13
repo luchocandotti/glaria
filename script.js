@@ -200,6 +200,11 @@ verVideo.forEach(btn => {
             guardarProgreso()
         }
 
+        console.log("BTN:", btn);
+        console.log("data-poster raw:", btn.getAttribute("data-poster"));
+        console.log("dataset.poster:", btn.dataset.poster);
+        console.log("poster resolved:", new URL(btn.dataset.poster, location.href).href);
+
         const src = btn.dataset.video
         if (!src) return
         const poster = btn.dataset.poster
