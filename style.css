@@ -365,6 +365,7 @@ p {
 
 #sociedades .container {
     align-items: center;
+    gap: 10px;
 }
 
 #sociedades .container > a:last-child img {
