@@ -99,17 +99,12 @@ let lastScrollY = window.scrollY
 const MIN_DELTA = 8
 
 const acordeon = document.querySelector('.acordeon')
-const testi = document.querySelector('.testi')
 
 window.addEventListener('scroll', () => {
     const rect = acordeon.getBoundingClientRect()
-    const rect2 = testi.getBoundingClientRect()
 
     // si .acordeón está en viewport, no tocar el header
     if (rect.top < window.innerHeight && rect.bottom > 0) return
-
-    // si .testi está en viewport, no tocar el header
-    if (rect2.top < window.innerHeight && rect2.bottom > 0) return
 
     const currentScrollY = window.scrollY
     const delta = currentScrollY - lastScrollY
@@ -127,9 +122,16 @@ window.addEventListener('scroll', () => {
 
 // WHATSAPP FLOTANTE ===================================================//
 const SHOW_AT = 100
+const HIDE_NEAR_BOTTOM = 100
 
 window.addEventListener('scroll', () => {
-    if (window.scrollY > SHOW_AT) {
+    const y = window.scrollY
+    const vh = window.innerHeight
+    const docH = document.documentElement.scrollHeight
+
+    const nearBottom = (y + vh) >= (docH - HIDE_NEAR_BOTTOM)
+    
+    if (y > SHOW_AT && !nearBottom) {
         wpBtn.classList.add('is-visible')
     } else {
         wpBtn.classList.remove('is-visible')

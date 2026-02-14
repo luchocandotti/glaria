@@ -346,10 +346,38 @@ p {
     max-width: 1080px;
     margin: 0 auto;
 }
+
 .seccion .container {
     display: flex;
     align-items: flex-start;
+    justify-content: space-between;
     gap: 30px;
+}
+
+#sociedades img {
+    height: 30px;
+    width: auto;
+    display: block;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+#sociedades .container {
+    align-items: center;
+}
+
+#sociedades .container > a:last-child img {
+  /* estilos de la img AMA solamente */
+    height: 38px;
+}
+
+#sociedades a {
+    display: block;
+}
+
+#sociedades a:hover img {
+    opacity: 1;
 }
 
 .seccion.izquierda .wrapper{
@@ -857,6 +885,9 @@ p {
     .seccion .container {
         flex-direction: column;
     }
+    #sociedades .container {
+        flex-direction: row;
+    }
     .box, .box2 {
         width: 100%;
         height: auto;
@@ -882,9 +913,9 @@ p {
     .btn-wp.is-visible{
         transform: translateX(-50%) translateY(0);
     }
-    #top > section:last-of-type {
+    /* #top > section:last-of-type {
         padding-bottom: 80px;
-    }
+    } */
 
     /* CAROUSEL ============================================ */
     .carousel {
