@@ -918,9 +918,6 @@ p {
         padding-bottom: 80px;
     } */
 
-}
-
-@media(max-width: 620px) {
     /* CAROUSEL ============================================ */
     .carousel {
         cursor: grab;
@@ -929,7 +926,7 @@ p {
     .carousel:active {
         cursor: grabbing;
     }
-    
+
     .track {
         /* Móvil: 1 card por vez que ocupa todo el ancho */
         scroll-snap-type: x mandatory;
@@ -943,7 +940,7 @@ p {
         width: 100%;
         scroll-snap-align: center;
     }
-    
+
     #nav-carousel {
         display: none;
     }
