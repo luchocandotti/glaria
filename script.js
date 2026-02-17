@@ -364,9 +364,8 @@ let scrollLeft
 // Función helper para calcular ancho de card + gap
 function getCardWidth() {
     const card = document.querySelector('.card')
-    const cardWidth = card.offsetWidth
-    const gap = 24
-    return cardWidth + gap
+    const cardWidth = Math.round(card.getBoundingClientRect().width) + 24
+    return cardWidth
 }
 
 // Función que snapea a la card más cercana
@@ -431,10 +430,12 @@ const totalCards = document.querySelectorAll('.card').length - 2
 let cardPoint = 1
 
 navLeft.addEventListener('click', () => {
-    track.scrollBy({
-        left: -getCardWidth(),
-        behavior: 'smooth'
-    })
+    setTimeout(() => {
+        track.scrollBy({
+            left: -getCardWidth(),
+            behavior: 'smooth'
+        })
+    }, 300)
     if (cardPoint > 1) {
         cardPoint--
     } 
@@ -442,10 +443,12 @@ navLeft.addEventListener('click', () => {
 })
 
 navRight.addEventListener('click', () => {
-    track.scrollBy({
-        left: getCardWidth(),
-        behavior: 'smooth'
-    })
+    setTimeout(() => {
+        track.scrollBy({
+            left: getCardWidth(),
+            behavior: 'smooth'
+        })
+    }, 300)
     if (cardPoint < totalCards) {
         cardPoint++
     }
