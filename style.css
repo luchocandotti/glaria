@@ -434,7 +434,7 @@ p {
   opacity: 1;
 }
 
-#cirugia-mamas, #resultados, #medios, #sociedades {
+#cirugia-mamas, #resultados, #testimonios, #faqs {
     background-color: var(--color-back);
 }
 
@@ -826,6 +826,42 @@ p {
     transform: translateY(3px); /* alineamiento óptico */
 }
 
+#contacto {
+    background-color: var(--color-cian);
+}
+
+#contacto .container{
+    display: flex;
+    align-items: flex-start;
+}
+
+#contacto h2 {
+    display: none;
+}
+
+#contacto .box2.redes{
+    margin-left: auto;      /* <- la manda a la derecha */
+}
+
+#contacto .box2 li,
+#contacto .box2 a {
+    color: #000;
+    font-weight: 400;
+    list-style: none;
+}
+
+#contacto .box2.redes ul{
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+}
+
+#contacto .box2.redes li {
+    display: block;         /* ya no necesitás inline-block */
+    margin-left: 0;
+}
+
+
 /* ============================================
     HOVERS solo en DESK
 ============================================ */
@@ -895,7 +931,8 @@ p {
     .seccion .container {
         flex-direction: column;
     }
-    #sociedades .container {
+    #sociedades .container,
+    #contacto .container {
         flex-direction: row;
     }
     .box, .box2 {
