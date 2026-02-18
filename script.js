@@ -23,7 +23,7 @@ loaderPercent.style.cssText = `
     font-family: 'Poppins', sans-serif;
     font-size: 12px;
     font-weight: 300;
-    color: #777;
+    color: #555;
     margin-left: 10px;
     letter-spacing: 0.05em;
     line-height: 30px;       /* igual que el alto del loader.svg */
@@ -35,6 +35,9 @@ function setPercent(n) {
     loaderPercent.textContent = Math.min(100, Math.round(n)) + '%'
 }
 
+// En scope global para que preloadImages pueda leerlo
+let fakeProgress = 0
+
 function preloadImages(urls) {
     let loaded = 0
     const total = urls.length
@@ -44,12 +47,12 @@ function preloadImages(urls) {
             const img = new Image()
             img.onload = () => {
                 loaded++
-                setPercent((loaded / total) * 100)
+                setPercent(Math.max(fakeProgress, (loaded / total) * 100))
                 resolve()
             }
             img.onerror = () => {
                 loaded++
-                setPercent((loaded / total) * 100)
+                setPercent(Math.max(fakeProgress, (loaded / total) * 100))
                 resolve() // resolve igual para no bloquear
             }
             img.src = url
@@ -88,6 +91,16 @@ function hideTapa(delay = 0) {
 // LOADER ===================================================//
 window.addEventListener('load', async () => {
     try {
+        // Progreso falso del 0 al 30% para que no quede en 0 al inicio
+        const fakeTimer = setInterval(() => {
+            if (fakeProgress < 30) {
+                fakeProgress++
+                setPercent(fakeProgress)
+            } else {
+                clearInterval(fakeTimer)
+            }
+        }, 30)
+
         const fontsReady = (document.fonts?.ready ?? Promise.resolve()).then(() => {
             setPercent(100)
         })
