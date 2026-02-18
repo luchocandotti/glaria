@@ -434,11 +434,19 @@ p {
   opacity: 1;
 }
 
-#cirugia-mamas, #testimonios, #faqs {
+#cirugia-mamas, #resultados, #medios, #sociedades {
     background-color: var(--color-back);
 }
 
-#medios .box2{
+#resultados img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--color-line);
+    margin-bottom: 20px;
+}
+
+#medios .box2,
+#resultados .box2 {
   border: 1px solid var(--color-line);
   padding: 30px;
   transition: border-color 0.7s ease;
