@@ -875,7 +875,8 @@ p {
         border-color: var(--color-cian);
         color: var(--color-cian);
     }
-    #medios .box2:hover {
+    #medios .box2:hover,
+    #resultados .box2:hover {
         border-color: var(--color-cian);
     }
 }
