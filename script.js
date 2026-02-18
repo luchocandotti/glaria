@@ -23,7 +23,7 @@ loaderPercent.style.cssText = `
     font-family: 'Poppins', sans-serif;
     font-size: 12px;
     font-weight: 300;
-    color: #555;
+    color: #777;
     margin-left: 10px;
     letter-spacing: 0.05em;
     line-height: 30px;       /* igual que el alto del loader.svg */
@@ -44,13 +44,12 @@ function preloadImages(urls) {
             const img = new Image()
             img.onload = () => {
                 loaded++
-                // Las imágenes representan el 80% del progreso; la fuente el 20%
-                setPercent((loaded / total) * 80)
+                setPercent((loaded / total) * 100)
                 resolve()
             }
             img.onerror = () => {
                 loaded++
-                setPercent((loaded / total) * 80)
+                setPercent((loaded / total) * 100)
                 resolve() // resolve igual para no bloquear
             }
             img.src = url
