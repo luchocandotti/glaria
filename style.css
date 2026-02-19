@@ -415,6 +415,15 @@ p {
     height: auto;
 }
 
+#sobre-mi .mostrar,
+.mostrar.txt-base {
+    display: nlock;
+}
+
+#sobre-mi details {
+    display: none;
+}
+
 .box {
   width: 33%;
   height: auto;
@@ -964,6 +973,16 @@ p {
     #sobre-mi img {
         width: 100%;
         height: auto;
+    }
+
+    #sobre-mi .mostrar,
+    .mostrar.txt-base {
+        display: none;
+    }
+
+    #sobre-mi details {
+        display: block;
+        margin-bottom: 30px;
     }
 
     /* ACORDEON ============================================ */
