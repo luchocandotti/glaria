@@ -8,7 +8,6 @@ const video = document.getElementById('video-home')
 const videoFondo = document.getElementById('video-fondo')
 const overlay = document.querySelector('.overlay')
 const header = document.querySelector('header')
-const wpBtn = document.querySelector('.btn-wp')
 
 document.addEventListener("touchstart", () => {}, { passive: true });
 
@@ -160,34 +159,6 @@ window.addEventListener('scroll', () => {
     }
 
     lastScrollY = currentScrollY
-})
-//========================//
-
-
-// WHATSAPP FLOTANTE ===================================================//
-const SHOW_AT = 100
-const HIDE_NEAR_BOTTOM = 100
-
-window.addEventListener('scroll', () => {
-    const y = window.scrollY
-    const vh = window.innerHeight
-    const docH = document.documentElement.scrollHeight
-
-    const nearBottom = (y + vh) >= (docH - HIDE_NEAR_BOTTOM)
-    
-    if (y > SHOW_AT && !nearBottom) {
-        wpBtn.classList.add('is-visible')
-    } else {
-        wpBtn.classList.remove('is-visible')
-    }
-}, { passive: true })
-
-wpBtn.addEventListener('click', () => {
-  const phone = '5491127473093' // +54 9 11 2747-3093
-  const text = encodeURIComponent('Hola Nati, estuve viendo web del Dr. Glaria y tengo una consulta:')
-  const url = `https://wa.me/${phone}?text=${text}`
-
-  window.open(url, '_blank')
 })
 //========================//
 
@@ -510,3 +481,44 @@ function resetNav() {
     }
     console.log(cardPoint)
 }
+
+// OFUSCACIÓN DEL NÚMERO ===================================================//
+// Número dividido y al revés para confundir bots
+const partes = ['3093', '2747', '11', '549']
+const numeroCompleto = partes.reverse().join('')
+const wpText = encodeURIComponent('Hola Nati, estuve viendo web del Dr. Glaria y tengo una consulta:')
+
+// Configurar el enlace visible
+const linkWp = document.getElementById('link-wp');
+const numeroVisible = document.getElementById('numero-visible')
+
+const getWhatsAppURL = () => `https://wa.me/${numeroCompleto}?text=${wpText}`
+
+linkWp.href = getWhatsAppURL()
+numeroVisible.textContent = '+54 11 2747 3093'
+
+// WHATSAPP FLOTANTE ===================================================//
+const wpBtn = document.querySelector('.btn-wp')
+const SHOW_AT = 100
+const HIDE_NEAR_BOTTOM = 100
+
+window.addEventListener('scroll', () => {
+    const y = window.scrollY
+    const vh = window.innerHeight
+    const docH = document.documentElement.scrollHeight
+
+    const nearBottom = (y + vh) >= (docH - HIDE_NEAR_BOTTOM)
+    
+    if (y > SHOW_AT && !nearBottom) {
+        wpBtn.classList.add('is-visible')
+    } else {
+        wpBtn.classList.remove('is-visible')
+    }
+}, { passive: true })
+
+wpBtn.addEventListener('click', () => {
+  const url = getWhatsAppURL()
+
+  window.open(url, '_blank')
+})
+//========================//

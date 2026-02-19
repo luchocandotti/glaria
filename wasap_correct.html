@@ -1,0 +1,45 @@
+<a href="https://wa.me/541127473093"
+target="_blank"
+rel="noopener noreferrer"
+aria-label="Teléfono de Dr. Glaria"
+title="Teléfono de Dr. Glaria">
+    +54 11 2747 3093
+</a>
+
+<!-- WAHSTAPP =================================================== -->
+    <button type="button" class="btn-pill btn-wp">
+        <img src="./img/whatsapp.svg" alt="" class="icon">
+        ¡Hablemos!
+    </button>
+<!-- ======================== -->
+
+<script>
+// WHATSAPP FLOTANTE ===================================================//
+const wpBtn = document.querySelector('.btn-wp')
+const wpLink = document.querySelector('.link-wp')
+const SHOW_AT = 100
+const HIDE_NEAR_BOTTOM = 100
+
+window.addEventListener('scroll', () => {
+    const y = window.scrollY
+    const vh = window.innerHeight
+    const docH = document.documentElement.scrollHeight
+
+    const nearBottom = (y + vh) >= (docH - HIDE_NEAR_BOTTOM)
+    
+    if (y > SHOW_AT && !nearBottom) {
+        wpBtn.classList.add('is-visible')
+    } else {
+        wpBtn.classList.remove('is-visible')
+    }
+}, { passive: true })
+
+wpBtn.addEventListener('click', () => {
+  const phone = '5491127473093' // +54 9 11 2747-3093
+  const text = encodeURIComponent('Hola Nati, estuve viendo web del Dr. Glaria y tengo una consulta:')
+  const url = `https://wa.me/${phone}?text=${text}`
+
+  window.open(url, '_blank')
+})
+//========================//
+</script>

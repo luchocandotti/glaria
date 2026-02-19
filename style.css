@@ -417,7 +417,7 @@ p {
 
 #sobre-mi .mostrar,
 .mostrar.txt-base {
-    display: nlock;
+    display: block;
 }
 
 #sobre-mi details {
@@ -841,6 +841,9 @@ p {
     transform: translateY(3px); /* alineamiento óptico */
 }
 
+/* ============================================
+   CONTACTO
+============================================ */
 #contacto {
     background-color: var(--color-cian);
 }
@@ -859,7 +862,8 @@ p {
 }
 
 #contacto .box2 li, 
-#contacto .box2 a {
+#contacto .box2 a,
+#contacto .box2 span {
     color: #000;
     font-weight: 400;
     list-style: none;
