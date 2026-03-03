@@ -13,76 +13,51 @@ document.addEventListener("touchstart", () => {}, { passive: true });
 
 //LOADER ===================================================//
 const tapa = document.querySelector('.tapa')
-
-// Elemento del porcentaje — se inyecta junto al loader.svg
-const loaderPercent = document.createElement('span')
-loaderPercent.id = 'loader-percent'
-loaderPercent.textContent = '0%'
-loaderPercent.style.cssText = `
-    font-family: 'Poppins', sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-    color: #555;
-    margin-left: 10px;
-    letter-spacing: 0.05em;
-    line-height: 30px;       /* igual que el alto del loader.svg */
-    vertical-align: middle;
-`
-tapa.querySelector('.loader').insertAdjacentElement('afterend', loaderPercent)
-
-function setPercent(n) {
-    loaderPercent.textContent = Math.min(100, Math.round(n)) + '%'
-}
-
-// En scope global para que preloadImages pueda leerlo
-let fakeProgress = 0
-
 function preloadImages(urls) {
-    let loaded = 0
-    const total = urls.length
-
-    return Promise.all(
-        urls.map((url) => new Promise((resolve, reject) => {
-            const img = new Image()
-            img.onload = () => {
-                loaded++
-                setPercent(Math.max(fakeProgress, (loaded / total) * 100))
-                resolve()
-            }
-            img.onerror = () => {
-                loaded++
-                setPercent(Math.max(fakeProgress, (loaded / total) * 100))
-                resolve() // resolve igual para no bloquear
-            }
-            img.src = url
-        }))
-    )
+  return Promise.all(
+    urls.map((url) => new Promise((resolve, reject) => {
+      const img = new Image()
+      img.onload = resolve
+      img.onerror = reject
+      img.src = url
+    }))
+  )
 }
 
 function preloadVideo() {
     return new Promise((resolve, reject) => {
+        // Si el video ya está cargado
         if (videoFondo.readyState >= 3) {
             resolve();
             return;
         }
-        videoFondo.addEventListener('canplaythrough', () => { resolve() }, { once: true })
-        videoFondo.addEventListener('error', () => { reject(new Error('Error al cargar el video')) }, { once: true })
+        
+        // Cuando el video puede reproducirse
+        videoFondo.addEventListener('canplaythrough', () => {
+            resolve();
+        }, { once: true })
+        
+        // Si hay error
+        videoFondo.addEventListener('error', () => {
+            reject(new Error('Error al cargar el video'))
+        }, { once: true })
+
+        // Forzar la carga del video
         videoFondo.load()
     })
 }
 //========================//
-
 
 // TAPA DISPLAY NONE ===================================================//
 function hideTapa(delay = 0) {
     setTimeout(() => {
         tapa.classList.add('loaded')
         document.body.classList.remove('no-scroll')
-        setTimeout(() => {
-            tapa.style.display = 'none'
-            text.classList.add('visible')
-        }, 2000)
-    }, delay)
+    setTimeout(() => {
+        tapa.style.display = 'none'
+        text.classList.add('visible') // Inicia justo al ocultar la tapa
+    }, 2000)
+  }, delay)
 }
 //========================//
 
@@ -90,47 +65,38 @@ function hideTapa(delay = 0) {
 // LOADER ===================================================//
 window.addEventListener('load', async () => {
     try {
-        // Progreso falso del 0 al 30% para que no quede en 0 al inicio
-        const fakeTimer = setInterval(() => {
-            if (fakeProgress < 30) {
-                fakeProgress++
-                setPercent(fakeProgress)
-            } else {
-                clearInterval(fakeTimer)
-            }
-        }, 30)
-
-        const fontsReady = (document.fonts?.ready ?? Promise.resolve()).then(() => {
-            setPercent(100)
-        })
-
+        // Esperar a que el video esté listo
         await Promise.all([
-            preloadImages([
-                './img/logo.svg',
-                './img/menu.svg',
-                './img/close.svg',
-                './img/close.png',
-                './img/glaria_perfil.jpg',
-                './img/play-circle.svg',
-                './img/asoc_01.svg',
-                './img/asoc_02.svg',
-                './img/asoc_03.svg',
-                './img/asoc_04.svg',
-                './img/instagram.svg',
-                './img/youtube.svg',
-                './img/tiktok.svg',
-                './img/google.svg',
-                './img/whatsapp.svg'
-            ]),
-            fontsReady
+        // preloadVideoSafe(),
+        preloadImages([
+            './img/logo.svg',
+            './img/menu.svg',
+            './img/close.svg',
+            './img/close.png',
+            './img/glaria_perfil.jpg',
+            './img/play-circle.svg',
+            './img/asoc_01.svg',
+            './img/asoc_02.svg',
+            './img/asoc_03.svg',
+            './img/asoc_04.svg',
+            './img/instagram.svg',
+            './img/youtube.svg',
+            './img/tiktok.svg',
+            './img/google.svg',
+            './img/whatsapp.svg'
+        ]),
+        (document.fonts?.ready ?? Promise.resolve()) // por la Poppins de Google Fonts
         ])
-
-        videoFondo.play().catch(() => {})
+        //videoFondo.pause()
+        videoFondo.play().catch(() => { })
+        
+        /// Ocultar el preloader
         hideTapa()
-
+        
     } catch (error) {
         console.error('Error en la carga:', error)
-        alert('Error al cargar las imágenes')
+        // Incluso si hay error, ocultamos el preloader
+        alert('Error al cargar las  imágenes')
         hideTapa()
     }
 })
