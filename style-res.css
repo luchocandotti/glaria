@@ -159,6 +159,11 @@ header,
     margin: 0 auto;
 }
 
+.seccion .wrapper2 {
+    max-width: 860px;
+    margin: 0 auto;
+}
+
 .seccion h2 {
     padding-bottom: 20px;
     line-height: 1;
@@ -175,7 +180,8 @@ header,
     font-weight: 200;
 }
 
-.seccion.izquierda .wrapper{
+.seccion.izquierda .wrapper,
+.seccion.izquierda .wrapper2 {
   margin-left: 0;
   margin-right: auto;
 }
@@ -197,6 +203,11 @@ header,
 
 .item {
     transition: all 0.4s ease;
+}
+
+.prox {
+    font-weight: 300;
+    color: var(--color-cian);
 }
 
 /* Cuando hay un item activo, las columnas se redefinen */
