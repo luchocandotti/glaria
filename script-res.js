@@ -24,7 +24,7 @@ nav.forEach(a => {
 //========================//
 
 
-// agranda cuando esta en desktop
+// AGRANDA FOTO EN DESKTOP ===================================================//
 const items = document.querySelectorAll('#resultados .container .item')
 
 items.forEach(item => {
@@ -49,6 +49,29 @@ items.forEach(item => {
         }
     })
 })
+
+// NAVEGACIÓN CON FLECHAS DEL TECLADO ===================================================//
+document.addEventListener('keydown', (e) => {
+    if (window.innerWidth <= 1280) return
+
+    const activeItem = document.querySelector('#resultados .container .item.active')
+    if (!activeItem) return
+
+    const container = activeItem.closest('.container')
+    const allItems = Array.from(container.querySelectorAll('.item'))
+    const currentIndex = allItems.indexOf(activeItem)
+
+    let targetItem = null
+
+    if (e.key === 'ArrowRight' && currentIndex < allItems.length - 1) {
+        targetItem = allItems[currentIndex + 1]
+    } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+        targetItem = allItems[currentIndex - 1]
+    }
+
+    if (targetItem) targetItem.click()
+})
+//========================//
 
 //  limpiar el estilo inline cuando se redimensiona la ventana
 window.addEventListener('resize', () => {

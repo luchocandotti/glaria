@@ -411,12 +411,10 @@ const totalCards = document.querySelectorAll('.card').length - 2
 let cardPoint = 1
 
 navLeft.addEventListener('click', () => {
-    setTimeout(() => {
-        track.scrollBy({
-            left: -getCardWidth(),
-            behavior: 'smooth'
-        })
-    }, 300)
+    track.scrollBy({
+        left: -getCardWidth(),
+        behavior: 'smooth'
+    })
     if (cardPoint > 1) {
         cardPoint--
     } 
@@ -424,12 +422,10 @@ navLeft.addEventListener('click', () => {
 })
 
 navRight.addEventListener('click', () => {
-    setTimeout(() => {
-        track.scrollBy({
-            left: getCardWidth(),
-            behavior: 'smooth'
-        })
-    }, 300)
+    track.scrollBy({
+        left: getCardWidth(),
+        behavior: 'smooth'
+    })
     if (cardPoint < totalCards) {
         cardPoint++
     }
