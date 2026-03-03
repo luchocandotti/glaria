@@ -188,11 +188,6 @@ header,
     background-color: #222;
 }
 
-.seccion .wrapper {
-    max-width: 1280px;
-    margin: 0 auto;
-}
-
 .seccion .wrapper2 {
     max-width: 860px;
     margin: 0 auto;
@@ -276,9 +271,6 @@ header,
         border-color: var(--color-cian);
         color: var(--color-cian);
     }
-    #resultados img:hover {
-        border-color: var(--color-cian);
-    }
 }
 
 /* ============================================
@@ -286,8 +278,15 @@ header,
 ============================================ */
 
 @media(min-width: 1280px) {
+    .seccion .wrapper {
+        width: 100%;
+        margin: 0 auto;
+    }
     .item {
         cursor: pointer;
+    }
+    #resultados img:hover {
+        border-color: var(--color-cian);
     }
 }
 
