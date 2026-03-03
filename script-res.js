@@ -1,7 +1,57 @@
 const menuToggle = document.querySelector('.toggle')
 const page = document.querySelector('.page')
+const tapa = document.querySelector('.tapa')
 
-document.addEventListener("touchstart", () => {}, { passive: true });
+document.addEventListener("touchstart", () => { }, { passive: true });
+
+// LOADER ===================================================//
+function preloadImages(urls) {
+    return Promise.all(
+        urls.map((url) => new Promise((resolve) => {
+            const img = new Image()
+            img.onload = resolve
+            img.onerror = resolve // resolve igual para no bloquear si falla una imagen
+            img.src = url
+        }))
+    )
+}
+
+function hideTapa(delay = 0) {
+    setTimeout(() => {
+        tapa.classList.add('loaded')
+        setTimeout(() => {
+            tapa.style.display = 'none'
+        }, 2000)
+    }, delay)
+}
+
+window.addEventListener('load', async () => {
+    try {
+        await Promise.all([
+            preloadImages([
+                './img/logo.svg',
+                './img/menu.svg',
+                './img/close.svg',
+                './img/mamas/01/mamas_01_a.webp',
+                './img/mamas/01/mamas_01_b.webp',
+                './img/mamas/01/mamas_01_c.webp',
+                './img/mamas/01/mamas_01_d.webp',
+                './img/mamas/01/mamas_01_e.webp',
+                './img/mamas/01/mamas_01_f.webp',
+                './img/mamas/01/mamas_01_g.webp',
+                './img/mamas/01/mamas_01_h.webp',
+                './img/mamas/01/mamas_01_i.webp',
+                './img/mamas/01/mamas_01_j.webp',
+            ]),
+            (document.fonts?.ready ?? Promise.resolve())
+        ])
+        hideTapa()
+    } catch (error) {
+        console.error('Error en la carga:', error)
+        hideTapa()
+    }
+})
+//========================//
 
 
 // MENU ===================================================//

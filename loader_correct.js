@@ -84,7 +84,7 @@ window.addEventListener('load', async () => {
             './img/youtube.svg',
             './img/tiktok.svg',
             './img/google.svg',
-            './img/whatsapp'
+            './img/whatsapp.svg'
         ]),
         (document.fonts?.ready ?? Promise.resolve()) // por la Poppins de Google Fonts
         ])
