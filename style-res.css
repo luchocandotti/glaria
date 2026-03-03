@@ -190,7 +190,6 @@ header,
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     gap: 10px;
-    margin-bottom: 60px;
     transition: grid-template-columns 0.4s ease;
 }
 
@@ -220,6 +219,7 @@ header,
     height: auto;
     border: 1px solid var(--color-line);
     transition: all 0.4s ease;
+    display: block;
 }
 
 /* ============================================
@@ -265,6 +265,7 @@ header,
         padding: 40px 40px 0 40px;
     }
     .container {
+    gap: 20px;
     grid-template-columns: repeat(2, 1fr);
     }
 }

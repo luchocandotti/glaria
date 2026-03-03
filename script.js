@@ -342,62 +342,70 @@ let isDragging = false
 let startX
 let scrollLeft
 
-// Función helper para calcular ancho de card + gap
+// Ancho de una card + su gap
 function getCardWidth() {
     const card = document.querySelector('.card')
-    const cardWidth = Math.round(card.getBoundingClientRect().width) + 24
-    return cardWidth
+    return Math.round(card.getBoundingClientRect().width) + 24
 }
 
-// Función que snapea a la card más cercana
+// Cuántas cards caben visibles a la vez
+function getVisibleCount() {
+    return Math.round(track.offsetWidth / getCardWidth())
+}
+
+// Total de cards reales
+function getTotalCards() {
+    return document.querySelectorAll('.card').length
+}
+
+// Índice de la card actual (0-based) derivado del scroll real
+function getCurrentIndex() {
+    return Math.round(track.scrollLeft / getCardWidth())
+}
+
+// Card index máximo al que se puede scrollear
+function getMaxIndex() {
+    return getTotalCards() - getVisibleCount()
+}
+
+// Snapea a la card más cercana
 function snapToNearestCard() {
-    const cardPlusGap = getCardWidth()
-    const scrollPosition = track.scrollLeft
-    const cardIndex = Math.round(scrollPosition / cardPlusGap)
-    
     track.scrollTo({
-        left: cardIndex * cardPlusGap,
+        left: getCurrentIndex() * getCardWidth(),
         behavior: 'smooth'
     })
 }
 
-// ============================================
-// DRAG (solo mobile via CSS)
-// ============================================
+// Actualiza estado de las flechas según posición real del scroll
+function resetNav() {
+    const idx = getCurrentIndex()
+    const max = getMaxIndex()
+    navLeft.classList.toggle('inactive', idx <= 0)
+    navRight.classList.toggle('inactive', idx >= max)
+}
 
-
-// Cuando presiona
+// ============================================
+// DRAG (desktop)
+// ============================================
 track.addEventListener('mousedown', (e) => {
-    // Solo permite drag si NO clickeaste un botón
     if (e.target.closest('.btn-pill, .js-open-video')) return
-
     isDragging = true
     startX = e.pageX
     scrollLeft = track.scrollLeft
 })
 
-// Cuando mueve
 track.addEventListener('mousemove', (e) => {
     if (!isDragging) return
-    
-    const x = e.pageX                    // 👈 Posición actual del mouse en X
-    const walk = startX - x              // 👈 AQUÍ: cuánto se movió desde el inicio
-    track.scrollLeft = scrollLeft + walk // 👈 Aplica ese movimiento al scroll
+    track.scrollLeft = scrollLeft + (startX - e.pageX)
 })
 
-// Cuando suelta
 track.addEventListener('mouseup', () => {
-    if (isDragging) {
-        snapToNearestCard()
-    }
+    if (isDragging) snapToNearestCard()
     isDragging = false
 })
 
-// Si el mouse sale del área
 track.addEventListener('mouseleave', () => {
-    if (isDragging) {
-        snapToNearestCard()
-    }
+    if (isDragging) snapToNearestCard()
     isDragging = false
 })
 
@@ -406,43 +414,24 @@ track.addEventListener('mouseleave', () => {
 // ============================================
 const navLeft = document.querySelector('.nav-left')
 const navRight = document.querySelector('.nav-right')
-const totalCards = document.querySelectorAll('.card').length - 2
-
-let cardPoint = 1
 
 navLeft.addEventListener('click', () => {
-    track.scrollBy({
-        left: -getCardWidth(),
-        behavior: 'smooth'
-    })
-    if (cardPoint > 1) {
-        cardPoint--
-    } 
-    resetNav()
+    track.scrollBy({ left: -getCardWidth(), behavior: 'smooth' })
+    // Leer estado después de que el scroll arranque
+    setTimeout(resetNav, 50)
 })
 
 navRight.addEventListener('click', () => {
-    track.scrollBy({
-        left: getCardWidth(),
-        behavior: 'smooth'
-    })
-    if (cardPoint < totalCards) {
-        cardPoint++
-    }
-    resetNav()
+    track.scrollBy({ left: getCardWidth(), behavior: 'smooth' })
+    setTimeout(resetNav, 50)
 })
 
-function resetNav() {
-    if (cardPoint > 1 && cardPoint < totalCards) {
-        navLeft.classList.remove('inactive')
-        navRight.classList.remove('inactive')
-    } else if (cardPoint == 1) {
-        navLeft.classList.add('inactive')
-    } else if (cardPoint == totalCards) {
-        navRight.classList.add('inactive')
-    }
-    console.log(cardPoint)
-}
+// Sincroniza flechas si el usuario scrollea manualmente (touch/drag)
+track.addEventListener('scrollend', resetNav)
+
+// Estado inicial
+resetNav()
+//========================//
 
 // OFUSCACIÓN DEL NÚMERO ===================================================//
 // Número dividido y al revés para confundir bots
