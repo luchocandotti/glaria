@@ -354,33 +354,6 @@ p {
     gap: 30px;
 }
 
-#sociedades img {
-    height: 30px;
-    width: auto;
-    display: block;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
-}
-
-#sociedades .container {
-    align-items: center;
-    gap: 10px;
-}
-
-#sociedades .container > a:last-child img {
-  /* estilos de la img AMA solamente */
-    height: 38px;
-}
-
-#sociedades a {
-    display: block;
-}
-
-#sociedades a:hover img {
-    opacity: 1;
-}
-
 .seccion.izquierda .wrapper{
   margin-left: 0;
   margin-right: auto;
@@ -508,6 +481,44 @@ p {
 #testimonios h2{
     color: var(--color-orange)
 }
+
+
+#sociedades h3 {
+    color: var(--color-inactive);
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 1em;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+}
+
+#sociedades img {
+    height: 30px;
+    width: auto;
+    display: block;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+#sociedades .container {
+    align-items: center;
+    gap: 10px;
+}
+
+#sociedades .container > a:last-child img {
+  /* estilos de la img AMA solamente */
+    height: 38px;
+}
+
+#sociedades a {
+    display: block;
+}
+
+#sociedades a:hover img {
+    opacity: 1;
+}
+
 
 /* ============================================
            ESTRUCTURA BASE DEL ACORDEÓN
@@ -867,20 +878,22 @@ p {
     color: #000;
     font-weight: 400;
     list-style: none;
+    font-size: 1.03em;
 }
 
 #contacto .box2.txt a {
-  display: inline-block;
-  transition: transform 300ms ease;
+    display: inline-block;
+    transition: transform 300ms ease;
 }
 
 #contacto .box2.redes ul{
     display: flex;
     justify-content: flex-end;
-    gap: 4px;
+    gap: 20px;
 }
 
 #contacto .box2.redes li {
+    transform: translateY(4px);
     display: block;
     margin-left: 0;
     transition: transform 300ms ease;
@@ -890,6 +903,9 @@ p {
     padding: 0 0 10px 20px;
 }
 
+#contacto .icon {
+    transform: scale(130%);
+}
 
 /* ============================================
     HOVERS solo en DESK
@@ -948,7 +964,7 @@ p {
         transform: translateX(5px);
     }
     #contacto .box2.redes li:hover{
-        transform: translateY(-5px);
+        transform: translateY(-2px);
     }
 }
 

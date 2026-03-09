@@ -73,16 +73,6 @@ window.addEventListener('load', async () => {
             './img/menu.svg',
             './img/close.svg',
             './img/close.png',
-            './img/glaria_perfil.jpg',
-            './img/play-circle.svg',
-            './img/asoc_01.svg',
-            './img/asoc_02.svg',
-            './img/asoc_03.svg',
-            './img/asoc_04.svg',
-            './img/instagram.svg',
-            './img/youtube.svg',
-            './img/tiktok.svg',
-            './img/google.svg',
             './img/whatsapp.svg'
         ]),
         (document.fonts?.ready ?? Promise.resolve()) // por la Poppins de Google Fonts
