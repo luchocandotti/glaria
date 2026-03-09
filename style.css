@@ -869,6 +869,7 @@ p {
 }
 
 #contacto .box2.redes{
+    padding-right: 8px;
     margin-left: auto; /* <- la manda a la derecha */
 }
 
@@ -878,7 +879,7 @@ p {
     color: #000;
     font-weight: 400;
     list-style: none;
-    font-size: 1.03em;
+    font-size: 1.1em;
 }
 
 #contacto .box2.txt a {
@@ -904,7 +905,7 @@ p {
 }
 
 #contacto .icon {
-    transform: scale(130%);
+    transform: scale(150%);
 }
 
 /* ============================================
