@@ -482,44 +482,6 @@ p {
     color: var(--color-orange)
 }
 
-
-#sociedades h3 {
-    color: var(--color-inactive);
-    text-transform: uppercase;
-    font-weight: 300;
-    font-size: 1em;
-    letter-spacing: 0.08em;
-    margin-bottom: 20px;
-}
-
-#sociedades img {
-    height: 30px;
-    width: auto;
-    display: block;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
-}
-
-#sociedades .container {
-    align-items: center;
-    gap: 10px;
-}
-
-#sociedades .container > a:last-child img {
-  /* estilos de la img AMA solamente */
-    height: 38px;
-}
-
-#sociedades a {
-    display: block;
-}
-
-#sociedades a:hover img {
-    opacity: 1;
-}
-
-
 /* ============================================
            ESTRUCTURA BASE DEL ACORDEÓN
 ============================================ */
@@ -859,53 +821,89 @@ p {
     background-color: var(--color-cian);
 }
 
-#contacto .container{
-    display: flex;
-    align-items: flex-start;
-}
-
 #contacto h2 {
     display: none;
 }
 
-#contacto .box2.redes{
-    padding-right: 8px;
-    margin-left: auto; /* <- la manda a la derecha */
+#contacto .container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
-#contacto .box2 li, 
-#contacto .box2 a,
-#contacto .box2 span {
+#contacto a,
+#contacto span {
     color: #000;
-    font-weight: 400;
+}
+
+/* Texto */
+#contacto .box2.txt li {
     list-style: none;
-    font-size: 1.1em;
 }
 
 #contacto .box2.txt a {
     display: inline-block;
+    font-weight: 400;
+    font-size: 1.2em;
     transition: transform 300ms ease;
 }
 
-#contacto .box2.redes ul{
+/* Redes */
+#contacto .box2.redes ul {
     display: flex;
     justify-content: flex-end;
-    gap: 20px;
+    align-items: center;
+    gap: 24px;
 }
 
 #contacto .box2.redes li {
-    transform: translateY(4px);
-    display: block;
-    margin-left: 0;
-    transition: transform 300ms ease;
-}
-
-#contacto .box2.redes a {
-    padding: 0 0 10px 20px;
+    list-style: none;
+    margin-left: 10px;
 }
 
 #contacto .icon {
     transform: scale(150%);
+}
+
+
+/* ============================================
+    SOCIEDADES
+============================================ */
+#sociedades h3 {
+    color: var(--color-inactive);
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 1em;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+}
+
+#sociedades img {
+    height: 30px;
+    width: auto;
+    display: block;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+#sociedades .container {
+    align-items: center;
+    gap: 10px;
+}
+
+#sociedades .container > a:last-child img {
+  /* estilos de la img AMA solamente */
+    height: 38px;
+}
+
+#sociedades a {
+    display: block;
+}
+
+#sociedades a:hover img {
+    opacity: 1;
 }
 
 /* ============================================
@@ -964,16 +962,12 @@ p {
     #contacto .box2.txt a:hover {
         transform: translateX(5px);
     }
-    #contacto .box2.redes li:hover{
-        transform: translateY(-2px);
-    }
 }
 
 
 /* ============================================
     RESPONSIVE
 ============================================ */
-
 @media(max-width: 880px) {
     .showcase,
     .showcase header,
@@ -983,8 +977,7 @@ p {
     .seccion .container {
         flex-direction: column;
     }
-    #sociedades .container,
-    #contacto .container {
+    #sociedades .container {
         flex-direction: row;
     }
     .box, .box2 {
@@ -1012,20 +1005,16 @@ p {
         overflow: visible;
         gap: 20px;
     }
-    .btn-wp{
+    .btn-wp {
         right: auto;
         left: 50%;
         bottom: 20px;
 
         transform: translateX(-50%) translateY(10%);
     }
-    .btn-wp.is-visible{
+    .btn-wp.is-visible {
         transform: translateX(-50%) translateY(0);
     }
-    /* #top > section:last-of-type {
-        padding-bottom: 80px;
-    } */
-
 }
 
 @media(max-width: 620px) {
@@ -1037,7 +1026,6 @@ p {
     .carousel:active {
         cursor: grabbing;
     }
-    
     .track {
         /* Móvil: 1 card por vez que ocupa todo el ancho */
         scroll-snap-type: x mandatory;
@@ -1045,19 +1033,35 @@ p {
         gap: 0;
         scroll-padding: 0; /* Importante para móvil */
     }
-    
     .card {
         /* En móvil, snap al centro de la card */
         width: 100%;
         scroll-snap-align: center;
     }
-    
     #nav-carousel {
         display: none;
     }
-    
     #bajada-carousel {
         display: block;
+    }
+    #contacto .container {
+        flex-direction: column;
+        align-items: center;    /* centra ambas cajas */
+        gap: 24px;
+    }
+    #contacto .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+    #contacto .box2.txt {
+        text-align: center;
+    }
+    #contacto .box2.redes ul {
+        justify-content: center;
+    }
+    #sociedades h3 {
+        text-align: center;
     }
 }
 
