@@ -441,7 +441,7 @@ numeroVisible.textContent = '+54 11 2747 3093'
 // WHATSAPP FLOTANTE ===================================================//
 const wpBtn = document.querySelector('.btn-wp')
 const SHOW_AT = 100
-const HIDE_NEAR_BOTTOM = 100
+const HIDE_NEAR_BOTTOM = 340
 
 window.addEventListener('scroll', () => {
     const y = window.scrollY
