@@ -4,9 +4,11 @@
     --color-cian: #31C4CF;
     --color-text: #d2d2d2;
     --color-orange: #CF7132;
+    --color-muted: #999;
     --color-inactive: #555;
     --color-line: #333;
     --color-back: #222;
+    --color-swipe: #111;
     --radius: 5px;
 }
 
@@ -15,7 +17,6 @@
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    color: var(--color-text);
 }
 
 html {
@@ -107,10 +108,6 @@ header .logo {
     right: 300px;
 }
 
-p {
-    line-height: 1.6;
-}
-
 /* Icono */
 .icon {
   width: 16px;
@@ -133,7 +130,6 @@ p {
 .menu ul {
     position: relative;
     font-size: 1.2em;
-    color: #FFF;
     line-height: 3;
 }
 
@@ -143,6 +139,7 @@ p {
 
 .menu ul li a {
     display: inline-block;
+    color: var(--color-text);
     font-weight: 300;
     text-decoration: none;
     transform-origin: left center;
@@ -162,7 +159,7 @@ p {
     border: 1px solid;
     border-color: var(--color-line);
     background-color: transparent;
-    color: #666;
+    color: var(--color-inactive);
 
     padding: 12px 32px;
     border-radius: 999px;
@@ -198,15 +195,18 @@ header,
     line-height: 1;
     --optical-y: -0.10em;
     transform: translateY(var(--optical-y));
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0.15em;
     color: var(--color-cian);
     text-transform: uppercase;
 }
 
 .seccion h3 {
+    color: var(--color-muted);
     padding-bottom: 20px;
-    font-weight: 200;
+    letter-spacing: 0.10em;
+    font-weight: 300;
+    text-transform: uppercase;
 }
 
 .seccion.izquierda .wrapper,
@@ -243,12 +243,66 @@ header,
     grid-template-columns: repeat(6, 1fr); /* se sobreescribe por JS */
 }
 
-#resultados img {
+
+#resultados .proyecto-container img {
     width: 100%;
     height: auto;
     border: 1px solid var(--color-line);
     transition: all 0.4s ease;
     display: block;
+}
+
+/* móvil: border al contenedor, no a la img */
+.carousel-mob {
+    border: 1px solid var(--color-line);
+    background-color: var(--color-orange);
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.carousel-mob .card-mob img {
+    border: none;
+}
+
+
+/* ============================================
+    CAROUSEL SLIDE DOTS - PROYECTO MÓVIL
+============================================ */
+
+#slide-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    margin: 20px 0;
+}
+
+#slide-dots .dot {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+}
+
+#slide-dots .dot svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+}
+
+#slide-dots .dot circle {
+    fill: none;
+    stroke: var(--color-inactive);
+    transition: fill 0.4s ease, stroke 0.4s ease;
+}
+
+#slide-dots .dot.active circle {
+    fill: var(--color-text);
+    stroke: var(--color-text);
 }
 
 /* ============================================
@@ -273,8 +327,178 @@ header,
     }
 }
 
+
 /* ============================================
-    RESPONSIVE
+   GRILLA DE CARDS (thumbnails)
+============================================ */
+.grilla-subcategory {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.subcategory-titulo {
+    /* el estilo que quieras para los títulos de subcategoría */
+}
+
+.caso-card {
+    cursor: pointer;
+    border: 1px solid var(--color-line);
+    transition: border-color 0.3s ease;
+    overflow: hidden;
+}
+
+.caso-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.caso-card.activo img {
+    filter: grayscale(100%);
+    transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.caso-info {
+    padding: 14px 16px;
+    color: var(--color-text);
+}
+
+.caso-info.activo {
+    color: var(--color-inactive);
+}
+
+.caso-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.caso-subcategory {
+    font-weight: 500;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.caso-title {
+    font-weight: 200;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.caso-descript {
+    font-weight: 200;
+    font-size: 0.9em;
+}
+
+/* ============================================
+   PROYECTO EXPANDIDO
+============================================ */
+
+#proyecto-wrap {
+    margin-bottom: 40px;
+    scroll-margin-top: 80px;
+}
+
+.proyecto-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin: 24px 0 16px 0;
+    flex-wrap: wrap;
+    color: var(--color-text);
+}
+
+.proyecto-header h3 {
+    padding-bottom: 0;
+    font-size: 1em;
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+.proyecto-descript {
+    font-size: 0.9em;
+    font-weight: 200;
+    flex: 1;
+}
+
+.btn-cerrar-proyecto {
+    background: transparent;
+    border: 1px solid var(--color-line);
+    color: var(--color-inactive);
+    padding: 6px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.75em;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+}
+
+/* ============================================
+   CAROUSEL MÓVIL - PROYECTO
+============================================ */
+.carousel-mob {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y;
+}
+
+.track-mob {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.track-mob::-webkit-scrollbar { display: none; }
+
+.card-mob {
+    width: 100%;
+    scroll-snap-align: center;
+}
+
+.card-mob img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--color-line);
+}
+
+/* ============================================
+   HOVERS grilla + proyecto
+============================================ */
+
+@media (hover: hover) and (pointer: fine) {
+    .caso-card:hover {
+        border-color: var(--color-cian);
+    }
+    .caso-card.activo:hover {
+        border-color: var(--color-inactive);
+    }
+    .caso-card:hover img {
+        transform: scale(1.03);
+    }
+    .btn-cerrar-proyecto:hover {
+        border-color: var(--color-cian);
+        color: var(--color-cian);
+    }
+}
+
+/* ============================================
+   RESPONSIVE grilla de cards
 ============================================ */
 
 @media(min-width: 1280px) {
@@ -287,6 +511,9 @@ header,
     }
     #resultados img:hover {
         border-color: var(--color-cian);
+    }
+    .grilla-subcategory {
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
@@ -301,6 +528,9 @@ header,
     gap: 20px;
     grid-template-columns: repeat(2, 1fr);
     }
+    .grilla-subcategory {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media(max-width: 600px) {
@@ -313,5 +543,13 @@ header,
     .container,
     .container2 {
     grid-template-columns: 1fr;
+    }
+    .grilla-subcategory {
+        grid-template-columns: 1fr;
+    }
+    .proyecto-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 }
