@@ -4,7 +4,7 @@
     "category": "mamas",
     "subcategory": "aumento",
     "title": "Caso 1",
-    "descript": "22 años — Implantes redondos [275cc MI, 295cc MD. Perfil alto]",
+    "descript": "30 años — Implantes redondos [325cc. Perfil alto]",
     "cant": "10"
   },
   {
@@ -12,7 +12,7 @@
     "category": "mamas",
     "subcategory": "aumento",
     "title": "Caso 2",
-    "descript": "22 años — Implantes redondos [335cc MI. Perfil alto]",
+    "descript": "36 años — Implantes redondos [225cc. Perfil alto]",
     "cant": "10"
   },
   {
@@ -20,7 +20,55 @@
     "category": "mamas",
     "subcategory": "aumento",
     "title": "Caso 3",
-    "descript": "31 años — Implantes redondos [295cc MI. Perfil alto]",
+    "descript": "29 años — Implantes redondos [325cc. Perfil alto]",
+    "cant": "10"
+  },
+  {
+    "id": "4",
+    "category": "mamas",
+    "subcategory": "aumento",
+    "title": "Caso 4",
+    "descript": "25 años — Implantes redondos [275cc. Perfil alto]",
+    "cant": "10"
+  },
+  {
+    "id": "5",
+    "category": "mamas",
+    "subcategory": "aumento",
+    "title": "Caso 5",
+    "descript": "40 años — Implantes redondos [315cc. Perfil alto]",
+    "cant": "10"
+  },
+  {
+    "id": "6",
+    "category": "mamas",
+    "subcategory": "aumento",
+    "title": "Caso 6",
+    "descript": "22 años — Implantes redondos [275cc MI, 295cc MD. Perfil alto]",
+    "cant": "10"
+  },
+  {
+    "id": "7",
+    "category": "mamas",
+    "subcategory": "aumento",
+    "title": "Caso 7",
+    "descript": "22 años — Implantes redondos [335cc. Perfil alto]",
+    "cant": "10"
+  },
+  {
+    "id": "8",
+    "category": "mamas",
+    "subcategory": "aumento",
+    "title": "Caso 8",
+    "descript": "31 años — Implantes redondos [295cc. Perfil alto]",
+    "cant": "10"
+  },
+  {
+    "id": "9",
+    "category": "mamas",
+    "subcategory": "aumento",
+    "title": "Caso 9",
+    "descript": "27 años — Implantes redondos [295cc MI y 315cc MD. Perfil alto]",
     "cant": "10"
   },
   {

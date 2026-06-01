@@ -289,6 +289,10 @@ function getProject(id, category, subcategory, cant, title, descript) {
                     </div>
                 `
                 bindItemExpand(proyectoWrap.querySelector('.proyecto-container'))
+
+                // desplegar la foto e por defecto
+                const itemsDesktop = proyectoWrap.querySelectorAll('.proyecto-container .item')
+                itemsDesktop[4]?.click()
             }
 
             window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -308,6 +312,13 @@ function cerrarProyecto() {
     const proyectoWrap = document.getElementById('proyecto-wrap')
     if (proyectoWrap) proyectoWrap.remove()
 }
+
+// CERRAR PROYECTO CON ESC ===========================================//
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('proyecto-wrap')) {
+        cerrarProyecto()
+    }
+})
 //========================//
 
 
