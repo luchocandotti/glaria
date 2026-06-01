@@ -4,6 +4,7 @@
     --color-cian: #31C4CF;
     --color-text: #d2d2d2;
     --color-orange: #CF7132;
+    --color-active: #777;
     --color-inactive: #555;
     --color-line: #333;
     --color-back: #222;
@@ -906,6 +907,65 @@ p {
     opacity: 1;
 }
 
+/* FIRMA TYPEWRITER */
+.linea-fina {
+    border: 0;
+    border-top: 0.5px solid #222;
+    margin-bottom: 20px;
+}
+
+#autor {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+#autor a {
+    color: #444;
+    font-weight: 300;
+    font-size: .8em;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+.typewriter,
+.cursor {
+    color: inherit;
+}
+
+.cursor {
+    opacity: 0;
+    margin-left: 1px;
+    font-weight: 300;
+}
+
+/* mientras escribe: cursor sólido, sin titilar */
+.cursor.typing {
+    opacity: 1;
+    animation: none;
+}
+
+/* terminó: titila 2 veces y desaparece */
+.cursor.finishing {
+    animation: blink-twice 2s ease forwards;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 0; }
+    50%      { opacity: 1; }
+}
+
+@keyframes blink-twice {
+    0%    { opacity: 1; }
+    16.6% { opacity: 0; }
+    33.3% { opacity: 1; }
+    50%   { opacity: 0; }
+    66.6% { opacity: 1; }
+    83.3% { opacity: 0; }
+    100%  { opacity: 0; }
+}
+
 /* ============================================
     HOVERS solo en DESK
 ============================================ */
@@ -961,6 +1021,13 @@ p {
     }
     #contacto .box2.txt a:hover {
         transform: translateX(5px);
+    }
+    #autor a:hover {
+        color: var(--color-active);
+    }
+    /* hover sobre la firma: el cursor reaparece */
+    #autor a:hover .cursor {
+        animation: blink 1s infinite;
     }
 }
 
@@ -1060,7 +1127,8 @@ p {
     #contacto .box2.redes ul {
         justify-content: center;
     }
-    #sociedades h3 {
+    #sociedades,
+    #autor h3 {
         text-align: center;
     }
 }

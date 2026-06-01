@@ -458,3 +458,56 @@ wpBtn.addEventListener('click', () => {
   window.open(url, '_blank')
 })
 //========================//
+
+// FIRMA TYPEWRITER ===================================================//
+const autorSection = document.getElementById('autor')
+const typeEl = document.querySelector('#autor .typewriter')
+const cursorEl = document.querySelector('#autor .cursor')
+
+if (autorSection && typeEl && cursorEl) {
+    const fullText = typeEl.dataset.text
+    let typed = false
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !typed) {
+                typed = true
+                escribir()
+                observer.disconnect()
+            }
+        })
+    }, { threshold: 0.3 })
+
+    observer.observe(autorSection)
+
+    function escribir() {
+        cursorEl.classList.add('typing')
+        const pausaEn = fullText.indexOf('Candotti') // pausa justo antes de "Candotti"
+        let i = 0
+
+        function paso() {
+            typeEl.textContent += fullText[i]
+            i++
+
+            if (i >= fullText.length) {
+                cursorEl.classList.remove('typing')
+                cursorEl.classList.add('finishing')
+                return
+            }
+
+            // delay extra antes de empezar "Candotti"
+            const delay = (i === pausaEn) ? 400 : 70
+            setTimeout(paso, delay)
+        }
+        paso()
+    }
+
+    // al terminar la animación de salida, limpiar la clase
+    // así el hover no la vuelve a disparar al salir
+    cursorEl.addEventListener('animationend', (e) => {
+        if (e.animationName === 'blink-twice') {
+            cursorEl.classList.remove('finishing')
+        }
+    })
+}
+//========================//
