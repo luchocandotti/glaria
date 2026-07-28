@@ -72,6 +72,30 @@
     "cant": "10"
   },
   {
+    "id": "11",
+    "category": "mamas",
+    "subcategory": "aumento",
+    "title": "Caso 11",
+    "descript": "27 años — Implantes redondos [295cc MI y 315cc MD. Perfil alto]",
+    "cant": "10"
+  },
+  {
+    "id": "12",
+    "category": "mamas",
+    "subcategory": "aumento",
+    "title": "Caso 12",
+    "descript": "27 años — Implantes redondos [295cc MI y 315cc MD. Perfil alto]",
+    "cant": "10"
+  },
+  {
+    "id": "13",
+    "category": "mamas",
+    "subcategory": "aumento",
+    "title": "Caso 13",
+    "descript": "27 años — Implantes redondos [295cc MI y 315cc MD. Perfil alto]",
+    "cant": "10"
+  },
+  {
     "id": "1",
     "category": "mamas",
     "subcategory": "reduccion",
@@ -94,6 +118,14 @@
     "title": "Caso 1",
     "descript": "38 años, 2 hijos — Lipoabdominoplastia 360°, tecnología Vaser y Microaire, reparación de diástasis abdominal.",
     "cant": "10"
+  },
+  {
+    "id": "1",
+    "category": "contorno",
+    "subcategory": "lipoescultura",
+    "title": "Caso 1",
+    "descript": "38 años — Lipoescultura.",
+    "cant": "12"
   }
   
 ]
