@@ -446,24 +446,24 @@ let dockReady = false
 const DURATION = 650
 
 function initDockGeometry() {
-    // sacamos btn-wp un instante: así el botón mide EXACTAMENTE como tu .btn-pill base (padding: 12px 32px)
-    wpBtn.classList.remove('btn-wp')
-    wpBtn.style.width = ''
+    // el agendador es ahora el pill con texto: se mide tal cual el sistema de btn-pill
+    agendadorBtn.classList.remove('btn-agendador')
+    agendadorBtn.style.width = 'auto'
 
-    const pillRect = wpBtn.getBoundingClientRect()
-    wpBtn.classList.add('btn-wp')
+    const pillRect = agendadorBtn.getBoundingClientRect()
+    agendadorBtn.classList.add('btn-agendador')
 
     BTN_H = Math.round(pillRect.height)        // alto real de CUALQUIER btn-pill del sistema
-    const pillWMax = Math.round(pillRect.width) // ancho real con ícono + "¡Hablemos!"
+    const pillWMax = Math.round(pillRect.width) // ancho real con ícono + "Agendar"
 
     CAP_R = BTN_H / 2
     CY = BTN_H / 2
-    PILL_W_MIN = BTN_H // wp fusionado = círculo puro, mismo diámetro que el agendador
+    PILL_W_MIN = BTN_H // agendador fusionado = círculo puro, mismo diámetro que wp
 
     const REST_GAP = 8 // única medida "de diseño" que queda: separación estética en reposo
     DOCK_W = BTN_H + REST_GAP + pillWMax
 
-    const D_FINAL = BTN_H + REST_GAP // distancia final entre agendador y la tapa del pill, ya separados
+    const D_FINAL = BTN_H + REST_GAP // distancia final entre wp y la tapa del pill, ya separados
     MERGE_HIDE = D_FINAL * 0.06
     FADE_RISE_END = D_FINAL * 0.22
     FADE_FALL_START = D_FINAL * 0.68
@@ -473,12 +473,12 @@ function initDockGeometry() {
     dockFlotante.style.height = `${BTN_H}px`
     document.querySelector('.dock-blob').setAttribute('viewBox', `0 0 ${DOCK_W} ${BTN_H}`)
 
-    wpBtn.style.height = `${BTN_H}px`
-    wpBtn.style.width = `${PILL_W_MIN}px`
-
-    agendadorBtn.style.width = `${BTN_H}px`
     agendadorBtn.style.height = `${BTN_H}px`
-    agendadorBtn.style.transform = 'translateX(0)' // arranca fusionado, mismo right:0 que wp
+    agendadorBtn.style.width = `${PILL_W_MIN}px`
+
+    wpBtn.style.width = `${BTN_H}px`
+    wpBtn.style.height = `${BTN_H}px`
+    wpBtn.style.transform = 'translateX(0)' // arranca fusionado, mismo right:0 que el pill
 
     window.__dockPillWMax = pillWMax // usado por animateDock
     dockReady = true
@@ -545,23 +545,23 @@ function animateDock(opening, onComplete) {
         const eased = opening ? easeOutBack(raw) : easeInOutCubic(raw)
         const t = opening ? eased : 1 - eased // al cerrar arrancamos abiertos (t=1) y volvemos a fusionar (t=0)
 
-        // wp: crece o encoge entre círculo (BTN_H) y pill completo, anclado a la derecha
+        // agendador: crece de círculo (BTN_H) a pill completo, anclado a la derecha
         const pillWidth = PILL_W_MIN + (pillWMax - PILL_W_MIN) * t
-        wpBtn.style.width = `${pillWidth}px`
-        const wpCapX = (DOCK_W - pillWidth) + CAP_R // centro de la tapa izquierda del pill, en vivo
+        agendadorBtn.style.width = `${pillWidth}px`
+        const pillCapX = (DOCK_W - pillWidth) + CAP_R // centro de la tapa izquierda del pill, en vivo
 
-        // agendador: ambos anclados en right:0 — mismo centro en t=0, se separa/vuelve con translateX puro
-        const agendadorX = (DOCK_W - CAP_R) + t * (BTN_H - DOCK_W)
-        agendadorBtn.style.transform = `translateX(${t * (BTN_H - DOCK_W)}px)`
+        // wp: ambos anclados en right:0 — mismo centro en t=0, se separa con translateX puro
+        const wpX = (DOCK_W - CAP_R) + t * (BTN_H - DOCK_W)
+        wpBtn.style.transform = `translateX(${t * (BTN_H - DOCK_W)}px)`
 
         // el conector solo existe mientras las dos formas están cerca
-        const d = Math.abs(wpCapX - agendadorX)
+        const d = Math.abs(pillCapX - wpX)
 
         if (d < MERGE_HIDE) {
             blobConnector.style.opacity = '0'
         } else {
-            const current = { x: agendadorX, y: CY, r: CAP_R }
-            const cap = { x: wpCapX, y: CY, r: CAP_R }
+            const current = { x: wpX, y: CY, r: CAP_R }
+            const cap = { x: pillCapX, y: CY, r: CAP_R }
             blobConnector.setAttribute('d', metaballPath(current, cap))
 
             const rise = Math.min(Math.max((d - MERGE_HIDE) / (FADE_RISE_END - MERGE_HIDE), 0), 1)

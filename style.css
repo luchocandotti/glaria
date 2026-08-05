@@ -262,44 +262,44 @@ p {
     transition: background-color 0.7s ease;
 }
 
+/* WHATSAPP: ahora es el círculo que viaja (antes era el agendador) */
 .btn-wp {
-    overflow: hidden;
-    justify-content: center;
-    padding: 0;
-    opacity: 1;
-
-    /* width y height reales los define JS: mismo alto que cualquier btn-pill del sistema */
-    margin-top: 0;
-}
-
-.btn-wp-content {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    z-index: 1;
+    /* width, height y transform reales los define JS: mismo diámetro que el alto real del pill */
 }
-
-.btn-wp-text {
-    color: #000;
-}
-
 /* Icono */
 .icon {
   width: 16px;
   height: 16px;
 }
 
-/* BOTÓN AGENDADOR */
+/* AGENDADOR: ahora es el pill con texto que crece (antes era wp) */
 .btn-agendador {
+    overflow: hidden;
+    justify-content: center;
+    padding: 0;
+    opacity: 1;
+    text-decoration: none;
+
+    /* width y height reales los define JS: mismo alto que cualquier btn-pill del sistema */
+    margin-top: 0;
+}
+.btn-agendador-content {
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    z-index: 1;
-
-    /* width, height y transform los define JS: mismo diámetro que el alto real del btn-wp */
+    gap: 8px;
 }
-
-
+.btn-agendador-text {
+    color: #000;
+}
 .icon-agendador {
     width: 20px;
     height: 20px;
