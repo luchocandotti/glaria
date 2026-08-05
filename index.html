@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=3.5">
+    <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon-16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png">
@@ -1002,26 +1002,28 @@
     <!-- ======================== -->
 
 
-    <!-- WAHSTAPP =================================================== -->
-    <button type="button" class="btn-pill btn-wp">
-        <img src="./img/whatsapp.svg" alt="" class="icon">
-        ¡Hablemos!
-    </button>
+    <!-- DOCK FLOTANTE: AGENDADOR + WHATSAPP (metaball SVG) =================================================== -->
+    <div class="dock-flotante">
+        <svg class="dock-blob" viewBox="0 0 240 52" aria-hidden="true" focusable="false">
+            <path id="blob-connector"></path>
+        </svg>
+
+        <a href="https://crontu.com.ar/glaria-fernando" target="_blank" rel="noopener noreferrer" class="btn-agendador btn-flotante" aria-label="Reservar turno" title="Reservar turno">
+            <img src="./img/calendar3.svg" alt="" class="icon">
+        </a>
+
+        <button type="button" class="btn-pill btn-wp btn-flotante">
+            <div class="btn-wp-content">
+                <img src="./img/whatsapp.svg" alt="" class="icon">
+                <span class="btn-wp-text">¡Hablemos!</span>
+            </div>
+        </button>
+    </div>
     <!-- ======================== -->
 
     <!-- MENÚ =================================================== -->
-    <nav class="menu">
-        <ul>
-            <li><a href="#sobre-mi">Sobre mí</a></li>
-            <li><a href="#cirugia-mamas">Cirugía mamaria</a></li>
-            <li><a href="#contorno-corporal">Contorno corporal</a></li>
-            <li><a href="#testimonios">Testimonios</a></li>
-            <li><a href="resultados.html">Resultados</a></li>
-            <li><a href="#faqs">FAQs</a></li>
-            <li><a href="academia.html">Academnia</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-    </nav>
-<script type="module" src="script.js?v=3.5"></script>
+    <div id="nav-placeholder"></div>
+
+<script type="module" src="script.js"></script>
 </body>
 </html>

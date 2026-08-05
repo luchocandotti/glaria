@@ -34,7 +34,8 @@ window.addEventListener('load', async () => {
                 './img/close.svg',
             ]),
             (document.fonts?.ready ?? Promise.resolve()),
-            getGrilla()
+            getGrilla(),
+            loadNav(navPlaceholder, toggleMenu)
         ])
         hideTapa()
     } catch (error) {
@@ -46,7 +47,9 @@ window.addEventListener('load', async () => {
 
 
 // MENU ===================================================//
-const nav = document.querySelectorAll('.menu a[href^="#"]')
+import { loadNav } from './nav.js'
+
+const navPlaceholder = document.getElementById('nav-placeholder')
 
 function toggleMenu() {
     menuToggle.classList.toggle('active')
@@ -55,12 +58,6 @@ function toggleMenu() {
 }
 
 menuToggle.addEventListener('click', toggleMenu)
-
-nav.forEach(a => {
-    a.addEventListener('click', () => {
-        toggleMenu();
-    })
-})
 //========================//
 
 

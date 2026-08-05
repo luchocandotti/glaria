@@ -218,24 +218,68 @@ p {
     opacity: 1;
 }
 
-/* WHATSAPP FLOTANTE */
-.btn-wp {
+/* CONTACTO FLOTANTE */
+.dock-flotante {
     position: fixed;
     z-index: 999;
     right: 100px;
     bottom: 40px;
+    /* width y height reales los define JS en initDockGeometry(), a partir del btn-pill del sistema */
 
-    /* reseteos de tu btn-pill */
-    margin-top: 0;
     opacity: 0;
-    transform: translateY(10px);
     pointer-events: none;
-    background-color: var(--color-cian);
+    transition: opacity 0.5s ease-in-out;
+}
 
-    transition:
-        opacity 0.7s ease-in-out,
-        transform 0.7s ease-in-out,
-        background-color 0.7s ease;
+.dock-flotante.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dock-blob {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+
+#blob-connector {
+    fill: var(--color-cian);
+    transition: fill 0.7s ease;
+}
+
+.dock-flotante:hover #blob-connector {
+    fill: var(--color-text);
+}
+
+.btn-flotante {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--color-cian);
+    transition: background-color 0.7s ease;
+}
+
+.btn-wp {
+    overflow: hidden;
+    justify-content: center;
+    padding: 0;
+    opacity: 1;
+
+    /* width y height reales los define JS: mismo alto que cualquier btn-pill del sistema */
+    margin-top: 0;
+}
+
+.btn-wp-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-wp-text {
+    color: #000;
 }
 
 /* Icono */
@@ -244,10 +288,23 @@ p {
   height: 16px;
 }
 
-.btn-wp.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+/* BOTÓN AGENDADOR */
+.btn-agendador {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    z-index: 1;
+
+    /* width, height y transform los define JS: mismo diámetro que el alto real del btn-wp */
+}
+
+
+.icon-agendador {
+    width: 20px;
+    height: 20px;
+    fill: #000;
+    transition: transform 0.4s ease;
 }
 
 
@@ -421,8 +478,7 @@ p {
     margin-top: 20px;
 }
 
-#sobre-mi .btn-pill,
-#medios .btn-pill {
+#sobre-mi .btn-pill {
   opacity: 1;
 }
 
@@ -984,7 +1040,7 @@ p {
         background-color: var(--color-cian);
         color: #000;
     }
-    .btn-wp:hover {
+    .btn-flotante:hover {
         background-color: var(--color-text);
     }
     .menu ul li a:hover {
@@ -1081,15 +1137,15 @@ p {
         overflow: visible;
         gap: 20px;
     }
-    .btn-wp {
+    .dock-flotante {
         right: auto;
         left: 50%;
         bottom: 20px;
-
-        transform: translateX(-50%) translateY(10%);
+        transform: translateX(-50%);
     }
-    .btn-wp.is-visible {
-        transform: translateX(-50%) translateY(0);
+    .dock-flotante .icon {
+        width: 14px;
+        height: 14px;
     }
 }
 

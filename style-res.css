@@ -26,6 +26,7 @@ html {
 body {
     background-color: #000;
     font-size: 14px;
+    color: var(--color-text);
 }
 
 .tapa {
@@ -338,9 +339,15 @@ header,
     margin-bottom: 40px;
 }
 
-.subcategory-titulo {
-    /* el estilo que quieras para los títulos de subcategoría */
+/* Oculta el link a la página actual en el menú */
+body.pg-resultados .menu .nav-resultados,
+body.pg-academia .menu .nav-academia {
+    display: none;
 }
+
+/* .subcategory-titulo {
+    el estilo que quieras para los títulos de subcategoría
+} */
 
 .caso-card {
     cursor: pointer;
