@@ -443,7 +443,7 @@ let DOCK_W, CAP_R, CY, PILL_W_MIN, BTN_H
 let MERGE_HIDE, FADE_RISE_END, FADE_FALL_START, FADE_FALL_END
 let dockReady = false
 
-const DURATION = 650
+const DURATION = 900
 
 function initDockGeometry() {
     // el agendador es ahora el pill con texto: se mide tal cual el sistema de btn-pill
@@ -509,41 +509,211 @@ function smoothstep(edge0, edge1, value) {
     const t = clamp((value - edge0) / (edge1 - edge0))
     return t * t * (3 - 2 * t)
 }
-function getVector(c, angle, offset) {
-    const r = offset ?? c.r
-    return { x: c.x + Math.cos(angle) * r, y: c.y + Math.sin(angle) * r }
-}
 
-// Fórmula clásica de metaballs entre dos círculos (unión orgánica tipo "goo")
-function metaballPath(c1, c2, handleSize = 0.68) {
-    const d = Math.hypot(c2.x - c1.x, c2.y - c1.y)
-    if (d < 1) return ''
 
-    const u1 = d < c1.r + c2.r ? Math.acos((c1.r ** 2 + d ** 2 - c2.r ** 2) / (2 * c1.r * d)) : 0
-    const u2 = d < c1.r + c2.r ? Math.acos((c2.r ** 2 + d ** 2 - c1.r ** 2) / (2 * c2.r * d)) : 0
+// Silueta líquida con cuello central y concavidad progresiva
+function liquidBridgePath(c1, c2, pinch = 0) {
+    const left = c1.x <= c2.x ? c1 : c2
+    const right = c1.x <= c2.x ? c2 : c1
 
-    const angleCenters = Math.atan2(c2.y - c1.y, c2.x - c1.x)
-    const maxSpread = Math.acos((c1.r - c2.r) / d)
+    const dx = right.x - left.x
+    const dy = right.y - left.y
+    const distance = Math.hypot(dx, dy)
 
-    const angle1 = angleCenters + u1 + (maxSpread - u1) * handleSize
-    const angle2 = angleCenters - u1 - (maxSpread - u1) * handleSize
-    const angle3 = angleCenters + Math.PI - u2 - (Math.PI - u2 - maxSpread) * handleSize
-    const angle4 = angleCenters - Math.PI + u2 + (Math.PI - u2 - maxSpread) * handleSize
+    if (distance <= 1) return ''
 
-    const p1 = getVector(c1, angle1)
-    const p2 = getVector(c1, angle2)
-    const p3 = getVector(c2, angle3)
-    const p4 = getVector(c2, angle4)
+    const ux = dx / distance
+    const uy = dy / distance
 
-    const totalR = c1.r + c2.r
-    const handleLen = Math.min(handleSize, Math.hypot(p1.x - p3.x, p1.y - p3.y) / totalR)
+    /*
+     * Vector perpendicular al eje entre centros.
+     */
+    const nx = -uy
+    const ny = ux
 
-    const p1h = getVector(c1, angle1 - Math.PI / 2, handleLen * c1.r * 1.2)
-    const p2h = getVector(c1, angle2 + Math.PI / 2, handleLen * c1.r * 1.2)
-    const p3h = getVector(c2, angle3 + Math.PI / 2, handleLen * c2.r * 1.2)
-    const p4h = getVector(c2, angle4 - Math.PI / 2, handleLen * c2.r * 1.2)
+    const t = clamp(pinch)
+    const radius = Math.min(left.r, right.r)
 
-    return `M ${p1.x} ${p1.y} C ${p1h.x} ${p1h.y} ${p3h.x} ${p3h.y} ${p3.x} ${p3.y} A ${c2.r} ${c2.r} 0 1 0 ${p4.x} ${p4.y} C ${p4h.x} ${p4h.y} ${p2h.x} ${p2h.y} ${p2.x} ${p2.y} A ${c1.r} ${c1.r} 0 1 0 ${p1.x} ${p1.y} Z`
+    /*
+     * Ángulo de contacto sobre la circunferencia.
+     *
+     * Al principio el puente abraza mucho ambos cuerpos.
+     * Cerca de la separación, los puntos se acercan al eje.
+     */
+    const attachmentAngle = lerp(
+        Math.PI * 0.39,
+        Math.PI * 0.16,
+        t
+    )
+
+    const cosA = Math.cos(attachmentAngle)
+    const sinA = Math.sin(attachmentAngle)
+
+    /*
+     * Puntos reales sobre cada círculo.
+     */
+    const leftTop = {
+        x: left.x + ux * cosA * left.r + nx * sinA * left.r,
+        y: left.y + uy * cosA * left.r + ny * sinA * left.r
+    }
+
+    const leftBottom = {
+        x: left.x + ux * cosA * left.r - nx * sinA * left.r,
+        y: left.y + uy * cosA * left.r - ny * sinA * left.r
+    }
+
+    const rightTop = {
+        x: right.x - ux * cosA * right.r + nx * sinA * right.r,
+        y: right.y - uy * cosA * right.r + ny * sinA * right.r
+    }
+
+    const rightBottom = {
+        x: right.x - ux * cosA * right.r - nx * sinA * right.r,
+        y: right.y - uy * cosA * right.r - ny * sinA * right.r
+    }
+
+    /*
+     * Tangentes reales en los puntos de contacto.
+     *
+     * Esto elimina el quiebre entre círculo y puente.
+     */
+    const leftTopTangent = {
+        x: ux * sinA - nx * cosA,
+        y: uy * sinA - ny * cosA
+    }
+
+    const leftBottomTangent = {
+        x: ux * sinA + nx * cosA,
+        y: uy * sinA + ny * cosA
+    }
+
+    const rightTopTangent = {
+        x: ux * sinA + nx * cosA,
+        y: uy * sinA + ny * cosA
+    }
+
+    const rightBottomTangent = {
+        x: ux * sinA - nx * cosA,
+        y: uy * sinA - ny * cosA
+    }
+
+    const middleX = (left.x + right.x) / 2
+    const middleY = (left.y + right.y) / 2
+
+    /*
+     * Cuello más robusto.
+     *
+     * Empieza en 74% del radio y recién al final baja
+     * a un valor muy pequeño.
+     */
+    const neckHalf = lerp(
+        radius * 0.82,
+        0.75,
+        Math.pow(t, 2.1)
+    )
+
+    const neckTop = {
+        x: middleX + nx * neckHalf,
+        y: middleY + ny * neckHalf
+    }
+
+    const neckBottom = {
+        x: middleX - nx * neckHalf,
+        y: middleY - ny * neckHalf
+    }
+
+    const bridgeSpan = Math.max(
+        1,
+        Math.hypot(
+            rightTop.x - leftTop.x,
+            rightTop.y - leftTop.y
+        )
+    )
+
+    /*
+     * Controles largos al principio para una forma ancha
+     * y densa. Cerca del corte se acortan.
+     */
+    const circleHandle = bridgeSpan * lerp(
+        0.34,
+        0.18,
+        t
+    )
+
+    const neckHandle = bridgeSpan * lerp(
+        0.20,
+        0.07,
+        t
+    )
+
+    const leftTopControl = {
+        x: leftTop.x + leftTopTangent.x * circleHandle,
+        y: leftTop.y + leftTopTangent.y * circleHandle
+    }
+
+    const leftBottomControl = {
+        x: leftBottom.x + leftBottomTangent.x * circleHandle,
+        y: leftBottom.y + leftBottomTangent.y * circleHandle
+    }
+
+    const rightTopControl = {
+        x: rightTop.x - rightTopTangent.x * circleHandle,
+        y: rightTop.y - rightTopTangent.y * circleHandle
+    }
+
+    const rightBottomControl = {
+        x: rightBottom.x - rightBottomTangent.x * circleHandle,
+        y: rightBottom.y - rightBottomTangent.y * circleHandle
+    }
+
+    const neckTopLeftControl = {
+        x: neckTop.x - ux * neckHandle,
+        y: neckTop.y - uy * neckHandle
+    }
+
+    const neckTopRightControl = {
+        x: neckTop.x + ux * neckHandle,
+        y: neckTop.y + uy * neckHandle
+    }
+
+    const neckBottomLeftControl = {
+        x: neckBottom.x - ux * neckHandle,
+        y: neckBottom.y - uy * neckHandle
+    }
+
+    const neckBottomRightControl = {
+        x: neckBottom.x + ux * neckHandle,
+        y: neckBottom.y + uy * neckHandle
+    }
+
+    return `
+        M ${leftTop.x} ${leftTop.y}
+
+        C
+        ${leftTopControl.x} ${leftTopControl.y}
+        ${neckTopLeftControl.x} ${neckTopLeftControl.y}
+        ${neckTop.x} ${neckTop.y}
+
+        C
+        ${neckTopRightControl.x} ${neckTopRightControl.y}
+        ${rightTopControl.x} ${rightTopControl.y}
+        ${rightTop.x} ${rightTop.y}
+
+        L
+        ${rightBottom.x} ${rightBottom.y}
+
+        C
+        ${rightBottomControl.x} ${rightBottomControl.y}
+        ${neckBottomRightControl.x} ${neckBottomRightControl.y}
+        ${neckBottom.x} ${neckBottom.y}
+
+        C
+        ${neckBottomLeftControl.x} ${neckBottomLeftControl.y}
+        ${leftBottomControl.x} ${leftBottomControl.y}
+        ${leftBottom.x} ${leftBottom.y}
+
+        Z
+    `
 }
 
 let rafId = null
@@ -560,9 +730,9 @@ let lastFrameTime = null
 const DOCK_STIFFNESS = 190
 const DOCK_DAMPING = 26
 
-const reduceMotionQuery = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-)
+const reduceMotionQuery = {
+    matches: false
+}
 
 
 function renderDock(progress) {
@@ -640,18 +810,28 @@ function renderDock(progress) {
      * a medida que aumenta la separación.
      */
     const separationT = smoothstep(
-        MERGE_HIDE,
-        FADE_FALL_END,
-        distance
+    MERGE_HIDE,
+    FADE_FALL_END,
+    distance
     )
-    const handleSize = lerp(0.76, 0.52, separationT)
+    /*
+    * El estrangulamiento empieza tarde.
+    * Primero el puente se estira; luego aparece el cuello.
+    */
+    const pinchT = smoothstep(
+        0.22,
+        0.96,
+        separationT
+    )
     /*
      * Ocultar solamente cuando ambas masas están prácticamente
      * superpuestas o cuando ya se separaron por completo.
      */
+    const rupturePoint = FADE_FALL_END * 0.992
+
     if (
         distance < MERGE_HIDE ||
-        distance >= FADE_FALL_END
+        distance >= rupturePoint
     ) {
         blobConnector.style.opacity = '0'
         blobConnector.setAttribute('d', '')
@@ -667,11 +847,12 @@ function renderDock(progress) {
         y: CY,
         r: effectiveRadius
     }
-    const path = metaballPath(
+    const path = liquidBridgePath(
         currentCircle,
         pillCap,
-        handleSize
+        pinchT
     )
+    
     blobConnector.setAttribute('d', path)
     /*
      * El conector conserva casi toda su opacidad.
@@ -683,29 +864,25 @@ function renderDock(progress) {
         FADE_RISE_END,
         distance
     )
-    const disappear = 1 - smoothstep(
-        FADE_FALL_START,
-        FADE_FALL_END,
+    /*
+    * Sólo reducimos opacidad en los últimos píxeles,
+    * para suavizar el corte subpíxel.
+    */
+    const finalFadeStart = rupturePoint - 0.45
+
+    const finalFade = 1 - smoothstep(
+        finalFadeStart,
+        rupturePoint,
         distance
     )
-    const connectorOpacity = Math.min(
-        appear,
-        disappear
+    blobConnector.style.opacity = String(
+        Math.min(appear, finalFade)
     )
-    blobConnector.style.opacity = String(connectorOpacity)
 }
 
 function animateDock(opening, onComplete) {
     if (!dockReady) return
     dockTarget = opening ? 1 : 0
-    if (reduceMotionQuery.matches) {
-        dockProgress = dockTarget
-        dockVelocity = 0
-        renderDock(dockProgress)
-
-        if (onComplete) onComplete()
-        return
-    }
     if (rafId) {
         cancelAnimationFrame(rafId)
         rafId = null
