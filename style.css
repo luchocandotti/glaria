@@ -421,7 +421,7 @@ p {
 		gap: 30px;
 }
 
-.seccion.izquierda .wrapper{
+/*.seccion.izquierda .wrapper{
 	margin-left: 0;
 	margin-right: auto;
 }
@@ -429,7 +429,7 @@ p {
 .seccion.derecha .wrapper{
 	margin-left: auto;
 	margin-right: 0;
-}
+}*/
 
 .seccion h2 {
 		padding-bottom: 20px;
@@ -1200,84 +1200,83 @@ p {
 }
 
 @media(max-width: 620px) {
-		/* CAROUSEL ============================================ */
-		.carousel {
-				cursor: grab;
-				touch-action: pan-y;
-		}
-		.carousel:active {
-				cursor: grabbing;
-		}
-		.track {
-				/* Móvil: 1 card por vez que ocupa todo el ancho */
-				scroll-snap-type: x mandatory;
-				grid-auto-columns: 100%;
-				gap: 0;
-				scroll-padding: 0; /* Importante para móvil */
-		}
-		.card {
-				/* En móvil, snap al centro de la card */
-				width: 100%;
-				scroll-snap-align: center;
-		}
-		#nav-carousel {
-				display: none;
-		}
-		#slide-dots {
-				display: flex;
-		}
-		#medios .container {
-				flex-direction: column;
-		}
-		#medios .small {
-				flex: 0 1 100%;
-				aspect-ratio: 16 / 9;
-				width: 100%;
-		}
-		#contacto .container {
-				flex-direction: column;
-				align-items: center;    /* centra ambas cajas */
-				gap: 24px;
-		}
-		#contacto .container {
-				flex-direction: column;
-				align-items: center;
-				gap: 24px;
-		}
-		#contacto .box2.txt {
-				text-align: center;
-		}
-		#contacto .box2.redes ul {
-				justify-content: center;
-		}
-			#sociedades,
-			#autor h3 {
-				text-align: center;
-			}
-			#sociedades .container {
-				flex-wrap: wrap;
-				justify-content: center;
-				row-gap: 16px;
-			}
-		}
-}
+    /* CAROUSEL ============================================ */
+    .carousel {
+            cursor: grab;
+            touch-action: pan-y;
+    }
+    .carousel:active {
+            cursor: grabbing;
+    }
+    .track {
+            /* Móvil: 1 card por vez que ocupa todo el ancho */
+            scroll-snap-type: x mandatory;
+            grid-auto-columns: 100%;
+            gap: 0;
+            scroll-padding: 0; /* Importante para móvil */
+    }
+    .card {
+            /* En móvil, snap al centro de la card */
+            width: 100%;
+            scroll-snap-align: center;
+    }
+    #nav-carousel {
+            display: none;
+    }
+    #slide-dots {
+            display: flex;
+    }
+    #medios .container {
+            flex-direction: column;
+    }
+    #medios .small {
+            flex: 0 1 100%;
+            aspect-ratio: 16 / 9;
+            width: 100%;
+    }
+    #contacto .container {
+            flex-direction: column;
+            align-items: center;    /* centra ambas cajas */
+            gap: 24px;
+    }
+    #contacto .container {
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+    }
+    #contacto .box2.txt {
+            text-align: center;
+    }
+    #contacto .box2.redes ul {
+            justify-content: center;
+    }
+        #sociedades,
+        #autor h3 {
+            text-align: center;
+        }
+        #sociedades .container {
+            flex-wrap: wrap;
+            justify-content: center;
+            row-gap: 16px;
+        }
+    }
 
 @media(max-height: 400px) {
-		.showcase,
-		.showcase header,
-		.seccion {
-				padding: 40px;
-		}
-		.text h1 {
-				font-size: 1em;
-		}
-		.text h2 {
-				font-size: 0.8em;
-		}
-		.text p {
-				font-size: 0.8em;
-		}
-		.video-completo video {
-				width: 60%;
-		}
+    .showcase,
+    .showcase header,
+    .seccion {
+            padding: 40px;
+    }
+    .text h1 {
+            font-size: 1em;
+    }
+    .text h2 {
+            font-size: 0.8em;
+    }
+    .text p {
+            font-size: 0.8em;
+    }
+    .video-completo video {
+            width: 60%;
+    }
 }
