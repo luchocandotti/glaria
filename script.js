@@ -14,85 +14,85 @@ document.addEventListener("touchstart", () => {}, { passive: true });
 //LOADER ===================================================//
 const tapa = document.querySelector('.tapa')
 function preloadImages(urls) {
-  return Promise.all(
-    urls.map((url) => new Promise((resolve, reject) => {
-      const img = new Image()
-      img.onload = resolve
-      img.onerror = reject
-      img.src = url
-    }))
-  )
+	return Promise.all(
+		urls.map((url) => new Promise((resolve, reject) => {
+			const img = new Image()
+			img.onload = resolve
+			img.onerror = reject
+			img.src = url
+		}))
+	)
 }
 
 function preloadVideo() {
-    return new Promise((resolve, reject) => {
-        // Si el video ya está cargado
-        if (videoFondo.readyState >= 3) {
-            resolve();
-            return;
-        }
-        
-        // Cuando el video puede reproducirse
-        videoFondo.addEventListener('canplaythrough', () => {
-            resolve();
-        }, { once: true })
-        
-        // Si hay error
-        videoFondo.addEventListener('error', () => {
-            reject(new Error('Error al cargar el video'))
-        }, { once: true })
+		return new Promise((resolve, reject) => {
+				// Si el video ya está cargado
+				if (videoFondo.readyState >= 3) {
+						resolve();
+						return;
+				}
+				
+				// Cuando el video puede reproducirse
+				videoFondo.addEventListener('canplaythrough', () => {
+						resolve();
+				}, { once: true })
+				
+				// Si hay error
+				videoFondo.addEventListener('error', () => {
+						reject(new Error('Error al cargar el video'))
+				}, { once: true })
 
-        // Forzar la carga del video
-        videoFondo.load()
-    })
+				// Forzar la carga del video
+				videoFondo.load()
+		})
 }
 //========================//
 
 // TAPA DISPLAY NONE ===================================================//
 function hideTapa(delay = 0) {
-    setTimeout(() => {
-        tapa.classList.add('loaded')
-        document.body.classList.remove('no-scroll')
-    setTimeout(() => {
-        tapa.style.display = 'none'
-        text.classList.add('visible') // Inicia justo al ocultar la tapa
-    }, 2000)
-  }, delay)
+		setTimeout(() => {
+				tapa.classList.add('loaded')
+				document.body.classList.remove('no-scroll')
+		setTimeout(() => {
+				tapa.style.display = 'none'
+				text.classList.add('visible') // Inicia justo al ocultar la tapa
+		}, 2000)
+	}, delay)
 }
 //========================//
 
 
 // LOADER ===================================================//
 window.addEventListener('load', async () => {
-    try {
-        // Esperar a que el video esté listo
-        await Promise.all([
-        // preloadVideoSafe(),
-        preloadImages([
-            './img/logo.svg',
-            './img/menu.svg',
-            './img/close.svg',
-            './img/close.png',
-            './img/whatsapp.svg'
-        ]),
-        (document.fonts?.ready ?? Promise.resolve()), // por la Poppins de Google Fonts
-        loadNav(navPlaceholder, toggleMenu)
-        ])
+		try {
+				// Esperar a que el video esté listo
+				await Promise.all([
+				// preloadVideoSafe(),
+				preloadImages([
+						'./img/logo.svg',
+						'./img/menu.svg',
+						'./img/close.svg',
+						'./img/close.png',
+						'./img/whatsapp.svg'
+				]),
+				(document.fonts?.ready ?? Promise.resolve()), // por la Poppins de Google Fonts
+				loadNav(navPlaceholder, toggleMenu)
+				])
 
-        initDockGeometry() // recién acá el alto de .btn-pill es el real, con Poppins ya cargada
+				initDockGeometry() // recién acá el alto de .btn-pill es el real, con Poppins ya cargada
 
-        //videoFondo.pause()
-        videoFondo.play().catch(() => { })
-        
-        /// Ocultar el preloader
-        hideTapa()
-        
-    } catch (error) {
-        console.error('Error en la carga:', error)
-        // Incluso si hay error, ocultamos el preloader
-        alert('Error al cargar las  imágenes')
-        hideTapa()
-    }
+				//videoFondo.pause()
+				videoFondo.play().catch(() => { })
+				
+				/// Ocultar el preloader
+				hideTapa()
+				
+		} catch (error) {
+				console.error('Error en la carga:', error)
+				// Incluso si hay error, ocultamos el preloader
+				alert('Error al cargar las  imágenes')
+				hideTapa()
+		}
 })
 //========================//
 
@@ -104,21 +104,21 @@ const MIN_DELTA = 8
 const acordeon = document.querySelector('.acordeon')
 
 window.addEventListener('scroll', () => {
-    const rect = acordeon.getBoundingClientRect()
+		const rect = acordeon.getBoundingClientRect()
 
-    // si .acordeón está en viewport, no tocar el header
-    if (rect.top < window.innerHeight && rect.bottom > 0) return
+		// si .acordeón está en viewport, no tocar el header
+		if (rect.top < window.innerHeight && rect.bottom > 0) return
 
-    const currentScrollY = window.scrollY
-    const delta = currentScrollY - lastScrollY
+		const currentScrollY = window.scrollY
+		const delta = currentScrollY - lastScrollY
 
-    if (delta > MIN_DELTA && currentScrollY > 100) {
-        header.classList.add('hidden')
-    } else if (delta < -MIN_DELTA) {
-        header.classList.remove('hidden')
-    }
+		if (delta > MIN_DELTA && currentScrollY > 100) {
+				header.classList.add('hidden')
+		} else if (delta < -MIN_DELTA) {
+				header.classList.remove('hidden')
+		}
 
-    lastScrollY = currentScrollY
+		lastScrollY = currentScrollY
 })
 //========================//
 
@@ -129,29 +129,29 @@ import { loadNav } from './nav.js'
 const navPlaceholder = document.getElementById('nav-placeholder')
 
 function toggleMenu() {
-    menuToggle.classList.toggle('active')
-    page.classList.toggle('active')
-    header.classList.toggle('active')
-    document.body.classList.toggle('no-scroll')
+		menuToggle.classList.toggle('active')
+		page.classList.toggle('active')
+		header.classList.toggle('active')
+		document.body.classList.toggle('no-scroll')
 }
 
 menuToggle.addEventListener('click', toggleMenu)
 
 overlay.addEventListener('click', () => {
-    // Si el menú está abierto, cerrarlo
-    if (page.classList.contains('active')) {
-        toggleMenu()
-        return
-    }
+		// Si el menú está abierto, cerrarlo
+		if (page.classList.contains('active')) {
+				toggleMenu()
+				return
+		}
 
-    // Si el menú está cerrado, controlar video y texto
-    if (videoFondo.paused) {
-        text.classList.add('visible')
-        videoFondo.play()
-    } else {
-        text.classList.remove('visible')
-        videoFondo.pause()
-    }
+		// Si el menú está cerrado, controlar video y texto
+		if (videoFondo.paused) {
+				text.classList.add('visible')
+				videoFondo.play()
+		} else {
+				text.classList.remove('visible')
+				videoFondo.pause()
+		}
 })
 //========================//
 
@@ -163,78 +163,78 @@ let currentSrc = null
 let cargado = false
 
 verVideo.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.preventDefault()
-        e.stopPropagation()
+		btn.addEventListener('click', (e) => {
+				e.preventDefault()
+				e.stopPropagation()
 
-        // si hay un video actual, guardo su tiempo
-        if (currentSrc) {
-            guardarProgreso()
-        }
+				// si hay un video actual, guardo su tiempo
+				if (currentSrc) {
+						guardarProgreso()
+				}
 
-        const src = btn.dataset.video
-        if (!src) return
-        const poster = btn.dataset.poster
-        
-        videoCompleto.classList.add('active')
-        videoFondo.pause()
+				const src = btn.dataset.video
+				if (!src) return
+				const poster = btn.dataset.poster
+				
+				videoCompleto.classList.add('active')
+				videoFondo.pause()
 
-        // si cambia el video, limpiar el <video>
-        if (currentSrc && currentSrc !== src) {
-            cargado = false
-            video.pause()
-            video.removeAttribute('src')
-            video.src = ""              // clave
-            video.removeAttribute('poster')
-            video.poster = ""           // clave
-            video.load()
-        }
+				// si cambia el video, limpiar el <video>
+				if (currentSrc && currentSrc !== src) {
+						cargado = false
+						video.pause()
+						video.removeAttribute('src')
+						video.src = ""              // clave
+						video.removeAttribute('poster')
+						video.poster = ""           // clave
+						video.load()
+				}
 
-        currentSrc = src
+				currentSrc = src
 
-        if (!cargado) {
-            video.poster = poster || ""
-            video.src = src
-            video.load()
+				if (!cargado) {
+						video.poster = poster || ""
+						video.src = src
+						video.load()
 
-            const lastTime = lastTimeBySrc.get(src) || 0
+						const lastTime = lastTimeBySrc.get(src) || 0
 
-            video.addEventListener('loadedmetadata', () => {
-                cargado = true
-                if (lastTime >= 1) video.currentTime = lastTime
-                video.play().catch(() => {})
-            }, { once: true })
-        }
-    })
+						video.addEventListener('loadedmetadata', () => {
+								cargado = true
+								if (lastTime >= 1) video.currentTime = lastTime
+								video.play().catch(() => {})
+						}, { once: true })
+				}
+		})
 })
 
 function cerrarVideo() {
-    if (currentSrc) {
-        guardarProgreso()
-    }
-    video.pause()
-    video.removeAttribute('src')
-    video.removeAttribute('poster')
-    video.load()
-    cargado = false
-    currentSrc = null
-    videoFondo.play().catch(() => {})
-    videoCompleto.classList.remove('active')
+		if (currentSrc) {
+				guardarProgreso()
+		}
+		video.pause()
+		video.removeAttribute('src')
+		video.removeAttribute('poster')
+		video.load()
+		cargado = false
+		currentSrc = null
+		videoFondo.play().catch(() => {})
+		videoCompleto.classList.remove('active')
 }
 
 function guardarProgreso() {
-    const t = video.currentTime || 0
+		const t = video.currentTime || 0
 
-    if (t < 1) {
-        lastTimeBySrc.delete(currentSrc)   // o setear 0 explícito
-        return
-    }
+		if (t < 1) {
+				lastTimeBySrc.delete(currentSrc)   // o setear 0 explícito
+				return
+		}
 
-    lastTimeBySrc.set(currentSrc, t)
+		lastTimeBySrc.set(currentSrc, t)
 }
 
 reproductor.addEventListener('click', (e) => {
-  if (e.target === e.currentTarget) cerrarVideo()
+	if (e.target === e.currentTarget) cerrarVideo()
 })
 //========================//
 
@@ -245,71 +245,86 @@ const items = document.querySelectorAll('.acordeon .item')
 const details = document.querySelectorAll('.acordeon details')
 
 function updateActiveHeight() {
-    const activeItem = document.querySelector('.acordeon .item.active')
-    if (!activeItem) return
+		const activeItem = document.querySelector('.acordeon .item.active')
+		if (!activeItem) return
 
-    const container = activeItem.querySelector('.container')
+		const container = activeItem.querySelector('.container')
 
-    // cerrar todos los demás (por si quedaron alturas viejas)
-    items.forEach(el => {
-        if (el !== activeItem) {
-        const c = el.querySelector('.container')
-        c.style.height = '0px'
-        }
-    })
+		// cerrar todos los demás (por si quedaron alturas viejas)
+		items.forEach(el => {
+				if (el !== activeItem) {
+				const c = el.querySelector('.container')
+				c.style.height = '0px'
+				}
+		})
 
-    container.style.height = 'auto'
-    
-    // recalcular el alto real del activo
-    requestAnimationFrame(() => {
-        const h = container.scrollHeight
-        container.style.width = '100%'
-        container.style.height = h + 'px'
-    })
+		container.style.height = 'auto'
+		
+		// recalcular el alto real del activo
+		requestAnimationFrame(() => {
+				const h = container.scrollHeight
+				container.style.width = '100%'
+				container.style.height = h + 'px'
+		})
 }
 
 
 items.forEach(item => {
-  item.addEventListener('click', (e) => {
-    // si el click fue dentro de details, no togglear el item
-   // si clickeaste dentro del details, no cambies de item
-    if (e.target.closest('details')) return
+	item.addEventListener('click', (e) => {
+		// si el click fue dentro de details, no togglear el item
+	 // si clickeaste dentro del details, no cambies de item
+		if (e.target.closest('details')) return
 
-    closeAllDetails() // CIERRA TODOS LOS DETAILS
+		closeAllDetails() // CIERRA TODOS LOS DETAILS
 
-    const isActive = item.classList.contains('active')
+		const isActive = item.classList.contains('active')
 
-    items.forEach(el => {
-      el.classList.remove('active')
-      const c = el.querySelector('.container')
-      c.style.height = '0px'
-      c.style.marginBottom = '0px'
-    })
+		items.forEach(el => {
+			el.classList.remove('active')
+			const c = el.querySelector('.container')
+			c.style.height = '0px'
+			c.style.marginBottom = '0px'
+		})
 
-    if (isActive) return
+		if (isActive) return
 
-    item.classList.add('active')
-      updateActiveHeight()
-      
-      // permitir solo un <details> abierto por vez, incluso dentro del mismo item (const details)
-      details.forEach(d => {
-        d.addEventListener('toggle', () => {
-          if (d.open) closeAllDetails(d)
-        })
-      })
+		item.classList.add('active')
+			updateActiveHeight()
+			
+			// permitir solo un <details> abierto por vez, incluso dentro del mismo item (const details)
+			details.forEach(d => {
+				d.addEventListener('toggle', () => {
+					if (d.open) closeAllDetails(d)
+				})
+			})
 
-    setTimeout(() => {
-      const rect = item.getBoundingClientRect()
-      const isVisible = rect.top >= 40 && rect.bottom <= (window.innerHeight + 100)
-      if (!isVisible) item.scrollIntoView({ behavior: 'smooth', block: 'top' })
-    }, 200)
-  })
+		setTimeout(() => {
+			const rect = item.getBoundingClientRect()
+			const isVisible = rect.top >= 40 && rect.bottom <= (window.innerHeight + 100)
+			if (!isVisible) item.scrollIntoView({ behavior: 'smooth', block: 'top' })
+		}, 200)
+	})
+})
+
+// TÍTULOS (h2): si el acordeón tiene un item abierto, lo cierra
+document.querySelectorAll('.acordeon h2').forEach(h2 => {
+	h2.addEventListener('click', () => {
+		const wrapper = h2.closest('.acordeon')
+		const activeItem = wrapper.querySelector('.item.active')
+		if (!activeItem) return
+
+		activeItem.classList.remove('active')
+		const c = activeItem.querySelector('.container')
+		c.style.height = '0px'
+		c.style.marginBottom = '0px'
+		closeAllDetails()
+	})
 })
 
 function closeAllDetails(except = null) {
-  document.querySelectorAll('.acordeon details[open]').forEach(d => {
-    if (d !== except) d.removeAttribute('open')
-  })
+	document.querySelectorAll('.acordeon details[open]').forEach(d => {
+		if (d !== except) d.removeAttribute('open')
+	})
 }
 
 window.addEventListener('resize', updateActiveHeight) 
@@ -328,69 +343,69 @@ let scrollLeft
 
 // Ancho de una card + su gap
 function getCardWidth() {
-    const card = document.querySelector('.card')
-    return Math.round(card.getBoundingClientRect().width) + 24
+		const card = document.querySelector('.card')
+		return Math.round(card.getBoundingClientRect().width) + 24
 }
 
 // Cuántas cards caben visibles a la vez
 function getVisibleCount() {
-    return Math.round(track.offsetWidth / getCardWidth())
+		return Math.round(track.offsetWidth / getCardWidth())
 }
 
 // Total de cards reales
 function getTotalCards() {
-    return document.querySelectorAll('.card').length
+		return document.querySelectorAll('.card').length
 }
 
 // Índice de la card actual (0-based) derivado del scroll real
 function getCurrentIndex() {
-    return Math.round(track.scrollLeft / getCardWidth())
+		return Math.round(track.scrollLeft / getCardWidth())
 }
 
 // Card index máximo al que se puede scrollear
 function getMaxIndex() {
-    return getTotalCards() - getVisibleCount()
+	return getTotalCards() - getVisibleCount()
 }
 
 // Snapea a la card más cercana
 function snapToNearestCard() {
-    track.scrollTo({
-        left: getCurrentIndex() * getCardWidth(),
-        behavior: 'smooth'
-    })
+		track.scrollTo({
+				left: getCurrentIndex() * getCardWidth(),
+				behavior: 'smooth'
+		})
 }
 
 // Actualiza estado de las flechas según posición real del scroll
 function resetNav() {
-    const idx = getCurrentIndex()
-    const max = getMaxIndex()
-    navLeft.classList.toggle('inactive', idx <= 0)
-    navRight.classList.toggle('inactive', idx >= max)
+	const idx = getCurrentIndex()
+	const max = getMaxIndex()
+	navLeft.classList.toggle('inactive', idx <= 0)
+	navRight.classList.toggle('inactive', idx >= max)
 }
 
 // ============================================
 // DRAG (desktop)
 // ============================================
 track.addEventListener('mousedown', (e) => {
-    if (e.target.closest('.btn-pill, .js-open-video')) return
-    isDragging = true
-    startX = e.pageX
-    scrollLeft = track.scrollLeft
+		if (e.target.closest('.btn-pill, .js-open-video')) return
+		isDragging = true
+		startX = e.pageX
+		scrollLeft = track.scrollLeft
 })
 
 track.addEventListener('mousemove', (e) => {
-    if (!isDragging) return
-    track.scrollLeft = scrollLeft + (startX - e.pageX)
+		if (!isDragging) return
+		track.scrollLeft = scrollLeft + (startX - e.pageX)
 })
 
 track.addEventListener('mouseup', () => {
-    if (isDragging) snapToNearestCard()
-    isDragging = false
+		if (isDragging) snapToNearestCard()
+		isDragging = false
 })
 
 track.addEventListener('mouseleave', () => {
-    if (isDragging) snapToNearestCard()
-    isDragging = false
+		if (isDragging) snapToNearestCard()
+		isDragging = false
 })
 
 // ============================================
@@ -400,14 +415,14 @@ const navLeft = document.querySelector('.nav-left')
 const navRight = document.querySelector('.nav-right')
 
 navLeft.addEventListener('click', () => {
-    track.scrollBy({ left: -getCardWidth(), behavior: 'smooth' })
-    // Leer estado después de que el scroll arranque
-    setTimeout(resetNav, 50)
+		track.scrollBy({ left: -getCardWidth(), behavior: 'smooth' })
+		// Leer estado después de que el scroll arranque
+		setTimeout(resetNav, 50)
 })
 
 navRight.addEventListener('click', () => {
-    track.scrollBy({ left: getCardWidth(), behavior: 'smooth' })
-    setTimeout(resetNav, 50)
+		track.scrollBy({ left: getCardWidth(), behavior: 'smooth' })
+		setTimeout(resetNav, 50)
 })
 
 // Sincroniza flechas si el usuario scrollea manualmente (touch/drag)
@@ -415,6 +430,36 @@ track.addEventListener('scrollend', resetNav)
 
 // Estado inicial
 resetNav()
+
+// SLIDE DOTS (móvil) ===================================================//
+const dotsEl = document.getElementById('slide-dots')
+const SVG_DOT = `<svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+	<circle cx="10.5" cy="10.5" r="9" stroke-width="1.5"/>
+</svg>`
+
+function renderDots(cant, activeIndex = 0) {
+	if (!dotsEl) return
+
+	// Primera vez: construir los dots
+	if (dotsEl.children.length !== cant) {
+		dotsEl.innerHTML = Array.from({ length: cant }, () =>
+			`<span class="dot">${SVG_DOT}</span>`
+		).join('')
+	}
+
+	// Siempre: actualizar clase active
+	dotsEl.querySelectorAll('.dot').forEach((dot, i) => {
+		dot.classList.toggle('active', i === activeIndex)
+	})
+}
+
+renderDots(getTotalCards(), 0)
+
+track.addEventListener('scroll', () => {
+	if (!dotsEl?.offsetParent) return // oculto en desktop: no calcular
+	const index = Math.round(track.scrollLeft / track.offsetWidth)
+	renderDots(getTotalCards(), index)
+}, { passive: true })
 //========================//
 
 // OFUSCACIÓN DEL NÚMERO ===================================================//
@@ -446,138 +491,138 @@ let dockReady = false
 const DURATION = 650
 
 function initDockGeometry() {
-    // el agendador es ahora el pill con texto: se mide tal cual el sistema de btn-pill
-    agendadorBtn.classList.remove('btn-agendador')
-    agendadorBtn.style.width = 'auto'
+		// el agendador es ahora el pill con texto: se mide tal cual el sistema de btn-pill
+		agendadorBtn.classList.remove('btn-agendador')
+		agendadorBtn.style.width = 'auto'
 
-    const pillRect = agendadorBtn.getBoundingClientRect()
-    agendadorBtn.classList.add('btn-agendador')
+		const pillRect = agendadorBtn.getBoundingClientRect()
+		agendadorBtn.classList.add('btn-agendador')
 
-    BTN_H = Math.round(pillRect.height)        // alto real de CUALQUIER btn-pill del sistema
-    const pillWMax = Math.round(pillRect.width) // ancho real con ícono + "Agendar"
+		BTN_H = Math.round(pillRect.height)        // alto real de CUALQUIER btn-pill del sistema
+		const pillWMax = Math.round(pillRect.width) // ancho real con ícono + "Agendar"
 
-    CAP_R = BTN_H / 2
-    CY = BTN_H / 2
-    PILL_W_MIN = BTN_H // agendador fusionado = círculo puro, mismo diámetro que wp
+		CAP_R = BTN_H / 2
+		CY = BTN_H / 2
+		PILL_W_MIN = BTN_H // agendador fusionado = círculo puro, mismo diámetro que wp
 
-    const REST_GAP = 8 // única medida "de diseño" que queda: separación estética en reposo
-    DOCK_W = BTN_H + REST_GAP + pillWMax
+		const REST_GAP = 8 // única medida "de diseño" que queda: separación estética en reposo
+		DOCK_W = BTN_H + REST_GAP + pillWMax
 
-    const D_FINAL = BTN_H + REST_GAP // distancia final entre wp y la tapa del pill, ya separados
-    MERGE_HIDE = D_FINAL * 0.06
-    FADE_RISE_END = D_FINAL * 0.22
-    FADE_FALL_START = D_FINAL * 0.68
-    FADE_FALL_END = D_FINAL
+		const D_FINAL = BTN_H + REST_GAP // distancia final entre wp y la tapa del pill, ya separados
+		MERGE_HIDE = D_FINAL * 0.06
+		FADE_RISE_END = D_FINAL * 0.22
+		FADE_FALL_START = D_FINAL * 0.68
+		FADE_FALL_END = D_FINAL
 
-    dockFlotante.style.width = `${DOCK_W}px`
-    dockFlotante.style.height = `${BTN_H}px`
-    document.querySelector('.dock-blob').setAttribute('viewBox', `0 0 ${DOCK_W} ${BTN_H}`)
+		dockFlotante.style.width = `${DOCK_W}px`
+		dockFlotante.style.height = `${BTN_H}px`
+		document.querySelector('.dock-blob').setAttribute('viewBox', `0 0 ${DOCK_W} ${BTN_H}`)
 
-    agendadorBtn.style.height = `${BTN_H}px`
-    agendadorBtn.style.width = `${PILL_W_MIN}px`
+		agendadorBtn.style.height = `${BTN_H}px`
+		agendadorBtn.style.width = `${PILL_W_MIN}px`
 
-    wpBtn.style.width = `${BTN_H}px`
-    wpBtn.style.height = `${BTN_H}px`
-    wpBtn.style.transform = 'translateX(0)' // arranca fusionado, mismo right:0 que el pill
+		wpBtn.style.width = `${BTN_H}px`
+		wpBtn.style.height = `${BTN_H}px`
+		wpBtn.style.transform = 'translateX(0)' // arranca fusionado, mismo right:0 que el pill
 
-    window.__dockPillWMax = pillWMax // usado por animateDock
-    dockReady = true
+		window.__dockPillWMax = pillWMax // usado por animateDock
+		dockReady = true
 }
 
 function easeOutBack(t) {
-    const c1 = 1.70158
-    const c3 = c1 + 1
-    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2)
+		const c1 = 1.70158
+		const c3 = c1 + 1
+		return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2)
 }
 
 // sin overshoot: para el cierre, evita cruzar el centro de wp
 function easeInOutCubic(t) {
-    return t < 0.5 ? 4 * t ** 3 : 1 - Math.pow(-2 * t + 2, 3) / 2
+		return t < 0.5 ? 4 * t ** 3 : 1 - Math.pow(-2 * t + 2, 3) / 2
 }
 
 function getVector(c, angle, offset) {
-    const r = offset ?? c.r
-    return { x: c.x + Math.cos(angle) * r, y: c.y + Math.sin(angle) * r }
+		const r = offset ?? c.r
+		return { x: c.x + Math.cos(angle) * r, y: c.y + Math.sin(angle) * r }
 }
 
 // Fórmula clásica de metaballs entre dos círculos (unión orgánica tipo "goo")
 function metaballPath(c1, c2, handleSize = 0.68) {
-    const d = Math.hypot(c2.x - c1.x, c2.y - c1.y)
-    if (d < 1) return ''
+		const d = Math.hypot(c2.x - c1.x, c2.y - c1.y)
+		if (d < 1) return ''
 
-    const u1 = d < c1.r + c2.r ? Math.acos((c1.r ** 2 + d ** 2 - c2.r ** 2) / (2 * c1.r * d)) : 0
-    const u2 = d < c1.r + c2.r ? Math.acos((c2.r ** 2 + d ** 2 - c1.r ** 2) / (2 * c2.r * d)) : 0
+		const u1 = d < c1.r + c2.r ? Math.acos((c1.r ** 2 + d ** 2 - c2.r ** 2) / (2 * c1.r * d)) : 0
+		const u2 = d < c1.r + c2.r ? Math.acos((c2.r ** 2 + d ** 2 - c1.r ** 2) / (2 * c2.r * d)) : 0
 
-    const angleCenters = Math.atan2(c2.y - c1.y, c2.x - c1.x)
-    const maxSpread = Math.acos((c1.r - c2.r) / d)
+		const angleCenters = Math.atan2(c2.y - c1.y, c2.x - c1.x)
+		const maxSpread = Math.acos((c1.r - c2.r) / d)
 
-    const angle1 = angleCenters + u1 + (maxSpread - u1) * handleSize
-    const angle2 = angleCenters - u1 - (maxSpread - u1) * handleSize
-    const angle3 = angleCenters + Math.PI - u2 - (Math.PI - u2 - maxSpread) * handleSize
-    const angle4 = angleCenters - Math.PI + u2 + (Math.PI - u2 - maxSpread) * handleSize
+		const angle1 = angleCenters + u1 + (maxSpread - u1) * handleSize
+		const angle2 = angleCenters - u1 - (maxSpread - u1) * handleSize
+		const angle3 = angleCenters + Math.PI - u2 - (Math.PI - u2 - maxSpread) * handleSize
+		const angle4 = angleCenters - Math.PI + u2 + (Math.PI - u2 - maxSpread) * handleSize
 
-    const p1 = getVector(c1, angle1)
-    const p2 = getVector(c1, angle2)
-    const p3 = getVector(c2, angle3)
-    const p4 = getVector(c2, angle4)
+		const p1 = getVector(c1, angle1)
+		const p2 = getVector(c1, angle2)
+		const p3 = getVector(c2, angle3)
+		const p4 = getVector(c2, angle4)
 
-    const totalR = c1.r + c2.r
-    const handleLen = Math.min(handleSize, Math.hypot(p1.x - p3.x, p1.y - p3.y) / totalR)
+		const totalR = c1.r + c2.r
+		const handleLen = Math.min(handleSize, Math.hypot(p1.x - p3.x, p1.y - p3.y) / totalR)
 
-    const p1h = getVector(c1, angle1 - Math.PI / 2, handleLen * c1.r * 1.2)
-    const p2h = getVector(c1, angle2 + Math.PI / 2, handleLen * c1.r * 1.2)
-    const p3h = getVector(c2, angle3 + Math.PI / 2, handleLen * c2.r * 1.2)
-    const p4h = getVector(c2, angle4 - Math.PI / 2, handleLen * c2.r * 1.2)
+		const p1h = getVector(c1, angle1 - Math.PI / 2, handleLen * c1.r * 1.2)
+		const p2h = getVector(c1, angle2 + Math.PI / 2, handleLen * c1.r * 1.2)
+		const p3h = getVector(c2, angle3 + Math.PI / 2, handleLen * c2.r * 1.2)
+		const p4h = getVector(c2, angle4 - Math.PI / 2, handleLen * c2.r * 1.2)
 
-    return `M ${p1.x} ${p1.y} C ${p1h.x} ${p1h.y} ${p3h.x} ${p3h.y} ${p3.x} ${p3.y} A ${c2.r} ${c2.r} 0 1 0 ${p4.x} ${p4.y} C ${p4h.x} ${p4h.y} ${p2h.x} ${p2h.y} ${p2.x} ${p2.y} A ${c1.r} ${c1.r} 0 1 0 ${p1.x} ${p1.y} Z`
+		return `M ${p1.x} ${p1.y} C ${p1h.x} ${p1h.y} ${p3h.x} ${p3h.y} ${p3.x} ${p3.y} A ${c2.r} ${c2.r} 0 1 0 ${p4.x} ${p4.y} C ${p4h.x} ${p4h.y} ${p2h.x} ${p2h.y} ${p2.x} ${p2.y} A ${c1.r} ${c1.r} 0 1 0 ${p1.x} ${p1.y} Z`
 }
 
 let rafId = null
 
 function animateDock(opening, onComplete) {
-    if (!dockReady) return
-    if (rafId) cancelAnimationFrame(rafId)
-    const start = performance.now()
-    const pillWMax = window.__dockPillWMax
+		if (!dockReady) return
+		if (rafId) cancelAnimationFrame(rafId)
+		const start = performance.now()
+		const pillWMax = window.__dockPillWMax
 
-    function frame(now) {
-        const raw = Math.min((now - start) / DURATION, 1)
-        const eased = opening ? easeOutBack(raw) : easeInOutCubic(raw)
-        const t = opening ? eased : 1 - eased // al cerrar arrancamos abiertos (t=1) y volvemos a fusionar (t=0)
+		function frame(now) {
+				const raw = Math.min((now - start) / DURATION, 1)
+				const eased = opening ? easeOutBack(raw) : easeInOutCubic(raw)
+				const t = opening ? eased : 1 - eased // al cerrar arrancamos abiertos (t=1) y volvemos a fusionar (t=0)
 
-        // agendador: crece de círculo (BTN_H) a pill completo, anclado a la derecha
-        const pillWidth = PILL_W_MIN + (pillWMax - PILL_W_MIN) * t
-        agendadorBtn.style.width = `${pillWidth}px`
-        const pillCapX = (DOCK_W - pillWidth) + CAP_R // centro de la tapa izquierda del pill, en vivo
+				// agendador: crece de círculo (BTN_H) a pill completo, anclado a la derecha
+				const pillWidth = PILL_W_MIN + (pillWMax - PILL_W_MIN) * t
+				agendadorBtn.style.width = `${pillWidth}px`
+				const pillCapX = (DOCK_W - pillWidth) + CAP_R // centro de la tapa izquierda del pill, en vivo
 
-        // wp: ambos anclados en right:0 — mismo centro en t=0, se separa con translateX puro
-        const wpX = (DOCK_W - CAP_R) + t * (BTN_H - DOCK_W)
-        wpBtn.style.transform = `translateX(${t * (BTN_H - DOCK_W)}px)`
+				// wp: ambos anclados en right:0 — mismo centro en t=0, se separa con translateX puro
+				const wpX = (DOCK_W - CAP_R) + t * (BTN_H - DOCK_W)
+				wpBtn.style.transform = `translateX(${t * (BTN_H - DOCK_W)}px)`
 
-        // el conector solo existe mientras las dos formas están cerca
-        const d = Math.abs(pillCapX - wpX)
+				// el conector solo existe mientras las dos formas están cerca
+				const d = Math.abs(pillCapX - wpX)
 
-        if (d < MERGE_HIDE) {
-            blobConnector.style.opacity = '0'
-        } else {
-            const current = { x: wpX, y: CY, r: CAP_R }
-            const cap = { x: pillCapX, y: CY, r: CAP_R }
-            blobConnector.setAttribute('d', metaballPath(current, cap))
+				if (d < MERGE_HIDE) {
+						blobConnector.style.opacity = '0'
+				} else {
+						const current = { x: wpX, y: CY, r: CAP_R }
+						const cap = { x: pillCapX, y: CY, r: CAP_R }
+						blobConnector.setAttribute('d', metaballPath(current, cap))
 
-            const rise = Math.min(Math.max((d - MERGE_HIDE) / (FADE_RISE_END - MERGE_HIDE), 0), 1)
-            const fall = 1 - Math.min(Math.max((d - FADE_FALL_START) / (FADE_FALL_END - FADE_FALL_START), 0), 1)
-            blobConnector.style.opacity = String(Math.min(rise, fall))
-        }
+						const rise = Math.min(Math.max((d - MERGE_HIDE) / (FADE_RISE_END - MERGE_HIDE), 0), 1)
+						const fall = 1 - Math.min(Math.max((d - FADE_FALL_START) / (FADE_FALL_END - FADE_FALL_START), 0), 1)
+						blobConnector.style.opacity = String(Math.min(rise, fall))
+				}
 
-        if (raw < 1) {
-            rafId = requestAnimationFrame(frame)
-        } else {
-            rafId = null
-            if (onComplete) onComplete() // paso 6: recién acá, ya fusionados, se puede pedir el fadeout
-        }
-    }
+				if (raw < 1) {
+						rafId = requestAnimationFrame(frame)
+				} else {
+						rafId = null
+						if (onComplete) onComplete() // paso 6: recién acá, ya fusionados, se puede pedir el fadeout
+				}
+		}
 
-    rafId = requestAnimationFrame(frame)
+		rafId = requestAnimationFrame(frame)
 }
 
 const SHOW_AT = 100
@@ -587,39 +632,39 @@ let dockOpen = false
 let dockTimeoutId = null
 
 function openDock() {
-    clearTimeout(dockTimeoutId)
-    dockFlotante.classList.add('is-visible')       // paso 1: fadeIn, círculo fusionado y quieto
-    dockTimeoutId = setTimeout(() => {
-        if (dockOpen) animateDock(true)             // paso 2: recién ahí arranca el recorrido
-    }, OPACITY_MS)
+		clearTimeout(dockTimeoutId)
+		dockFlotante.classList.add('is-visible')       // paso 1: fadeIn, círculo fusionado y quieto
+		dockTimeoutId = setTimeout(() => {
+				if (dockOpen) animateDock(true)             // paso 2: recién ahí arranca el recorrido
+		}, OPACITY_MS)
 }
 
 function closeDock() {
-    clearTimeout(dockTimeoutId)
-    animateDock(false, () => {                      // paso 5: recorrido inverso, opacidad intacta
-        if (!dockOpen) dockFlotante.classList.remove('is-visible') // paso 6: fusionados, recién ahí fadeout
-    })
+		clearTimeout(dockTimeoutId)
+		animateDock(false, () => {                      // paso 5: recorrido inverso, opacidad intacta
+				if (!dockOpen) dockFlotante.classList.remove('is-visible') // paso 6: fusionados, recién ahí fadeout
+		})
 }
 
 window.addEventListener('scroll', () => {
-    if (!dockReady) return
+		if (!dockReady) return
 
-    const y = window.scrollY
-    const vh = window.innerHeight
-    const docH = document.documentElement.scrollHeight
-    const nearBottom = (y + vh) >= (docH - HIDE_NEAR_BOTTOM)
-    const shouldOpen = y > SHOW_AT && !nearBottom
+		const y = window.scrollY
+		const vh = window.innerHeight
+		const docH = document.documentElement.scrollHeight
+		const nearBottom = (y + vh) >= (docH - HIDE_NEAR_BOTTOM)
+		const shouldOpen = y > SHOW_AT && !nearBottom
 
-    if (shouldOpen === dockOpen) return
-    dockOpen = shouldOpen
+		if (shouldOpen === dockOpen) return
+		dockOpen = shouldOpen
 
-    shouldOpen ? openDock() : closeDock()
+		shouldOpen ? openDock() : closeDock()
 }, { passive: true })
 
 wpBtn.addEventListener('click', () => {
-  const url = getWhatsAppURL()
+	const url = getWhatsAppURL()
 
-  window.open(url, '_blank')
+	window.open(url, '_blank')
 })
 //========================//
 
@@ -629,49 +674,49 @@ const typeEl = document.querySelector('#autor .typewriter')
 const cursorEl = document.querySelector('#autor .cursor')
 
 if (autorSection && typeEl && cursorEl) {
-    const fullText = typeEl.dataset.text
-    let typed = false
+		const fullText = typeEl.dataset.text
+		let typed = false
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !typed) {
-                typed = true
-                escribir()
-                observer.disconnect()
-            }
-        })
-    }, { threshold: 0.3 })
+		const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+						if (entry.isIntersecting && !typed) {
+								typed = true
+								escribir()
+								observer.disconnect()
+						}
+				})
+		}, { threshold: 0.3 })
 
-    observer.observe(autorSection)
+		observer.observe(autorSection)
 
-    function escribir() {
-        cursorEl.classList.add('typing')
-        const pausaEn = fullText.indexOf('Candotti') // pausa justo antes de "Candotti"
-        let i = 0
+		function escribir() {
+				cursorEl.classList.add('typing')
+				const pausaEn = fullText.indexOf('Candotti') // pausa justo antes de "Candotti"
+				let i = 0
 
-        function paso() {
-            typeEl.textContent += fullText[i]
-            i++
+				function paso() {
+						typeEl.textContent += fullText[i]
+						i++
 
-            if (i >= fullText.length) {
-                cursorEl.classList.remove('typing')
-                cursorEl.classList.add('finishing')
-                return
-            }
+						if (i >= fullText.length) {
+								cursorEl.classList.remove('typing')
+								cursorEl.classList.add('finishing')
+								return
+						}
 
-            // delay extra antes de empezar "Candotti"
-            const delay = (i === pausaEn) ? 400 : 70
-            setTimeout(paso, delay)
-        }
-        paso()
-    }
+						// delay extra antes de empezar "Candotti"
+						const delay = (i === pausaEn) ? 400 : 70
+						setTimeout(paso, delay)
+				}
+				paso()
+		}
 
-    // al terminar la animación de salida, limpiar la clase
-    // así el hover no la vuelve a disparar al salir
-    cursorEl.addEventListener('animationend', (e) => {
-        if (e.animationName === 'blink-twice') {
-            cursorEl.classList.remove('finishing')
-        }
-    })
+		// al terminar la animación de salida, limpiar la clase
+		// así el hover no la vuelve a disparar al salir
+		cursorEl.addEventListener('animationend', (e) => {
+				if (e.animationName === 'blink-twice') {
+						cursorEl.classList.remove('finishing')
+				}
+		})
 }
 //========================//
